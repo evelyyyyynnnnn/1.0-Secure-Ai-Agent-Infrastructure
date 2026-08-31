@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-31T17:57:25+00:00",
+  "generated_at": "2026-08-31T21:32:39+00:00",
   "data_source": "seed corpus (authored for this benchmark)",
   "is_synthetic": true,
   "corpus": {
@@ -267,5 +267,6 @@
         }
       }
     }
-  ]
+  ],
+  "written_to": "results/latest.json"
 }
