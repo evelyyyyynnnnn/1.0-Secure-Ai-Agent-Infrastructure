@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-31T21:32:39+00:00",
+  "generated_at": "2026-08-31T22:08:49+00:00",
   "backend": "stub-symbolic",
   "backend_is_language_model": false,
   "is_synthetic": true,
@@ -7,7 +7,7 @@
   "worked_example": {
     "contract_id": "CT-H01",
     "backend": "stub-symbolic",
-    "elapsed_ms": 1.61,
+    "elapsed_ms": 0.23,
     "findings": [
       {
         "cls": "reentrancy",
@@ -22,25 +22,25 @@
       {
         "stage": "understand",
         "backend": "stub-symbolic",
-        "latency_ms": 0.86,
+        "latency_ms": 0.1,
         "reply_bytes": 734
       },
       {
         "stage": "plan",
         "backend": "stub-symbolic",
-        "latency_ms": 0.09,
+        "latency_ms": 0.02,
         "reply_bytes": 519
       },
       {
         "stage": "classify",
         "backend": "stub-symbolic",
-        "latency_ms": 0.5,
+        "latency_ms": 0.05,
         "reply_bytes": 137
       },
       {
         "stage": "verify",
         "backend": "stub-symbolic",
-        "latency_ms": 0.08,
+        "latency_ms": 0.02,
         "reply_bytes": 148
       }
     ]
