@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LLM Audit Agent</title>
+<meta name="description" content="A four-stage smart-contract auditing agent with a full audit trail, scored against the rule-based baseline on a shared corpus.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#FCFCFD; --surface:#FFFFFF; --surface-2:#F4F5F8;
+  --ink:#16191F; --ink-2:#40474F; --muted:#6C7480;
+  --line:#E2E5EA; --line-2:#EFF1F4;
+  --accent:#1D5B70; --accent-2:#E6F0F3;
+  --ok:#2C6B4F; --ok-bg:#E5F1EA;
+  --warn:#8A6212; --warn-bg:#F7EFDC;
+  --demo:#6E4B8F; --demo-bg:#F0EAF6;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme=light]){
+    --bg:#0F1216; --surface:#161A20; --surface-2:#1C212A;
+    --ink:#E9ECF0; --ink-2:#BEC5CE; --muted:#8A939F;
+    --line:#282F38; --line-2:#20262E;
+    --accent:#72B3CB; --accent-2:#18272E;
+    --ok:#7BC09F; --ok-bg:#15251E;
+    --warn:#D8AD5E; --warn-bg:#292216;
+    --demo:#B79AD6; --demo-bg:#241C2E;
+  }
+}
+:root[data-theme=dark]{
+  --bg:#0F1216; --surface:#161A20; --surface-2:#1C212A;
+  --ink:#E9ECF0; --ink-2:#BEC5CE; --muted:#8A939F;
+  --line:#282F38; --line-2:#20262E;
+  --accent:#72B3CB; --accent-2:#18272E;
+  --ok:#7BC09F; --ok-bg:#15251E;
+  --warn:#D8AD5E; --warn-bg:#292216;
+  --demo:#B79AD6; --demo-bg:#241C2E;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,
+    "PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  font-size:15.5px;line-height:1.62;-webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:900px;margin:0 auto;padding:0 24px 88px}
+h1,h2,h3{font-family:Spectral,Georgia,"Songti SC",serif;margin:0;text-wrap:balance}
+h1{font-size:clamp(28px,4.2vw,42px);font-weight:700;letter-spacing:-.015em;line-height:1.14}
+h2{font-size:clamp(20px,2.5vw,25px);font-weight:600;letter-spacing:-.01em}
+h3{font-size:17px;font-weight:600}
+p{margin:0}
+a{color:var(--accent)}
+code,.mono{font-family:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;font-size:.88em}
+.stack{display:flex;flex-direction:column;gap:14px}
+.stack-lg{display:flex;flex-direction:column;gap:22px}
+section{margin-top:52px}
+
+header.mast{border-bottom:1px solid var(--line);padding:44px 0 26px;margin-bottom:8px;
+  display:flex;flex-direction:column;gap:15px}
+.eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--muted)}
+.lede{color:var(--ink-2);font-size:16.5px;max-width:66ch}
+.tags{display:flex;flex-wrap:wrap;gap:8px}
+.tag{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.06em;
+  text-transform:uppercase;padding:3px 9px;border-radius:4px;background:var(--surface-2);
+  color:var(--muted);font-weight:500;white-space:nowrap}
+.tag.ok{background:var(--ok-bg);color:var(--ok)}
+.tag.demo{background:var(--demo-bg);color:var(--demo)}
+.tag.warn{background:var(--warn-bg);color:var(--warn)}
+
+.banner{display:flex;gap:13px;align-items:flex-start;background:var(--demo-bg);
+  border-radius:9px;padding:15px 18px;margin-top:26px}
+.banner .bi{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--demo);flex:none;padding-top:3px;font-weight:600}
+.banner p{font-size:14.2px;color:var(--ink-2)}
+
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(158px,1fr));gap:1px;
+  background:var(--line);border:1px solid var(--line);border-radius:9px;overflow:hidden}
+.metric{background:var(--surface);padding:15px 16px;display:flex;flex-direction:column;gap:5px}
+.metric .mk{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--muted);line-height:1.35}
+.metric .mv{font-family:Spectral,Georgia,serif;font-size:26px;font-weight:600;
+  font-variant-numeric:tabular-nums;line-height:1.1;color:var(--accent)}
+.metric .mn{font-size:12.4px;color:var(--muted);line-height:1.4}
+
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:9px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:13.8px;min-width:520px}
+th{text-align:left;font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--muted);font-weight:500;padding:11px 14px;
+  border-bottom:1px solid var(--line);background:var(--surface-2)}
+td{padding:10px 14px;border-bottom:1px solid var(--line-2);vertical-align:top;line-height:1.5}
+td.n{font-variant-numeric:tabular-nums;text-align:right}
+tr:last-child td{border-bottom:0}
+
+pre{margin:0;background:var(--surface-2);border:1px solid var(--line);border-radius:9px;
+  padding:15px 17px;overflow-x:auto;font-family:"IBM Plex Mono",monospace;
+  font-size:12.8px;line-height:1.62;color:var(--ink-2)}
+ul.tight{margin:0;padding-left:19px;display:flex;flex-direction:column;gap:7px}
+ul.tight li::marker{color:var(--muted)}
+.note{background:var(--surface-2);border:1px solid var(--line);border-radius:9px;
+  padding:16px 18px;display:flex;flex-direction:column;gap:10px}
+.foot{margin-top:60px;padding-top:22px;border-top:1px solid var(--line);
+  color:var(--muted);font-size:13px;display:flex;flex-direction:column;gap:9px}
+figure{margin:0}
+svg.chart{display:block;width:100%;height:auto}
+@media (max-width:600px){.wrap{padding:0 17px 68px}.banner{flex-direction:column;gap:7px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="mast">
+  <div class="eyebrow">1.0-Secure-Ai-Agent-Infrastructure &middot; Secure Digital Infrastructure</div>
+  <h1>LLM Audit Agent</h1>
+  <p class="lede">A four-stage smart-contract auditing agent with a full audit trail, scored against the rule-based baseline on a shared corpus.</p>
+  <div class="tags"><span class="tag ">staged pipeline</span><span class="tag ">audit trail</span><span class="tag ">read-only sandbox</span><span class="tag ">pluggable backend</span><span class="tag demo">stub backend</span></div>
+</header>
+<div class="banner">
+  <span class="bi">Data</span>
+  <p>This run used the deterministic stub backend, not a language model. The stub is a small symbolic reasoner that exists so the pipeline is runnable and testable with no API key. Its scores measure the plumbing, not what an LLM would achieve — and the result below is reported unmodified, including where the agent loses to the baseline.</p>
+</div>
+
+<section>
+  <h2>How it works</h2>
+  <div class="stack">
+    <p>Four stages, each a separate backend call with its own prompt and its own parsed
+    reply. Every stage is recorded. An auditing tool whose own reasoning cannot be
+    inspected is not usable for the thing it is meant to support &mdash; the trail is what
+    makes a disagreement with a human auditor resolvable instead of a matter of trust.</p>
+    <p>The sandbox is read-only by construction. The agent receives contract source as
+    text and has no execution, filesystem or network capability, so nothing it produces
+    can act on a chain.</p>
+  </div>
+</section>
+
+<section>
+  <h2>A worked example &mdash; CT-H01</h2>
+  <div class="stack-lg">
+    <div class="tw"><table><thead><tr><th>#</th><th>Stage</th><th>What it does</th><th>Reply size</th></tr></thead><tbody><tr><td class="n">1</td><td>understand</td><td>Builds a structural model: functions, modifiers, external calls, state writes, internal call graph</td><td class="n">734 B</td></tr><tr><td class="n">2</td><td>plan</td><td>Decides which exploit paths are worth checking, and why</td><td class="n">519 B</td></tr><tr><td class="n">3</td><td>classify</td><td>Classifies confirmed vulnerabilities against the path list</td><td class="n">137 B</td></tr><tr><td class="n">4</td><td>verify</td><td>Self-correction: drops findings that do not survive review</td><td class="n">148 B</td></tr></tbody></table></div>
+    <div class="tw"><table><thead><tr><th>Class</th><th>Function</th><th>Evidence</th></tr></thead><tbody><tr><td>reentrancy</td><td>claim()</td><td>state write after internal call _send(), which makes an external call</td></tr></tbody></table></div>
+    <div class="note">
+      <h3>Why this case</h3>
+      <p>Cross-function reentrancy. The external call sits one frame down inside
+      <code>_send()</code>, so the call and the state write are never adjacent in the
+      source and no local pattern can connect them. Resolving that requires the internal
+      call graph the <em>understand</em> stage builds.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Against the rule-based baseline</h2>
+  <div class="stack-lg">
+    <figure><svg class="chart" viewBox="0 0 680 149" role="img" aria-label="Bar chart of results"><text x="180" y="26.68" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".72">hard — baseline</text><rect x="190" y="9" width="2.0" height="26" rx="3" fill="var(--accent)" opacity=".85"/><text x="201.0" y="26.68" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".62">0.000</text><text x="180" y="61.68" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".72">seed — baseline</text><rect x="190" y="44" width="422.0" height="26" rx="3" fill="var(--accent)" opacity=".85"/><text x="621.0" y="61.68" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".62">1.000</text><text x="180" y="96.68" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".72">hard — agent</text><rect x="190" y="79" width="234.5" height="26" rx="3" fill="var(--accent)" opacity=".85"/><text x="433.5" y="96.68" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".62">0.556</text><text x="180" y="131.68" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".72">seed — agent</text><rect x="190" y="114" width="289.4" height="26" rx="3" fill="var(--accent)" opacity=".85"/><text x="488.4" y="131.68" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".62">0.686</text></svg></figure>
+    <div class="tw"><table><thead><tr><th>Tier</th><th>Cases</th><th>Baseline F1</th><th>Agent F1</th><th>Change</th></tr></thead><tbody><tr><td>hard</td><td class="n">5</td><td class="n">0.000</td><td class="n">0.556</td><td class="n">+0.556</td></tr><tr><td>seed</td><td class="n">12</td><td class="n">1.000</td><td class="n">0.686</td><td class="n">-0.314</td></tr></tbody></table></div>
+    <div class="note">
+      <h3>Read this honestly</h3>
+      <p>On the hard tier the agent goes from <strong>0.000</strong>
+      to <strong>0.556</strong>. That is the result the
+      staged pipeline was built for: those cases are hard precisely because the
+      vulnerability never appears as a local textual pattern, and resolving an internal
+      call graph is something the baseline structurally cannot do.</p>
+      <p>On the seed tier it goes the other way, from
+      <strong>1.000</strong> down to
+      <strong>0.686</strong>, and overall the agent
+      currently <strong>loses</strong> to the baseline. That is a real regression, not a
+      presentation choice, and it is on this page because a benchmark you only publish
+      when it flatters you is not a benchmark.</p>
+    </div>
+    <div class="tw"><table><thead><tr><th>Rank</th><th>Detector</th><th>Macro-P</th><th>Macro-R</th><th>Macro-F1</th><th>FP on safe</th></tr></thead><tbody><tr><td class="n">1</td><td>pattern-baseline</td><td class="n">1.000</td><td class="n">0.833</td><td class="n">0.895</td><td class="n">0.000</td></tr><tr><td class="n">2</td><td>llm-audit-agent[stub-symbolic]</td><td class="n">0.679</td><td class="n">0.679</td><td class="n">0.673</td><td class="n">0.000</td></tr><tr><td class="n">3</td><td>agent (no self-correction)</td><td class="n">0.679</td><td class="n">0.679</td><td class="n">0.673</td><td class="n">0.000</td></tr></tbody></table></div>
+  </div>
+</section>
+
+<section>
+  <h2>Workload, defined rather than asserted</h2>
+  <div class="stack-lg">
+    <div class="tw"><table><thead><tr><th>Measure</th><th>Baseline</th><th>Agent</th><th>Change</th></tr></thead><tbody><tr><td>Findings a human must adjudicate</td><td class="n">11</td><td class="n">11</td><td class="n">+0.0%</td></tr><tr><td>Real findings missed</td><td class="n">4</td><td class="n">5</td><td class="n">+1</td></tr></tbody></table></div>
+    <div class="note">
+      <h3>What "workload reduction" means here</h3>
+      <p>Workload is the count of findings a human auditor has to adjudicate: every
+      surfaced finding costs review time whether or not it turns out to be real. On this
+      corpus the agent produced <strong>+0.0%</strong> change
+      in that count, while missing <strong>+1</strong> more real
+      findings than the baseline.</p>
+      <p>The two numbers are reported together deliberately. Any tool can cut review load
+      by reporting less, so a workload figure without the missed count beside it is
+      meaningless. This is also not a human time study &mdash; it is a proxy, and a claim
+      about auditor hours would need one.</p>
+    </div>
+    <p>Self-correction kept 12 findings and dropped
+    0 (0.0%) across the corpus.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Backends</h2>
+  <div class="stack-lg">
+    <div class="tw"><table><thead><tr><th>Backend</th><th>Language model</th><th>Needs a key</th><th>Use</th></tr></thead><tbody><tr><td>StubBackend</td><td>no</td><td>no</td><td>Runs in CI. Exercises the pipeline; not evidence about LLM performance.</td></tr><tr><td>OpenAICompatibleBackend</td><td>yes</td><td>yes</td><td>Any OpenAI-compatible endpoint. Produces the dated run a claim can cite.</td></tr></tbody></table></div>
+    <p>A backend is anything with <code>complete(stage, prompt, **kw) -&gt; str</code>.
+    Swapping one in changes no other module.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Reproduce it</h2>
+  <div class="stack">
+    <pre>cd llm-audit-agent
+pip install -r requirements.txt
+python -m pytest tests/ -q
+python -m src.demo          # stub backend, no key needed
+
+# against a real model
+export OPENAI_API_KEY=...
+python -m src.demo --backend openai</pre>
+  </div>
+</section>
+
+<section>
+  <h2>What this does not establish</h2>
+  <div class="stack">
+    <ul class="tight">
+      <li>No language model has been run against this corpus yet. Every score on this
+      page comes from the symbolic stub, and none of it supports a claim about LLM
+      audit performance.</li>
+      <li>The agent currently loses to the rule-based baseline overall. Until that is
+      no longer true, there is no workload-reduction result to cite.</li>
+      <li>Workload is a proxy &mdash; findings to adjudicate &mdash; not measured
+      auditor hours. A claim about time saved needs a human study.</li>
+      <li>The corpus is 17 authored cases. Nothing here generalises to production
+      contracts.</li>
+    </ul>
+  </div>
+</section>
+
+<div class="foot">
+  <p>1.0-Secure-Ai-Agent-Infrastructure &middot; llm-audit-agent &middot; part of a five-repository portfolio on optimization-driven,
+     system-level decision frameworks.</p>
+  <p>Every figure on this page was produced by running <code>python -m src.demo</code> in this
+     project and reading <code>results.json</code>. Nothing here is hand-entered. The corpus is ChainTrust-Bench&#x27;s authored seed and hard tiers.</p>
+</div>
+</div>
+</body>
+</html>

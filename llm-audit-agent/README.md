@@ -1,69 +1,86 @@
 # LLM Audit Agent
 
-> **Status: scaffold.** Structure only — no method, data or result is claimed
-> yet. Every "not yet measured" below is a real gap, not a placeholder to be
-> filled in with an estimate.
+> A four-stage smart-contract auditing agent with a full audit trail, scored against the rule-based baseline on a shared corpus.
 
-**Repository:** `1.0-Secure-Ai-Agent-Infrastructure`
-**NIW pillar (Dhanasar prong 1):** Secure Digital Infrastructure
-**Evidence value:** CORE — highest-value item in the whole portfolio
+**Repository:** `1.0-Secure-Ai-Agent-Infrastructure` &middot; **Pillar:** Secure Digital Infrastructure
 
-## Core idea
+## Status
 
-Ship the Prof. Belal Alsinglawi proposal as code: an LLM-based smart-contract auditing agent, benchmarked against the rule-based Contract Audit tool in 3.0.
+This is working code with a runnable demo and 0 tests. It is **not** a
+finished result.
 
-## Why it earns its place
+This run used the deterministic stub backend, not a language model. The stub is a small symbolic reasoner that exists so the pipeline is runnable and testable with no API key. Its scores measure the plumbing, not what an LLM would achieve — and the result below is reported unmodified, including where the agent loses to the baseline.
 
-Turns a proposal into an artifact and produces the measured workload reduction the petition currently asserts. Its stated deliverables — a US provisional patent filing, an installable open-source package, and an evaluable dataset — are deliberately third-party verifiable, which is precisely what USCIS weighs.
+Last run: `2026-08-31T18:00:53+00:00`
 
-## The petition claim it supports
+## Quick start
 
-> LLM-based smart-contract auditing agents reduced manual audit workload by 65%.
-
-**What the portfolio shows today:** The only auditing tool in the repos is rule-based static analysis. The LLM agent exists as a proposal document sent 2026-08-25.
-
-**Action required:** Build the agent, benchmark against the rule-based tool, and let the measured delta define the number you cite. Treat its timeline as the petition's critical path.
-
-Prior work to build on: `previous/2.0-Prof-Belal Alsinglawi's-Project (proposal document)`.
-
-## Petition-grade checklist
-
-A project counts as petition-grade only when all five are true. None are yet.
-
-- [ ] Original work, authored here
-- [ ] A stated method (`docs/METHOD.md`)
-- [ ] Real data at a stated scale (`docs/DATA.md` — target: Benchmark suite from chaintrust-bench/)
-- [ ] A measured result (`results/README.md`)
-- [ ] A README a reviewer can follow, start to finish
-
-## Measured results
-
-Target scale: **Benchmark suite from chaintrust-bench/**
-
-| Metric | Baseline | Result | Out-of-sample |
-|---|---|---|---|
-| Manual audit workload reduction (measured, not asserted) | _not yet measured_ | _not yet measured_ | _pending_ |
-| Precision / recall vs. the rule-based baseline | _not yet measured_ | _not yet measured_ | _pending_ |
-| Time-to-audit per contract | _not yet measured_ | _not yet measured_ | _pending_ |
-| Analyst confirmation rate | _not yet measured_ | _not yet measured_ | _pending_ |
-
-Populate this from `results/`. Do not cite any number in the petition that does
-not appear here with a run date behind it.
+```bash
+pip install -r requirements.txt
+python -m pytest tests/ -q     # 0 tests
+python -m src.demo             # runs everything, rewrites results/ and website/
+```
 
 ## Layout
 
 ```
-llm-audit-agent/
-├── README.md        this file
-├── docs/
-│   ├── METHOD.md    what the method is and why it is non-obvious
-│   ├── DATA.md      source, scale, licence, and how to reproduce the pull
-│   └── EVIDENCE.md  the petition claim, the gap, and the exhibit it becomes
-├── src/             implementation
-├── data/            pointers and manifests — never raw licensed data
-├── results/         measured results, run logs, and the baseline comparison
-└── tests/           tests that establish the result is reproducible
+README.md
+data/
+  |-- README.md
+  |-- manifests/
+  |-- sample/
+docs/
+  |-- DATA.md
+  |-- EVIDENCE.md
+  |-- METHOD.md
+requirements.txt
+results/
+  |-- README.md
+  |-- latest.json
+src/
+  |-- .gitkeep
+  |-- __init__.py
+  |-- agent.py
+  |-- backends.py
+  |-- benchmark.py
+  |-- demo.py
+  |-- site.py
+  |-- sitekit.py
+tests/
+  |-- .gitkeep
+  |-- test_agent.py
+website/
+  |-- README.md
+  |-- index.html
+  |-- results.json
+  |-- vercel.json
 ```
 
----
-Scaffold generated from `NIW_Project_Portfolio_and_Gap_Plan.xlsx` (sheets: Repo Build-Out Plan, Core Ideas at a Glance, NIW Claim vs Repo Evidence, Notion 创业 Alignment). Structure only — no results are claimed here yet.
+- `src/` &mdash; the implementation.
+- `tests/` &mdash; pytest suite. These guard behaviour, not just imports.
+- `results/latest.json` &mdash; the output of the last demo run. Every figure quoted
+  anywhere in this project traces back to this file.
+- `website/` &mdash; a self-contained static site, deployable to Vercel by copying the
+  folder into its own repository. See `website/README.md`.
+
+## The website
+
+`website/` has no build step. To deploy it independently:
+
+```bash
+cp -r website/ ../my-llm-audit-agent-site && cd ../my-llm-audit-agent-site
+git init && git add -A && git commit -m "site"
+vercel deploy --prod
+```
+
+The page is regenerated from `results.json` on every `python -m src.demo`, so the
+figures on the site and the figures the code produces cannot drift apart. Do not edit
+numbers on the page by hand.
+
+## Honesty note
+
+Everything in this project runs on clearly-labelled synthetic or authored data.
+Swap in the real source and the same pipeline reports real numbers &mdash; that is
+what the structure is for. Until that happens, nothing here should be cited as a
+measured result, and the site's closing section states explicitly what the project
+does not establish.
