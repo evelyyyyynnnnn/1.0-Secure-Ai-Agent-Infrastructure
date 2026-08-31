@@ -1,68 +1,87 @@
 # Blockchain Shared Charging
 
-> **Status: scaffold.** Structure only — no method, data or result is claimed
-> yet. Every "not yet measured" below is a real gap, not a placeholder to be
-> filled in with an estimate.
+> Escrowed settlement for shared EV charging sessions, and the gas analysis that decides where it can actually run.
 
-**Repository:** `1.0-Secure-Ai-Agent-Infrastructure`
-**NIW pillar (Dhanasar prong 1):** Secure Digital Infrastructure
-**Evidence value:** Unknown — undocumented until rewritten
+**Repository:** `1.0-Secure-Ai-Agent-Infrastructure` &middot; **Pillar:** Secure Digital Infrastructure
 
-## Core idea
+## Status
 
-Rewrite and document the existing shared-charging settlement work, or move it out of the repository.
+This is working code with a runnable demo and 0 tests. It is **not** a
+finished result.
 
-## Why it earns its place
+The lifecycle results come from an off-chain model that mirrors the contract's state machine. Gas figures are opcode-level estimates from the storage layout, not measurements from a node — a real deployment would replace them with forge gas-report output. Prices are stated assumptions, not live quotes.
 
-An undocumented folder in the repo that carries your star count is a liability, not an asset.
+Last run: `2026-08-31T18:08:57+00:00`
 
-## The petition claim it supports
+## Quick start
 
-> Open-source tools have garnered 150+ GitHub stars and 10+ institutional users.
-
-**What the portfolio shows today:** 191 stars, 31 forks, 23 watchers — on 4 commits, two folders, and no README at any level. The star-to-substance ratio is conspicuous.
-
-**Action required:** Write a README stating problem, method, data scale and result before anything else. If it is the on-chain settlement work behind the smart-bracelet patent, say so explicitly and link the patent certificate (Exhibit 14). Otherwise move it out.
-
-Prior work to build on: `previous/1.0-blockchain-shared-charging`.
-
-## Petition-grade checklist
-
-A project counts as petition-grade only when all five are true. None are yet.
-
-- [ ] Original work, authored here
-- [ ] A stated method (`docs/METHOD.md`)
-- [ ] Real data at a stated scale (`docs/DATA.md` — target: To be stated — currently unrecorded)
-- [ ] A measured result (`results/README.md`)
-- [ ] A README a reviewer can follow, start to finish
-
-## Measured results
-
-Target scale: **To be stated — currently unrecorded**
-
-| Metric | Baseline | Result | Out-of-sample |
-|---|---|---|---|
-| Settlement throughput | _not yet measured_ | _not yet measured_ | _pending_ |
-| Transaction cost per session | _not yet measured_ | _not yet measured_ | _pending_ |
-| Correctness under adversarial conditions | _not yet measured_ | _not yet measured_ | _pending_ |
-
-Populate this from `results/`. Do not cite any number in the petition that does
-not appear here with a run date behind it.
+```bash
+pip install -r requirements.txt
+python -m pytest tests/ -q     # 0 tests
+python -m src.demo             # runs everything, rewrites results/ and website/
+```
 
 ## Layout
 
 ```
-blockchain-shared-charging/
-├── README.md        this file
-├── docs/
-│   ├── METHOD.md    what the method is and why it is non-obvious
-│   ├── DATA.md      source, scale, licence, and how to reproduce the pull
-│   └── EVIDENCE.md  the petition claim, the gap, and the exhibit it becomes
-├── src/             implementation
-├── data/            pointers and manifests — never raw licensed data
-├── results/         measured results, run logs, and the baseline comparison
-└── tests/           tests that establish the result is reproducible
+README.md
+contracts/
+  |-- SharedCharging.sol
+data/
+  |-- README.md
+  |-- manifests/
+  |-- sample/
+docs/
+  |-- DATA.md
+  |-- EVIDENCE.md
+  |-- METHOD.md
+requirements.txt
+results/
+  |-- README.md
+  |-- latest.json
+src/
+  |-- .gitkeep
+  |-- __init__.py
+  |-- demo.py
+  |-- economics.py
+  |-- settlement.py
+  |-- site.py
+  |-- sitekit.py
+tests/
+  |-- .gitkeep
+  |-- test_settlement.py
+website/
+  |-- README.md
+  |-- index.html
+  |-- results.json
+  |-- vercel.json
 ```
 
----
-Scaffold generated from `NIW_Project_Portfolio_and_Gap_Plan.xlsx` (sheets: Repo Build-Out Plan, Core Ideas at a Glance, NIW Claim vs Repo Evidence, Notion 创业 Alignment). Structure only — no results are claimed here yet.
+- `src/` &mdash; the implementation.
+- `tests/` &mdash; pytest suite. These guard behaviour, not just imports.
+- `results/latest.json` &mdash; the output of the last demo run. Every figure quoted
+  anywhere in this project traces back to this file.
+- `website/` &mdash; a self-contained static site, deployable to Vercel by copying the
+  folder into its own repository. See `website/README.md`.
+
+## The website
+
+`website/` has no build step. To deploy it independently:
+
+```bash
+cp -r website/ ../my-blockchain-shared-charging-site && cd ../my-blockchain-shared-charging-site
+git init && git add -A && git commit -m "site"
+vercel deploy --prod
+```
+
+The page is regenerated from `results.json` on every `python -m src.demo`, so the
+figures on the site and the figures the code produces cannot drift apart. Do not edit
+numbers on the page by hand.
+
+## Honesty note
+
+Everything in this project runs on clearly-labelled synthetic or authored data.
+Swap in the real source and the same pipeline reports real numbers &mdash; that is
+what the structure is for. Until that happens, nothing here should be cited as a
+measured result, and the site's closing section states explicitly what the project
+does not establish.

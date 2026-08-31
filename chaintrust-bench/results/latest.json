@@ -1,0 +1,271 @@
+{
+  "generated_at": "2026-08-31T17:57:25+00:00",
+  "data_source": "seed corpus (authored for this benchmark)",
+  "is_synthetic": true,
+  "corpus": {
+    "n_cases": 17,
+    "n_vulnerable": 13,
+    "n_safe": 4,
+    "n_findings": 15,
+    "per_class": {
+      "reentrancy": 4,
+      "unchecked_call": 2,
+      "tx_origin_auth": 1,
+      "timestamp_dependence": 3,
+      "missing_access_control": 3,
+      "unprotected_selfdestruct": 1,
+      "integer_overflow": 1
+    },
+    "per_tier": {
+      "hard": 5,
+      "seed": 12
+    }
+  },
+  "tiers": {
+    "hard": {
+      "n_cases": 5,
+      "macro_f1": 0.0,
+      "macro_recall": 0.0,
+      "macro_precision": 0.0
+    },
+    "seed": {
+      "n_cases": 12,
+      "macro_f1": 1.0,
+      "macro_recall": 1.0,
+      "macro_precision": 1.0
+    }
+  },
+  "classes": [
+    "reentrancy",
+    "unchecked_call",
+    "tx_origin_auth",
+    "timestamp_dependence",
+    "missing_access_control",
+    "unprotected_selfdestruct",
+    "integer_overflow"
+  ],
+  "leaderboard": [
+    {
+      "rank": 1,
+      "detector": "pattern-baseline",
+      "macro_precision": 1.0,
+      "macro_recall": 0.8333,
+      "macro_f1": 0.8952,
+      "false_positive_rate_on_safe": 0.0,
+      "n_cases": 17,
+      "per_class": {
+        "reentrancy": {
+          "cls": "reentrancy",
+          "tp": 2,
+          "fp": 0,
+          "fn": 2,
+          "precision": 1.0,
+          "recall": 0.5,
+          "f1": 0.6667
+        },
+        "unchecked_call": {
+          "cls": "unchecked_call",
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "tx_origin_auth": {
+          "cls": "tx_origin_auth",
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "timestamp_dependence": {
+          "cls": "timestamp_dependence",
+          "tp": 2,
+          "fp": 0,
+          "fn": 1,
+          "precision": 1.0,
+          "recall": 0.6667,
+          "f1": 0.8
+        },
+        "missing_access_control": {
+          "cls": "missing_access_control",
+          "tp": 2,
+          "fp": 0,
+          "fn": 1,
+          "precision": 1.0,
+          "recall": 0.6667,
+          "f1": 0.8
+        },
+        "unprotected_selfdestruct": {
+          "cls": "unprotected_selfdestruct",
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "integer_overflow": {
+          "cls": "integer_overflow",
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        }
+      }
+    },
+    {
+      "rank": 2,
+      "detector": "keyword-floor",
+      "macro_precision": 0.7024,
+      "macro_recall": 1.0,
+      "macro_f1": 0.7905,
+      "false_positive_rate_on_safe": 1.0,
+      "n_cases": 17,
+      "per_class": {
+        "reentrancy": {
+          "cls": "reentrancy",
+          "tp": 4,
+          "fp": 2,
+          "fn": 0,
+          "precision": 0.6667,
+          "recall": 1.0,
+          "f1": 0.8
+        },
+        "unchecked_call": {
+          "cls": "unchecked_call",
+          "tp": 2,
+          "fp": 6,
+          "fn": 0,
+          "precision": 0.25,
+          "recall": 1.0,
+          "f1": 0.4
+        },
+        "tx_origin_auth": {
+          "cls": "tx_origin_auth",
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "timestamp_dependence": {
+          "cls": "timestamp_dependence",
+          "tp": 3,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "missing_access_control": {
+          "cls": "missing_access_control",
+          "tp": 3,
+          "fp": 3,
+          "fn": 0,
+          "precision": 0.5,
+          "recall": 1.0,
+          "f1": 0.6667
+        },
+        "unprotected_selfdestruct": {
+          "cls": "unprotected_selfdestruct",
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "integer_overflow": {
+          "cls": "integer_overflow",
+          "tp": 1,
+          "fp": 1,
+          "fn": 0,
+          "precision": 0.5,
+          "recall": 1.0,
+          "f1": 0.6667
+        }
+      }
+    },
+    {
+      "rank": 3,
+      "detector": "null",
+      "macro_precision": 0.0,
+      "macro_recall": 0.0,
+      "macro_f1": 0.0,
+      "false_positive_rate_on_safe": 0.0,
+      "n_cases": 17,
+      "per_class": {
+        "reentrancy": {
+          "cls": "reentrancy",
+          "tp": 0,
+          "fp": 0,
+          "fn": 4,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "unchecked_call": {
+          "cls": "unchecked_call",
+          "tp": 0,
+          "fp": 0,
+          "fn": 2,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "tx_origin_auth": {
+          "cls": "tx_origin_auth",
+          "tp": 0,
+          "fp": 0,
+          "fn": 1,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "timestamp_dependence": {
+          "cls": "timestamp_dependence",
+          "tp": 0,
+          "fp": 0,
+          "fn": 3,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "missing_access_control": {
+          "cls": "missing_access_control",
+          "tp": 0,
+          "fp": 0,
+          "fn": 3,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "unprotected_selfdestruct": {
+          "cls": "unprotected_selfdestruct",
+          "tp": 0,
+          "fp": 0,
+          "fn": 1,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "integer_overflow": {
+          "cls": "integer_overflow",
+          "tp": 0,
+          "fp": 0,
+          "fn": 1,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        }
+      }
+    }
+  ]
+}
