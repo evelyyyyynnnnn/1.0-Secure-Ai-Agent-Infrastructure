@@ -54,16 +54,35 @@ def run(corpus_path: str | None = None) -> dict:
         "leaderboard": board,
     }
 
-    export_jsonl(cases, ROOT / "data" / "corpus" / "seed.jsonl")
+    if corpus_path is None:
+        # Only the authored corpus is exported here. Writing a mined corpus to
+        # seed.jsonl would overwrite the benchmark's own cases with someone
+        # else's, and the next run would score against the wrong ground truth.
+        export_jsonl(cases, ROOT / "data" / "corpus" / "seed.jsonl")
+    out = "latest.json" if corpus_path is None else "latest-real.json"
     (ROOT / "results").mkdir(exist_ok=True)
-    (ROOT / "results" / "latest.json").write_text(
+    (ROOT / "results" / out).write_text(
         json.dumps(results, indent=2) + "\n", encoding="utf8"
     )
+    results["written_to"] = f"results/{out}"
     return results
 
 
+REAL_CORPUS = ROOT / "data" / "real-corpus.jsonl"
+
+
 def main(argv: list[str]) -> int:
-    corpus_path = argv[1] if len(argv) > 1 else None
+    args = argv[1:]
+    if "--real" in args:
+        if not REAL_CORPUS.exists():
+            print(f"cannot run on real data: {REAL_CORPUS} does not exist.\n"
+                  "  Run `python -m data.fetch` in a networked environment "
+                  "first; this benchmark will not report the authored corpus\n"
+                  "  under a heading that says SmartBugs.", file=sys.stderr)
+            return 2
+        corpus_path = str(REAL_CORPUS)
+    else:
+        corpus_path = args[0] if args else None
     results = run(corpus_path)
 
     c = results["corpus"]

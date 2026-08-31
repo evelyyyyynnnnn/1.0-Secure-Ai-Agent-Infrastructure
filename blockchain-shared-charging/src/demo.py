@@ -99,7 +99,111 @@ def run() -> dict:
     return results
 
 
+def run_real() -> dict:
+    """Price settlement on gas actually quoted by each network, right now.
+
+    The conclusion this project reaches -- that per-session settlement is
+    hopeless on L1 and workable on an L2 -- rests entirely on the gas price and
+    the token price. Those were assumptions. Here they are readings, each
+    stamped with the minute it was taken, because a gas price is a fact about a
+    moment and not a property of a network.
+    """
+    import sys as _sys
+    _sys.path.insert(0, str(ROOT))
+    from data.load import load_chain_costs, load_session_value
+
+    chains = load_chain_costs(root=ROOT / "data")
+    kwh = 22.0
+    measured_price, station_detail = load_session_value(root=ROOT / "data")
+    price_per_kwh = measured_price if measured_price is not None else PRICE_PER_KWH_USD
+    value = ec.session_value_usd(kwh, price_per_kwh)
+
+    gas = ec.gas_per_session()
+    batched = ec.batch_savings(50)["gas_per_session_batched"]
+
+    venues = []
+    for v in chains["venues"]:
+        cost = ec.cost_usd(gas, v["gas_price_gwei"], v["token_usd"])
+        cost_b = ec.cost_usd(batched, v["gas_price_gwei"], v["token_usd"])
+        venues.append({
+            "venue": v["name"], "token": v["token"],
+            "token_usd": v["token_usd"],
+            "gas_price_gwei": round(v["gas_price_gwei"], 6),
+            "settlement_usd": round(cost, 6),
+            "settlement_usd_batched_50": round(cost_b, 6),
+            "overhead_share": round(cost / value, 6),
+            "overhead_share_batched_50": round(cost_b / value, 6),
+            "viable_unbatched": cost / value < 0.05,
+            "viable_batched_50": cost_b / value < 0.05,
+            "base_fee_spread": v["spread"],
+        })
+    venues.sort(key=lambda r: r["overhead_share"])
+
+    results = {
+        "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "is_synthetic": False,
+        "data_source": "live gas prices from each chain's public RPC node, native "
+                       "token prices from CoinGecko, and charging tariffs from the "
+                       "US DOE AFDC (see data/MANIFEST.json for retrieval times)",
+        "gas_estimates_are_still_modelled": True,
+        "gas_note": "per-operation gas remains an opcode-level estimate of "
+                    "SharedCharging.sol, not a receipt from a deployed contract; "
+                    "only the PRICE of that gas is measured here",
+        "session": {"kwh": kwh, "price_per_kwh_usd": price_per_kwh,
+                    "price_source": "AFDC median" if measured_price is not None
+                                    else "assumed (no parseable AFDC price)",
+                    "session_value_usd": round(value, 4)},
+        "stations": station_detail,
+        "gas": {"per_session": gas, "per_session_batched_50": batched},
+        "venues": venues,
+        "provenance": chains["provenance"],
+        "token_prices_usd": chains["token_prices_usd"],
+    }
+    (ROOT / "results").mkdir(exist_ok=True)
+    (ROOT / "results" / "latest-real.json").write_text(
+        json.dumps(results, indent=2) + "\n", encoding="utf8")
+    return results
+
+
+def main_real() -> int:
+    from data.datakit import FetchError
+    try:
+        r = run_real()
+    except FetchError as exc:
+        print(f"cannot run on real data: {exc}", file=sys.stderr)
+        return 2
+    s = r["session"]
+    print(f"source: {r['data_source']}")
+    print(f"session: {s['kwh']} kWh at ${s['price_per_kwh_usd']:.4f}/kWh "
+          f"({s['price_source']}) = ${s['session_value_usd']:.2f}")
+    st = r["stations"]
+    if st.get("status") == "ok":
+        print(f"  AFDC: {st['n_priced_per_kwh']} of {st['n_stations']} stations "
+              f"publish a per-kWh price "
+              f"(${st.get('min_usd_per_kwh')}..${st.get('max_usd_per_kwh')}), "
+              f"{st['n_free']} free, {st['n_unparsed']} unparsed")
+    print(f"\n{'venue':<22}{'gwei':>12}{'settle $':>11}{'overhead':>10}"
+          f"{'batched':>10}  viable")
+    for v in r["venues"]:
+        mark = "yes" if v["viable_unbatched"] else (
+            "batched only" if v["viable_batched_50"] else "no")
+        print(f"{v['venue']:<22}{v['gas_price_gwei']:>12.6f}"
+              f"{v['settlement_usd']:>11.4f}{v['overhead_share']:>9.2%}"
+              f"{v['overhead_share_batched_50']:>10.2%}  {mark}")
+    print("\nbase-fee spread over the sampled block window:")
+    for v in r["venues"]:
+        sp = v["base_fee_spread"] or {}
+        if "max_over_min" in sp and sp["max_over_min"]:
+            print(f"  {v['venue']:<22} {sp['min_gwei']:.6f} .. {sp['max_gwei']:.6f} "
+                  f"gwei ({sp['max_over_min']}x across {sp['n_blocks']} blocks)")
+    print("\n" + r["gas_note"])
+    print("wrote results/latest-real.json")
+    return 0
+
+
 def main() -> int:
+    if "--real" in sys.argv[1:]:
+        return main_real()
     r = run()
     print("gas estimates per call:")
     for k, v in r["gas"].items():
