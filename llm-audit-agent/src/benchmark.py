@@ -57,6 +57,18 @@ def available() -> bool:
     return (BENCH / "src" / "corpus.py").exists()
 
 
+REAL_CORPUS = BENCH / "data" / "real-corpus.jsonl"
+
+
+def real_corpus_available() -> bool:
+    """Is the SmartBugs-derived corpus present in the sibling benchmark?
+
+    It is produced by `python -m data.fetch` inside chaintrust-bench and is
+    gitignored, so its absence is the normal state of a fresh clone.
+    """
+    return REAL_CORPUS.exists()
+
+
 def workload(detector, cases) -> dict:
     """Count what a human auditor would have to do behind this tool.
 
@@ -95,11 +107,18 @@ def workload_reduction(baseline_wl: dict, agent_wl: dict) -> dict:
     }
 
 
-def run_comparison(backend=None) -> dict:
+def run_comparison(backend=None, corpus_path=None) -> dict:
+    """Score the agent against the rule-based baseline on a shared corpus.
+
+    `corpus_path` selects which corpus. None is the authored one; passing the
+    SmartBugs-derived file scores both on contracts neither project wrote,
+    which is the comparison that carries weight -- a detector tuned on cases
+    its own author wrote is being graded on its own homework.
+    """
     from .agent import AuditAgent, DetectorAdapter
 
     load_corpus, CLASSES, PatternDetector, evaluate, leaderboard = _load_bench()
-    cases = load_corpus()
+    cases = load_corpus(corpus_path)
     baseline = PatternDetector()
     agent_det = DetectorAdapter(AuditAgent(backend=backend))
     no_verify = DetectorAdapter(

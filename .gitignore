@@ -6,3 +6,7 @@ venv/
 .DS_Store
 ._*
 .vercel
+data/raw/
+*/data/raw/
+*/data/MANIFEST.json
+*/data/real-corpus.jsonl

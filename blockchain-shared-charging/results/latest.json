@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-31T18:08:57+00:00",
+  "generated_at": "2026-08-31T21:32:38+00:00",
   "is_synthetic": true,
   "data_source": "off-chain model of SharedCharging.sol; gas figures are opcode-level estimates, not node measurements",
   "assumptions": {

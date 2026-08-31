@@ -17,7 +17,7 @@ from . import benchmark
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 
 
-def run() -> dict:
+def run(corpus_path=None) -> dict:
     backend = StubBackend()
     sample = """
 pragma solidity ^0.8.0;
@@ -40,21 +40,37 @@ contract CrossFn {
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "backend": backend.name,
         "backend_is_language_model": backend.is_language_model,
-        "is_synthetic": True,
+        "is_synthetic": corpus_path is None,
+        "corpus": "authored benchmark corpus" if corpus_path is None
+                  else f"SmartBugs curated, via {corpus_path}",
         "worked_example": trace,
         "benchmark_available": benchmark.available(),
     }
     if benchmark.available():
-        results["comparison"] = benchmark.run_comparison(backend)
+        results["comparison"] = benchmark.run_comparison(backend, corpus_path)
 
+    out = "latest.json" if corpus_path is None else "latest-real.json"
     (ROOT / "results").mkdir(exist_ok=True)
-    (ROOT / "results" / "latest.json").write_text(
+    (ROOT / "results" / out).write_text(
         json.dumps(results, indent=2) + "\n", encoding="utf8")
+    results["written_to"] = f"results/{out}"
     return results
 
 
 def main() -> int:
-    r = run()
+    if "--real" in sys.argv[1:]:
+        if not benchmark.real_corpus_available():
+            print("cannot run on real data: "
+                  f"{benchmark.REAL_CORPUS} does not exist.\n"
+                  "  Run `python -m data.fetch` inside chaintrust-bench in a "
+                  "networked environment first.", file=sys.stderr)
+            return 2
+        return _main(str(benchmark.REAL_CORPUS))
+    return _main(None)
+
+
+def _main(corpus_path=None) -> int:
+    r = run(corpus_path)
     print(f"backend: {r['backend']} (language model: {r['backend_is_language_model']})")
     ex = r["worked_example"]
     print(f"\nworked example {ex['contract_id']}: "

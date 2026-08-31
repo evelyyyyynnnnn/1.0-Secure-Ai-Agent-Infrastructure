@@ -1,12 +1,13 @@
 {
-  "generated_at": "2026-08-31T18:00:53+00:00",
+  "generated_at": "2026-08-31T21:32:39+00:00",
   "backend": "stub-symbolic",
   "backend_is_language_model": false,
   "is_synthetic": true,
+  "corpus": "authored benchmark corpus",
   "worked_example": {
     "contract_id": "CT-H01",
     "backend": "stub-symbolic",
-    "elapsed_ms": 1.57,
+    "elapsed_ms": 1.61,
     "findings": [
       {
         "cls": "reentrancy",
@@ -21,25 +22,25 @@
       {
         "stage": "understand",
         "backend": "stub-symbolic",
-        "latency_ms": 0.79,
+        "latency_ms": 0.86,
         "reply_bytes": 734
       },
       {
         "stage": "plan",
         "backend": "stub-symbolic",
-        "latency_ms": 0.08,
+        "latency_ms": 0.09,
         "reply_bytes": 519
       },
       {
         "stage": "classify",
         "backend": "stub-symbolic",
-        "latency_ms": 0.52,
+        "latency_ms": 0.5,
         "reply_bytes": 137
       },
       {
         "stage": "verify",
         "backend": "stub-symbolic",
-        "latency_ms": 0.1,
+        "latency_ms": 0.08,
         "reply_bytes": 148
       }
     ]
@@ -313,5 +314,6 @@
       "findings_dropped": 0,
       "drop_rate_pct": 0.0
     }
-  }
+  },
+  "written_to": "results/latest.json"
 }
