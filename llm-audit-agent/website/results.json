@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-09-01T12:55:57+00:00",
+  "generated_at": "2026-09-01T22:18:55+00:00",
   "backend": "stub-symbolic",
   "backend_is_language_model": false,
   "is_synthetic": false,
-  "corpus": "SmartBugs curated, via /home/user/1.0-Secure-Ai-Agent-Infrastructure/chaintrust-bench/data/real-corpus.jsonl",
+  "corpus": "SmartBugs curated, via real-corpus.jsonl in chaintrust-bench",
   "worked_example": {
     "contract_id": "CT-H01",
     "backend": "stub-symbolic",
-    "elapsed_ms": 2.21,
+    "elapsed_ms": 2.17,
     "findings": [
       {
         "cls": "reentrancy",
@@ -22,25 +22,25 @@
       {
         "stage": "understand",
         "backend": "stub-symbolic",
-        "latency_ms": 1.0,
+        "latency_ms": 1.35,
         "reply_bytes": 734
       },
       {
         "stage": "plan",
         "backend": "stub-symbolic",
-        "latency_ms": 0.05,
+        "latency_ms": 0.04,
         "reply_bytes": 519
       },
       {
         "stage": "classify",
         "backend": "stub-symbolic",
-        "latency_ms": 0.86,
+        "latency_ms": 0.54,
         "reply_bytes": 137
       },
       {
         "stage": "verify",
         "backend": "stub-symbolic",
-        "latency_ms": 0.19,
+        "latency_ms": 0.14,
         "reply_bytes": 148
       }
     ]
