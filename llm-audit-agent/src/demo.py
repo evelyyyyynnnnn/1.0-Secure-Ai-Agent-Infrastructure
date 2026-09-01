@@ -41,8 +41,11 @@ contract CrossFn {
         "backend": backend.name,
         "backend_is_language_model": backend.is_language_model,
         "is_synthetic": corpus_path is None,
+        # Relative, because an absolute path names this machine and travels
+        # into a committed result file that is meant to be evidence.
         "corpus": "authored benchmark corpus" if corpus_path is None
-                  else f"SmartBugs curated, via {corpus_path}",
+                  else f"SmartBugs curated, via "
+                       f"{pathlib.Path(corpus_path).name} in chaintrust-bench",
         "worked_example": trace,
         "benchmark_available": benchmark.available(),
     }
