@@ -83,6 +83,11 @@ def main(argv=None) -> int:
                 p = f.get(s, refresh=args.refresh)
                 print(f"{p.stat().st_size:,} bytes")
                 ok += 1
+            except NetworkBlocked:
+                # NetworkBlocked subclasses FetchError, so it has to be caught
+                # first or a blocked network is reported as a moved URL -- two
+                # problems with completely different fixes.
+                raise
             except FetchError as exc:
                 # One moved landing page should not cost the whole corpus.
                 print(f"skipped ({exc})")

@@ -154,43 +154,43 @@ svg.chart{display:block;width:100%;height:auto}
 <section>
   <h2>Against the rule-based baseline</h2>
   <div class="stack-lg">
-    <figure><svg class="chart" viewBox="0 0 680 149" role="img" aria-label="Bar chart of results"><text x="180" y="26.68" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".72">hard — baseline</text><rect x="190" y="9" width="2.0" height="26" rx="3" fill="var(--accent)" opacity=".85"/><text x="201.0" y="26.68" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".62">0.000</text><text x="180" y="61.68" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".72">seed — baseline</text><rect x="190" y="44" width="422.0" height="26" rx="3" fill="var(--accent)" opacity=".85"/><text x="621.0" y="61.68" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".62">1.000</text><text x="180" y="96.68" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".72">hard — agent</text><rect x="190" y="79" width="234.5" height="26" rx="3" fill="var(--accent)" opacity=".85"/><text x="433.5" y="96.68" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".62">0.556</text><text x="180" y="131.68" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".72">seed — agent</text><rect x="190" y="114" width="289.4" height="26" rx="3" fill="var(--accent)" opacity=".85"/><text x="488.4" y="131.68" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".62">0.686</text></svg></figure>
-    <div class="tw"><table><thead><tr><th>Tier</th><th>Cases</th><th>Baseline F1</th><th>Agent F1</th><th>Change</th></tr></thead><tbody><tr><td>hard</td><td class="n">5</td><td class="n">0.000</td><td class="n">0.556</td><td class="n">+0.556</td></tr><tr><td>seed</td><td class="n">12</td><td class="n">1.000</td><td class="n">0.686</td><td class="n">-0.314</td></tr></tbody></table></div>
+    <figure><svg class="chart" viewBox="0 0 680 79" role="img" aria-label="Bar chart of results"><text x="180" y="26.68" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".72">smartbugs — baseline</text><rect x="190" y="9" width="422.0" height="26" rx="3" fill="var(--accent)" opacity=".85"/><text x="621.0" y="26.68" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".62">0.281</text><text x="180" y="61.68" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".72">smartbugs — agent</text><rect x="190" y="44" width="385.4" height="26" rx="3" fill="var(--accent)" opacity=".85"/><text x="584.4" y="61.68" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".62">0.256</text></svg></figure>
+    <div class="tw"><table><thead><tr><th>Tier</th><th>Cases</th><th>Baseline F1</th><th>Agent F1</th><th>Change</th></tr></thead><tbody><tr><td>smartbugs</td><td class="n">121</td><td class="n">0.281</td><td class="n">0.256</td><td class="n">-0.024</td></tr></tbody></table></div>
     <div class="note">
       <h3>Read this honestly</h3>
       <p>On the hard tier the agent goes from <strong>0.000</strong>
-      to <strong>0.556</strong>. That is the result the
+      to <strong>0.000</strong>. That is the result the
       staged pipeline was built for: those cases are hard precisely because the
       vulnerability never appears as a local textual pattern, and resolving an internal
       call graph is something the baseline structurally cannot do.</p>
       <p>On the seed tier it goes the other way, from
-      <strong>1.000</strong> down to
-      <strong>0.686</strong>, and overall the agent
+      <strong>0.000</strong> down to
+      <strong>0.000</strong>, and overall the agent
       currently <strong>loses</strong> to the baseline. That is a real regression, not a
       presentation choice, and it is on this page because a benchmark you only publish
       when it flatters you is not a benchmark.</p>
     </div>
-    <div class="tw"><table><thead><tr><th>Rank</th><th>Detector</th><th>Macro-P</th><th>Macro-R</th><th>Macro-F1</th><th>FP on safe</th></tr></thead><tbody><tr><td class="n">1</td><td>pattern-baseline</td><td class="n">1.000</td><td class="n">0.833</td><td class="n">0.895</td><td class="n">0.000</td></tr><tr><td class="n">2</td><td>llm-audit-agent[stub-symbolic]</td><td class="n">0.679</td><td class="n">0.679</td><td class="n">0.673</td><td class="n">0.000</td></tr><tr><td class="n">3</td><td>agent (no self-correction)</td><td class="n">0.679</td><td class="n">0.679</td><td class="n">0.673</td><td class="n">0.000</td></tr></tbody></table></div>
+    <div class="tw"><table><thead><tr><th>Rank</th><th>Detector</th><th>Macro-P</th><th>Macro-R</th><th>Macro-F1</th><th>FP on safe</th></tr></thead><tbody><tr><td class="n">1</td><td>pattern-baseline</td><td class="n">0.361</td><td class="n">0.368</td><td class="n">0.281</td><td class="n">0.000</td></tr><tr><td class="n">2</td><td>llm-audit-agent[stub-symbolic]</td><td class="n">0.346</td><td class="n">0.292</td><td class="n">0.256</td><td class="n">0.000</td></tr><tr><td class="n">3</td><td>agent (no self-correction)</td><td class="n">0.346</td><td class="n">0.292</td><td class="n">0.256</td><td class="n">0.000</td></tr></tbody></table></div>
   </div>
 </section>
 
 <section>
   <h2>Workload, defined rather than asserted</h2>
   <div class="stack-lg">
-    <div class="tw"><table><thead><tr><th>Measure</th><th>Baseline</th><th>Agent</th><th>Change</th></tr></thead><tbody><tr><td>Findings a human must adjudicate</td><td class="n">11</td><td class="n">11</td><td class="n">+0.0%</td></tr><tr><td>Real findings missed</td><td class="n">4</td><td class="n">5</td><td class="n">+1</td></tr></tbody></table></div>
+    <div class="tw"><table><thead><tr><th>Measure</th><th>Baseline</th><th>Agent</th><th>Change</th></tr></thead><tbody><tr><td>Findings a human must adjudicate</td><td class="n">105</td><td class="n">59</td><td class="n">+43.8%</td></tr><tr><td>Real findings missed</td><td class="n">84</td><td class="n">90</td><td class="n">+6</td></tr></tbody></table></div>
     <div class="note">
       <h3>What "workload reduction" means here</h3>
       <p>Workload is the count of findings a human auditor has to adjudicate: every
       surfaced finding costs review time whether or not it turns out to be real. On this
-      corpus the agent produced <strong>+0.0%</strong> change
-      in that count, while missing <strong>+1</strong> more real
+      corpus the agent produced <strong>+43.8%</strong> change
+      in that count, while missing <strong>+6</strong> more real
       findings than the baseline.</p>
       <p>The two numbers are reported together deliberately. Any tool can cut review load
       by reporting less, so a workload figure without the missed count beside it is
       meaningless. This is also not a human time study &mdash; it is a proxy, and a claim
       about auditor hours would need one.</p>
     </div>
-    <p>Self-correction kept 12 findings and dropped
+    <p>Self-correction kept 81 findings and dropped
     0 (0.0%) across the corpus.</p>
   </div>
 </section>
