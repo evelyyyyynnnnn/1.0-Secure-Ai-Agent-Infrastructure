@@ -307,6 +307,5 @@
       "findings_dropped": 0,
       "drop_rate_pct": 0.0
     }
-  },
-  "written_to": "results/latest-real.json"
+  }
 }
