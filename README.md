@@ -69,11 +69,13 @@ Rewrite and document the existing shared-charging settlement work, or move it ou
 ├── llm-audit-agent/
 ├── agent-verification-harness/
 ├── blockchain-shared-charging/
-└── previous/        everything that was here before this restructure
+│
+│   ── earlier work, promoted out of previous/ ──
+├── ev-charging-contracts-solidity/
+└── prof-belal-collaboration/
 ```
 
-Each project folder carries the same skeleton: `README.md`, `docs/`
-(METHOD, DATA, EVIDENCE), `src/`, `data/`, `results/`, `tests/`.
+Every rebuilt project carries the same skeleton: `README.md`, `src/`, `data/`, `results/`, `tests/`, `website/`.
 
 ## Ground rules
 
@@ -85,12 +87,19 @@ Each project folder carries the same skeleton: `README.md`, `docs/`
    correspondence, registry statistics. Never an inflated count.
 4. **Third-party and forked code stays labelled** and is never counted.
 
-## previous/
+## Earlier work
 
-Everything that lived at the top level before this restructure is preserved
-under [`previous/`](previous/) with nothing deleted. See
-[`previous/README.md`](previous/README.md) for the inventory and the disposition
-of each item.
+There is no `previous/` folder any more. Everything that was in it has been promoted to the top level, so every piece of work in this repository is a first-class folder that can be opened, read and continued.
+
+Nothing was deleted except items the rebuild genuinely supersedes; those remain in git history.
+
+| Folder | What it is | How it may be used |
+|---|---|---|
+| [`ev-charging-contracts-solidity/`](ev-charging-contracts-solidity/) | The original Remix workspaces: V2G, Authorization, ChargingRecords and the registration / query / refresh / rescind contracts. | Citable as prior original work. These Solidity contracts exist nowhere else in the portfolio — `blockchain-shared-charging/` is a Python economics model, not these contracts. |
+| [`prof-belal-collaboration/`](prof-belal-collaboration/) | The collaboration's own folder. Holds a placeholder document and nothing else. | Not citable as an artifact. The agent it proposed is implemented and measured in `llm-audit-agent/`; a patent and a paper would live here and do not exist yet. |
+
+**Read the third column before citing anything here.** Forks of third-party work, duplicates, retired projects and asset-only folders are labelled as such and are not part of the petition's evidence.
+
 
 ---
 Scaffold generated from `NIW_Project_Portfolio_and_Gap_Plan.xlsx` (sheets: Repo Build-Out Plan, Core Ideas at a Glance, NIW Claim vs Repo Evidence, Notion 创业 Alignment). Structure only — no results are claimed here yet.
