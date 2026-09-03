@@ -1,0 +1,265 @@
+{
+  "generated_at": "2026-09-01T12:54:47+00:00",
+  "data_source": "/home/user/1.0-Secure-Ai-Agent-Infrastructure/chaintrust-bench/data/real-corpus.jsonl",
+  "is_synthetic": false,
+  "corpus": {
+    "n_cases": 121,
+    "n_vulnerable": 121,
+    "n_safe": 0,
+    "n_findings": 121,
+    "per_class": {
+      "reentrancy": 31,
+      "unchecked_call": 52,
+      "tx_origin_auth": 2,
+      "timestamp_dependence": 5,
+      "missing_access_control": 12,
+      "unprotected_selfdestruct": 4,
+      "integer_overflow": 15
+    },
+    "per_tier": {
+      "smartbugs": 121
+    }
+  },
+  "tiers": {
+    "smartbugs": {
+      "n_cases": 121,
+      "macro_f1": 0.2805,
+      "macro_recall": 0.3683,
+      "macro_precision": 0.3608
+    }
+  },
+  "classes": [
+    "reentrancy",
+    "unchecked_call",
+    "tx_origin_auth",
+    "timestamp_dependence",
+    "missing_access_control",
+    "unprotected_selfdestruct",
+    "integer_overflow"
+  ],
+  "leaderboard": [
+    {
+      "rank": 1,
+      "detector": "pattern-baseline",
+      "macro_precision": 0.3608,
+      "macro_recall": 0.3683,
+      "macro_f1": 0.2805,
+      "false_positive_rate_on_safe": 0.0,
+      "n_cases": 121,
+      "per_class": {
+        "reentrancy": {
+          "cls": "reentrancy",
+          "tp": 0,
+          "fp": 0,
+          "fn": 31,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "unchecked_call": {
+          "cls": "unchecked_call",
+          "tp": 24,
+          "fp": 4,
+          "fn": 28,
+          "precision": 0.8571,
+          "recall": 0.4615,
+          "f1": 0.6
+        },
+        "tx_origin_auth": {
+          "cls": "tx_origin_auth",
+          "tp": 2,
+          "fp": 6,
+          "fn": 0,
+          "precision": 0.25,
+          "recall": 1.0,
+          "f1": 0.4
+        },
+        "timestamp_dependence": {
+          "cls": "timestamp_dependence",
+          "tp": 1,
+          "fp": 8,
+          "fn": 4,
+          "precision": 0.1111,
+          "recall": 0.2,
+          "f1": 0.1429
+        },
+        "missing_access_control": {
+          "cls": "missing_access_control",
+          "tp": 4,
+          "fp": 21,
+          "fn": 8,
+          "precision": 0.16,
+          "recall": 0.3333,
+          "f1": 0.2162
+        },
+        "unprotected_selfdestruct": {
+          "cls": "unprotected_selfdestruct",
+          "tp": 1,
+          "fp": 0,
+          "fn": 3,
+          "precision": 1.0,
+          "recall": 0.25,
+          "f1": 0.4
+        },
+        "integer_overflow": {
+          "cls": "integer_overflow",
+          "tp": 5,
+          "fp": 29,
+          "fn": 10,
+          "precision": 0.1471,
+          "recall": 0.3333,
+          "f1": 0.2041
+        }
+      }
+    },
+    {
+      "rank": 2,
+      "detector": "keyword-floor",
+      "macro_precision": 0.3001,
+      "macro_recall": 0.4795,
+      "macro_f1": 0.2736,
+      "false_positive_rate_on_safe": 0.0,
+      "n_cases": 121,
+      "per_class": {
+        "reentrancy": {
+          "cls": "reentrancy",
+          "tp": 0,
+          "fp": 0,
+          "fn": 31,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "unchecked_call": {
+          "cls": "unchecked_call",
+          "tp": 9,
+          "fp": 3,
+          "fn": 43,
+          "precision": 0.75,
+          "recall": 0.1731,
+          "f1": 0.2812
+        },
+        "tx_origin_auth": {
+          "cls": "tx_origin_auth",
+          "tp": 2,
+          "fp": 6,
+          "fn": 0,
+          "precision": 0.25,
+          "recall": 1.0,
+          "f1": 0.4
+        },
+        "timestamp_dependence": {
+          "cls": "timestamp_dependence",
+          "tp": 5,
+          "fp": 28,
+          "fn": 0,
+          "precision": 0.1515,
+          "recall": 1.0,
+          "f1": 0.2632
+        },
+        "missing_access_control": {
+          "cls": "missing_access_control",
+          "tp": 5,
+          "fp": 26,
+          "fn": 7,
+          "precision": 0.1613,
+          "recall": 0.4167,
+          "f1": 0.2326
+        },
+        "unprotected_selfdestruct": {
+          "cls": "unprotected_selfdestruct",
+          "tp": 2,
+          "fp": 1,
+          "fn": 2,
+          "precision": 0.6667,
+          "recall": 0.5,
+          "f1": 0.5714
+        },
+        "integer_overflow": {
+          "cls": "integer_overflow",
+          "tp": 4,
+          "fp": 29,
+          "fn": 11,
+          "precision": 0.1212,
+          "recall": 0.2667,
+          "f1": 0.1667
+        }
+      }
+    },
+    {
+      "rank": 3,
+      "detector": "null",
+      "macro_precision": 0.0,
+      "macro_recall": 0.0,
+      "macro_f1": 0.0,
+      "false_positive_rate_on_safe": 0.0,
+      "n_cases": 121,
+      "per_class": {
+        "reentrancy": {
+          "cls": "reentrancy",
+          "tp": 0,
+          "fp": 0,
+          "fn": 31,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "unchecked_call": {
+          "cls": "unchecked_call",
+          "tp": 0,
+          "fp": 0,
+          "fn": 52,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "tx_origin_auth": {
+          "cls": "tx_origin_auth",
+          "tp": 0,
+          "fp": 0,
+          "fn": 2,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "timestamp_dependence": {
+          "cls": "timestamp_dependence",
+          "tp": 0,
+          "fp": 0,
+          "fn": 5,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "missing_access_control": {
+          "cls": "missing_access_control",
+          "tp": 0,
+          "fp": 0,
+          "fn": 12,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "unprotected_selfdestruct": {
+          "cls": "unprotected_selfdestruct",
+          "tp": 0,
+          "fp": 0,
+          "fn": 4,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "integer_overflow": {
+          "cls": "integer_overflow",
+          "tp": 0,
+          "fp": 0,
+          "fn": 15,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        }
+      }
+    }
+  ],
+  "written_to": "results/latest-real.json"
+}

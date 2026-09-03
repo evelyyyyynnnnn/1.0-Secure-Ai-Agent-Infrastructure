@@ -1,69 +1,87 @@
 # ChainTrust-Bench
 
-> **Status: scaffold.** Structure only — no method, data or result is claimed
-> yet. Every "not yet measured" below is a real gap, not a placeholder to be
-> filled in with an estimate.
+> A smart-contract security benchmark that scores detectors per vulnerability class, so a tool's weaknesses are visible instead of averaged away.
 
-**Repository:** `1.0-Secure-Ai-Agent-Infrastructure`
-**NIW pillar (Dhanasar prong 1):** Secure Digital Infrastructure
-**Evidence value:** CORE — closes the largest credibility gap in the filing
+**Repository:** `1.0-Secure-Ai-Agent-Infrastructure` &middot; **Pillar:** Secure Digital Infrastructure
 
-## Core idea
+## Status
 
-A smart-contract security benchmark at the 1.2M-transaction scale, released as a named, versioned dataset with a DOI and a public leaderboard.
+This is working code with a runnable demo and 0 tests. It is **not** a
+finished result.
 
-## Why it earns its place
+Every number below was produced by running the benchmark against the seed corpus authored for this project. The corpus is small and hand-written on purpose. The mined, at-scale corpus does not exist yet, and no result here should be read as if it did.
 
-The petition already names this tool as adopted by two fintech startups. Right now the name points at nothing. This single repo closes the largest credibility gap in the filing.
+Last run: `2026-08-31T17:57:25+00:00`
 
-## The petition claim it supports
+## Quick start
 
-> Security benchmarks analysing over 1.2 million on-chain blockchain transactions; ChainTrust-Bench released and adopted by two fintech startups.
-
-**What the portfolio shows today:** No repository anywhere is named ChainTrust-Bench. The only auditing tool in the portfolio is 3.0 Contract Audit, validated on six planted bugs plus one safe contract.
-
-**Action required:** Highest priority. Release ChainTrust-Bench as a named, versioned, DOI-backed dataset; obtain written confirmation from the two adopting startups (Exhibit 20).
-
-Prior work to build on: `3.0-Financial-Ai-Systems — previous/project-2/contract-audit`.
-
-## Petition-grade checklist
-
-A project counts as petition-grade only when all five are true. None are yet.
-
-- [ ] Original work, authored here
-- [ ] A stated method (`docs/METHOD.md`)
-- [ ] Real data at a stated scale (`docs/DATA.md` — target: 1,200,000+ on-chain transactions)
-- [ ] A measured result (`results/README.md`)
-- [ ] A README a reviewer can follow, start to finish
-
-## Measured results
-
-Target scale: **1,200,000+ on-chain transactions**
-
-| Metric | Baseline | Result | Out-of-sample |
-|---|---|---|---|
-| Detection rate by vulnerability class | _not yet measured_ | _not yet measured_ | _pending_ |
-| False-positive rate | _not yet measured_ | _not yet measured_ | _pending_ |
-| Leaderboard rank vs. published baselines | _not yet measured_ | _not yet measured_ | _pending_ |
-| Dataset downloads / DOI citations | _not yet measured_ | _not yet measured_ | _pending_ |
-
-Populate this from `results/`. Do not cite any number in the petition that does
-not appear here with a run date behind it.
+```bash
+pip install -r requirements.txt
+python -m pytest tests/ -q     # 0 tests
+python -m src.demo             # runs everything, rewrites results/ and website/
+```
 
 ## Layout
 
 ```
-chaintrust-bench/
-├── README.md        this file
-├── docs/
-│   ├── METHOD.md    what the method is and why it is non-obvious
-│   ├── DATA.md      source, scale, licence, and how to reproduce the pull
-│   └── EVIDENCE.md  the petition claim, the gap, and the exhibit it becomes
-├── src/             implementation
-├── data/            pointers and manifests — never raw licensed data
-├── results/         measured results, run logs, and the baseline comparison
-└── tests/           tests that establish the result is reproducible
+README.md
+data/
+  |-- README.md
+  |-- corpus/
+  |-- manifests/
+  |-- sample/
+docs/
+  |-- DATA.md
+  |-- EVIDENCE.md
+  |-- METHOD.md
+requirements.txt
+results/
+  |-- README.md
+  |-- latest.json
+src/
+  |-- .gitkeep
+  |-- __init__.py
+  |-- corpus.py
+  |-- demo.py
+  |-- detectors.py
+  |-- scoring.py
+  |-- site.py
+  |-- sitekit.py
+tests/
+  |-- .gitkeep
+  |-- test_detectors.py
+website/
+  |-- README.md
+  |-- index.html
+  |-- results.json
+  |-- vercel.json
 ```
 
----
-Scaffold generated from `NIW_Project_Portfolio_and_Gap_Plan.xlsx` (sheets: Repo Build-Out Plan, Core Ideas at a Glance, NIW Claim vs Repo Evidence, Notion 创业 Alignment). Structure only — no results are claimed here yet.
+- `src/` &mdash; the implementation.
+- `tests/` &mdash; pytest suite. These guard behaviour, not just imports.
+- `results/latest.json` &mdash; the output of the last demo run. Every figure quoted
+  anywhere in this project traces back to this file.
+- `website/` &mdash; a self-contained static site, deployable to Vercel by copying the
+  folder into its own repository. See `website/README.md`.
+
+## The website
+
+`website/` has no build step. To deploy it independently:
+
+```bash
+cp -r website/ ../my-chaintrust-bench-site && cd ../my-chaintrust-bench-site
+git init && git add -A && git commit -m "site"
+vercel deploy --prod
+```
+
+The page is regenerated from `results.json` on every `python -m src.demo`, so the
+figures on the site and the figures the code produces cannot drift apart. Do not edit
+numbers on the page by hand.
+
+## Honesty note
+
+Everything in this project runs on clearly-labelled synthetic or authored data.
+Swap in the real source and the same pipeline reports real numbers &mdash; that is
+what the structure is for. Until that happens, nothing here should be cited as a
+measured result, and the site's closing section states explicitly what the project
+does not establish.

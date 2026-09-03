@@ -1,0 +1,3 @@
+# ChainTrust-Bench runs on the standard library alone.
+# Tests use pytest; nothing else is required to reproduce the leaderboard.
+pytest>=7.0
