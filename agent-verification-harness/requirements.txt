@@ -1,0 +1,2 @@
+# Standard library only. The harness is lexical and inspectable by design.
+pytest>=7.0

@@ -1,0 +1,256 @@
+{
+  "generated_at": "2026-08-31T21:32:38+00:00",
+  "is_synthetic": true,
+  "data_source": "off-chain model of SharedCharging.sol; gas figures are opcode-level estimates, not node measurements",
+  "assumptions": {
+    "eth_usd": 3000.0,
+    "session_kwh": 22.0,
+    "price_per_kwh_usd": 0.45,
+    "dispute_window_s": 3600
+  },
+  "gas": {
+    "open": 86356,
+    "report": 33881,
+    "settle": 57137,
+    "dispute": 29225,
+    "per_session": 177374,
+    "per_session_with_dispute": 206599
+  },
+  "viability": [
+    {
+      "gas_price_gwei": 1,
+      "settlement_cost_usd": 0.5321,
+      "session_value_usd": 9.9,
+      "overhead_pct": 5.37,
+      "viable_under_5pct": false
+    },
+    {
+      "gas_price_gwei": 5,
+      "settlement_cost_usd": 2.6606,
+      "session_value_usd": 9.9,
+      "overhead_pct": 26.87,
+      "viable_under_5pct": false
+    },
+    {
+      "gas_price_gwei": 10,
+      "settlement_cost_usd": 5.3212,
+      "session_value_usd": 9.9,
+      "overhead_pct": 53.75,
+      "viable_under_5pct": false
+    },
+    {
+      "gas_price_gwei": 20,
+      "settlement_cost_usd": 10.6424,
+      "session_value_usd": 9.9,
+      "overhead_pct": 107.5,
+      "viable_under_5pct": false
+    },
+    {
+      "gas_price_gwei": 50,
+      "settlement_cost_usd": 26.6061,
+      "session_value_usd": 9.9,
+      "overhead_pct": 268.75,
+      "viable_under_5pct": false
+    }
+  ],
+  "batching": [
+    {
+      "n_sessions": 1,
+      "gas_unbatched": 177374,
+      "gas_batched": 113699,
+      "gas_saved": 63675,
+      "saving_pct": 35.9,
+      "gas_per_session_unbatched": 177374,
+      "gas_per_session_batched": 113699
+    },
+    {
+      "n_sessions": 5,
+      "gas_unbatched": 886870,
+      "gas_batched": 484495,
+      "gas_saved": 402375,
+      "saving_pct": 45.37,
+      "gas_per_session_unbatched": 177374,
+      "gas_per_session_batched": 96899
+    },
+    {
+      "n_sessions": 10,
+      "gas_unbatched": 1773740,
+      "gas_batched": 947990,
+      "gas_saved": 825750,
+      "saving_pct": 46.55,
+      "gas_per_session_unbatched": 177374,
+      "gas_per_session_batched": 94799
+    },
+    {
+      "n_sessions": 25,
+      "gas_unbatched": 4434350,
+      "gas_batched": 2338475,
+      "gas_saved": 2095875,
+      "saving_pct": 47.26,
+      "gas_per_session_unbatched": 177374,
+      "gas_per_session_batched": 93539
+    },
+    {
+      "n_sessions": 50,
+      "gas_unbatched": 8868700,
+      "gas_batched": 4655950,
+      "gas_saved": 4212750,
+      "saving_pct": 47.5,
+      "gas_per_session_unbatched": 177374,
+      "gas_per_session_batched": 93119
+    },
+    {
+      "n_sessions": 100,
+      "gas_unbatched": 17737400,
+      "gas_batched": 9290900,
+      "gas_saved": 8446500,
+      "saving_pct": 47.62,
+      "gas_per_session_unbatched": 177374,
+      "gas_per_session_batched": 92909
+    }
+  ],
+  "venues": [
+    {
+      "venue": "Ethereum L1",
+      "gas_price_gwei": 20.0,
+      "native_asset": "ETH",
+      "cost_per_session_usd": 10.6424,
+      "cost_batched_usd": 5.5871,
+      "overhead_pct": 107.5,
+      "overhead_batched_pct": 56.44,
+      "viable_batched": false
+    },
+    {
+      "venue": "Ethereum L1 (quiet)",
+      "gas_price_gwei": 3.0,
+      "native_asset": "ETH",
+      "cost_per_session_usd": 1.5964,
+      "cost_batched_usd": 0.8381,
+      "overhead_pct": 16.12,
+      "overhead_batched_pct": 8.47,
+      "viable_batched": false
+    },
+    {
+      "venue": "Arbitrum One",
+      "gas_price_gwei": 0.02,
+      "native_asset": "ETH",
+      "cost_per_session_usd": 0.0106,
+      "cost_batched_usd": 0.0056,
+      "overhead_pct": 0.11,
+      "overhead_batched_pct": 0.06,
+      "viable_batched": true
+    },
+    {
+      "venue": "Base",
+      "gas_price_gwei": 0.01,
+      "native_asset": "ETH",
+      "cost_per_session_usd": 0.0053,
+      "cost_batched_usd": 0.0028,
+      "overhead_pct": 0.05,
+      "overhead_batched_pct": 0.03,
+      "viable_batched": true
+    },
+    {
+      "venue": "Polygon PoS",
+      "gas_price_gwei": 30.0,
+      "native_asset": "MATIC",
+      "cost_per_session_usd": 0.0029,
+      "cost_batched_usd": 0.0015,
+      "overhead_pct": 0.03,
+      "overhead_batched_pct": 0.02,
+      "viable_batched": true
+    }
+  ],
+  "lifecycle": {
+    "happy_path": {
+      "drawn_wh": 22000,
+      "paid_wei": 6600000000,
+      "refunded_wei": 5400000000
+    },
+    "disputed": {
+      "reported_wh": 39000,
+      "resolved_wh": 12000,
+      "paid_wei": 3600000000,
+      "refunded_wei": 8400000000
+    },
+    "guards": [
+      {
+        "attempt": "settle before the dispute window closes",
+        "rejected": true,
+        "error": "BadState"
+      },
+      {
+        "attempt": "a stranger reports a meter reading",
+        "rejected": true,
+        "error": "BadState"
+      },
+      {
+        "attempt": "dispute after the window has closed",
+        "rejected": true,
+        "error": "WindowClosed"
+      },
+      {
+        "attempt": "open against an unregistered point",
+        "rejected": true,
+        "error": "PointNotRegistered"
+      },
+      {
+        "attempt": "deposit below the maximum draw",
+        "rejected": true,
+        "error": "DepositTooSmall"
+      }
+    ],
+    "events": [
+      [
+        "Opened",
+        "S1",
+        12000000000
+      ],
+      [
+        "Reported",
+        "S1",
+        22000
+      ],
+      [
+        "Settled",
+        "S1",
+        6600000000
+      ],
+      [
+        "Opened",
+        "S2",
+        12000000000
+      ],
+      [
+        "Reported",
+        "S2",
+        39000
+      ],
+      [
+        "Disputed",
+        "S2",
+        "driver-2"
+      ],
+      [
+        "Resolved",
+        "S2",
+        12000
+      ],
+      [
+        "Settled",
+        "S2",
+        3600000000
+      ],
+      [
+        "Opened",
+        "S4",
+        12000000000
+      ],
+      [
+        "Reported",
+        "S4",
+        1000
+      ]
+    ]
+  }
+}
