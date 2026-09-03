@@ -1,0 +1,254 @@
+{
+  "generated_at": "2026-08-31T21:32:37+00:00",
+  "is_synthetic": true,
+  "data_source": "6 authored transcripts, 12 labelled claims",
+  "grounding": {
+    "threshold": 0.55,
+    "tp": 5,
+    "fp": 1,
+    "tn": 6,
+    "fn": 0,
+    "precision": 0.8333,
+    "recall": 1.0,
+    "f1": 0.9091,
+    "per_kind": {
+      "fabricated": {
+        "caught": 2,
+        "total": 2
+      },
+      "unsupported": {
+        "caught": 1,
+        "total": 1
+      },
+      "miscited": {
+        "caught": 2,
+        "total": 2
+      },
+      "ok": {
+        "false_flags": 1,
+        "total": 7
+      }
+    },
+    "n_claims": 12,
+    "verdicts": [
+      {
+        "tid": "T-01",
+        "idx": 0,
+        "claim": "The FOMC held the target range at 4.25 to 4.5 percent [S1].",
+        "label": "ok",
+        "flagged": false,
+        "reason": "",
+        "score": 0.56,
+        "citation_correct": true
+      },
+      {
+        "tid": "T-01",
+        "idx": 1,
+        "claim": "The Committee said inflation remains somewhat elevated [S1].",
+        "label": "ok",
+        "flagged": false,
+        "reason": "",
+        "score": 0.6166666666666667,
+        "citation_correct": true
+      },
+      {
+        "tid": "T-02",
+        "idx": 0,
+        "claim": "The FOMC held rates at 4.25 to 4.5 percent [S1].",
+        "label": "ok",
+        "flagged": true,
+        "reason": "no supporting span (best 0.40 < 0.55)",
+        "score": 0.3958333333333333,
+        "citation_correct": true
+      },
+      {
+        "tid": "T-02",
+        "idx": 1,
+        "claim": "Inflation is running at 2.1 percent year over year [S1].",
+        "label": "fabricated",
+        "flagged": true,
+        "reason": "number(s) in no source: 2.1",
+        "score": 0.11666666666666665,
+        "citation_correct": true
+      },
+      {
+        "tid": "T-03",
+        "idx": 0,
+        "claim": "CPI rose 0.3 percent in January on a seasonally adjusted basis [S2].",
+        "label": "ok",
+        "flagged": false,
+        "reason": "",
+        "score": 0.6958333333333333,
+        "citation_correct": true
+      },
+      {
+        "tid": "T-03",
+        "idx": 1,
+        "claim": "The 12-month change was 3.0 percent before seasonal adjustment [S2].",
+        "label": "ok",
+        "flagged": false,
+        "reason": "",
+        "score": 0.5874999999999999,
+        "citation_correct": true
+      },
+      {
+        "tid": "T-03",
+        "idx": 2,
+        "claim": "The increase was driven primarily by shelter costs [S2].",
+        "label": "unsupported",
+        "flagged": true,
+        "reason": "no supporting span (best 0.00 < 0.55)",
+        "score": 0.0,
+        "citation_correct": true
+      },
+      {
+        "tid": "T-04",
+        "idx": 0,
+        "claim": "A single supplier accounted for 42 percent of component purchases in fiscal 2024 [S3].",
+        "label": "ok",
+        "flagged": false,
+        "reason": "",
+        "score": 0.8142857142857143,
+        "citation_correct": true
+      },
+      {
+        "tid": "T-04",
+        "idx": 1,
+        "claim": "That is up from 31 percent in fiscal 2023 [S3].",
+        "label": "ok",
+        "flagged": false,
+        "reason": "",
+        "score": 0.7133333333333334,
+        "citation_correct": true
+      },
+      {
+        "tid": "T-05",
+        "idx": 0,
+        "claim": "A single supplier accounted for 42 percent of component purchases [S2].",
+        "label": "miscited",
+        "flagged": true,
+        "reason": "cited ['S2'] but support is in S3",
+        "score": 1.0,
+        "citation_correct": false
+      },
+      {
+        "tid": "T-05",
+        "idx": 1,
+        "claim": "Inflation was 3.0 percent over twelve months [S3].",
+        "label": "miscited",
+        "flagged": true,
+        "reason": "no supporting span (best 0.23 < 0.55)",
+        "score": 0.2333333333333333,
+        "citation_correct": false
+      },
+      {
+        "tid": "T-06",
+        "idx": 0,
+        "claim": "The Committee cut rates by 25 basis points to 4.0 percent [S1].",
+        "label": "fabricated",
+        "flagged": true,
+        "reason": "number(s) in no source: 25, 4.0",
+        "score": 0.0875,
+        "citation_correct": true
+      }
+    ]
+  },
+  "sweep": [
+    {
+      "threshold": 0.3,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    {
+      "threshold": 0.35,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    {
+      "threshold": 0.4,
+      "precision": 0.8333,
+      "recall": 1.0,
+      "f1": 0.9091
+    },
+    {
+      "threshold": 0.45,
+      "precision": 0.8333,
+      "recall": 1.0,
+      "f1": 0.9091
+    },
+    {
+      "threshold": 0.5,
+      "precision": 0.8333,
+      "recall": 1.0,
+      "f1": 0.9091
+    },
+    {
+      "threshold": 0.55,
+      "precision": 0.8333,
+      "recall": 1.0,
+      "f1": 0.9091
+    },
+    {
+      "threshold": 0.6,
+      "precision": 0.625,
+      "recall": 1.0,
+      "f1": 0.7692
+    },
+    {
+      "threshold": 0.65,
+      "precision": 0.5556,
+      "recall": 1.0,
+      "f1": 0.7143
+    },
+    {
+      "threshold": 0.7,
+      "precision": 0.5,
+      "recall": 1.0,
+      "f1": 0.6667
+    },
+    {
+      "threshold": 0.75,
+      "precision": 0.4545,
+      "recall": 1.0,
+      "f1": 0.625
+    },
+    {
+      "threshold": 0.8,
+      "precision": 0.4545,
+      "recall": 1.0,
+      "f1": 0.625
+    },
+    {
+      "threshold": 0.85,
+      "precision": 0.4167,
+      "recall": 1.0,
+      "f1": 0.5882
+    }
+  ],
+  "tool_audit": {
+    "stats": {
+      "n_calls": 4,
+      "n_failures": 1,
+      "chain_intact": true,
+      "first_broken_index": -1,
+      "by_tool": {
+        "search": {
+          "calls": 2,
+          "failures": 0,
+          "ms": 0.0
+        },
+        "fetch": {
+          "calls": 2,
+          "failures": 1,
+          "ms": 0.02
+        }
+      }
+    },
+    "tamper_detected": true,
+    "tamper_index": 1,
+    "restored_intact": true,
+    "sample_jsonl_lines": 4
+  }
+}

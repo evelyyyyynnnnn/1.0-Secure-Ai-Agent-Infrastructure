@@ -1,0 +1,312 @@
+{
+  "generated_at": "2026-09-01T22:18:55+00:00",
+  "backend": "stub-symbolic",
+  "backend_is_language_model": false,
+  "is_synthetic": false,
+  "corpus": "SmartBugs curated, via real-corpus.jsonl in chaintrust-bench",
+  "worked_example": {
+    "contract_id": "CT-H01",
+    "backend": "stub-symbolic",
+    "elapsed_ms": 2.17,
+    "findings": [
+      {
+        "cls": "reentrancy",
+        "fn": "claim",
+        "evidence": "state write after internal call _send(), which makes an external call",
+        "confirmed": true,
+        "dropped_reason": ""
+      }
+    ],
+    "dropped": [],
+    "trail": [
+      {
+        "stage": "understand",
+        "backend": "stub-symbolic",
+        "latency_ms": 1.35,
+        "reply_bytes": 734
+      },
+      {
+        "stage": "plan",
+        "backend": "stub-symbolic",
+        "latency_ms": 0.04,
+        "reply_bytes": 519
+      },
+      {
+        "stage": "classify",
+        "backend": "stub-symbolic",
+        "latency_ms": 0.54,
+        "reply_bytes": 137
+      },
+      {
+        "stage": "verify",
+        "backend": "stub-symbolic",
+        "latency_ms": 0.14,
+        "reply_bytes": 148
+      }
+    ]
+  },
+  "benchmark_available": true,
+  "comparison": {
+    "corpus_size": 121,
+    "leaderboard": [
+      {
+        "rank": 1,
+        "detector": "pattern-baseline",
+        "macro_precision": 0.3608,
+        "macro_recall": 0.3683,
+        "macro_f1": 0.2805,
+        "false_positive_rate_on_safe": 0.0,
+        "n_cases": 121,
+        "per_class": {
+          "reentrancy": {
+            "cls": "reentrancy",
+            "tp": 0,
+            "fp": 0,
+            "fn": 31,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "unchecked_call": {
+            "cls": "unchecked_call",
+            "tp": 24,
+            "fp": 4,
+            "fn": 28,
+            "precision": 0.8571,
+            "recall": 0.4615,
+            "f1": 0.6
+          },
+          "tx_origin_auth": {
+            "cls": "tx_origin_auth",
+            "tp": 2,
+            "fp": 6,
+            "fn": 0,
+            "precision": 0.25,
+            "recall": 1.0,
+            "f1": 0.4
+          },
+          "timestamp_dependence": {
+            "cls": "timestamp_dependence",
+            "tp": 1,
+            "fp": 8,
+            "fn": 4,
+            "precision": 0.1111,
+            "recall": 0.2,
+            "f1": 0.1429
+          },
+          "missing_access_control": {
+            "cls": "missing_access_control",
+            "tp": 4,
+            "fp": 21,
+            "fn": 8,
+            "precision": 0.16,
+            "recall": 0.3333,
+            "f1": 0.2162
+          },
+          "unprotected_selfdestruct": {
+            "cls": "unprotected_selfdestruct",
+            "tp": 1,
+            "fp": 0,
+            "fn": 3,
+            "precision": 1.0,
+            "recall": 0.25,
+            "f1": 0.4
+          },
+          "integer_overflow": {
+            "cls": "integer_overflow",
+            "tp": 5,
+            "fp": 29,
+            "fn": 10,
+            "precision": 0.1471,
+            "recall": 0.3333,
+            "f1": 0.2041
+          }
+        }
+      },
+      {
+        "rank": 2,
+        "detector": "llm-audit-agent[stub-symbolic]",
+        "macro_precision": 0.3463,
+        "macro_recall": 0.2921,
+        "macro_f1": 0.2562,
+        "false_positive_rate_on_safe": 0.0,
+        "n_cases": 121,
+        "per_class": {
+          "reentrancy": {
+            "cls": "reentrancy",
+            "tp": 0,
+            "fp": 1,
+            "fn": 31,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "unchecked_call": {
+            "cls": "unchecked_call",
+            "tp": 24,
+            "fp": 4,
+            "fn": 28,
+            "precision": 0.8571,
+            "recall": 0.4615,
+            "f1": 0.6
+          },
+          "tx_origin_auth": {
+            "cls": "tx_origin_auth",
+            "tp": 2,
+            "fp": 3,
+            "fn": 0,
+            "precision": 0.4,
+            "recall": 1.0,
+            "f1": 0.5714
+          },
+          "timestamp_dependence": {
+            "cls": "timestamp_dependence",
+            "tp": 0,
+            "fp": 0,
+            "fn": 5,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "missing_access_control": {
+            "cls": "missing_access_control",
+            "tp": 4,
+            "fp": 20,
+            "fn": 8,
+            "precision": 0.1667,
+            "recall": 0.3333,
+            "f1": 0.2222
+          },
+          "unprotected_selfdestruct": {
+            "cls": "unprotected_selfdestruct",
+            "tp": 1,
+            "fp": 0,
+            "fn": 3,
+            "precision": 1.0,
+            "recall": 0.25,
+            "f1": 0.4
+          },
+          "integer_overflow": {
+            "cls": "integer_overflow",
+            "tp": 0,
+            "fp": 0,
+            "fn": 15,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          }
+        }
+      },
+      {
+        "rank": 3,
+        "detector": "agent (no self-correction)",
+        "macro_precision": 0.3463,
+        "macro_recall": 0.2921,
+        "macro_f1": 0.2562,
+        "false_positive_rate_on_safe": 0.0,
+        "n_cases": 121,
+        "per_class": {
+          "reentrancy": {
+            "cls": "reentrancy",
+            "tp": 0,
+            "fp": 1,
+            "fn": 31,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "unchecked_call": {
+            "cls": "unchecked_call",
+            "tp": 24,
+            "fp": 4,
+            "fn": 28,
+            "precision": 0.8571,
+            "recall": 0.4615,
+            "f1": 0.6
+          },
+          "tx_origin_auth": {
+            "cls": "tx_origin_auth",
+            "tp": 2,
+            "fp": 3,
+            "fn": 0,
+            "precision": 0.4,
+            "recall": 1.0,
+            "f1": 0.5714
+          },
+          "timestamp_dependence": {
+            "cls": "timestamp_dependence",
+            "tp": 0,
+            "fp": 0,
+            "fn": 5,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "missing_access_control": {
+            "cls": "missing_access_control",
+            "tp": 4,
+            "fp": 20,
+            "fn": 8,
+            "precision": 0.1667,
+            "recall": 0.3333,
+            "f1": 0.2222
+          },
+          "unprotected_selfdestruct": {
+            "cls": "unprotected_selfdestruct",
+            "tp": 1,
+            "fp": 0,
+            "fn": 3,
+            "precision": 1.0,
+            "recall": 0.25,
+            "f1": 0.4
+          },
+          "integer_overflow": {
+            "cls": "integer_overflow",
+            "tp": 0,
+            "fp": 0,
+            "fn": 15,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          }
+        }
+      }
+    ],
+    "per_tier": {
+      "smartbugs": {
+        "n_cases": 121,
+        "baseline_f1": 0.2805,
+        "agent_f1": 0.2562,
+        "baseline_recall": 0.3683,
+        "agent_recall": 0.2921
+      }
+    },
+    "workload": {
+      "baseline": {
+        "to_review": 105,
+        "false_alarms": 68,
+        "missed": 84
+      },
+      "agent": {
+        "to_review": 59,
+        "false_alarms": 28,
+        "missed": 90
+      },
+      "delta": {
+        "review_items_baseline": 105,
+        "review_items_agent": 59,
+        "review_reduction_pct": 43.81,
+        "false_alarm_reduction_pct": 58.82,
+        "missed_baseline": 84,
+        "missed_agent": 90,
+        "recall_cost": 6
+      }
+    },
+    "self_correction": {
+      "findings_kept": 81,
+      "findings_dropped": 0,
+      "drop_rate_pct": 0.0
+    }
+  },
+  "written_to": "results/latest-real.json"
+}

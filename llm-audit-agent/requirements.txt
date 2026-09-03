@@ -1,0 +1,3 @@
+# The agent and its stub backend run on the standard library alone.
+# A hosted backend uses urllib, also stdlib. Only the tests need a dependency.
+pytest>=7.0
