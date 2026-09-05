@@ -69,9 +69,9 @@ Rewrite and document the existing shared-charging settlement work, or move it ou
 ├── llm-audit-agent/
 ├── agent-verification-harness/
 ├── blockchain-shared-charging/
+│   └── prior-work-2023/   ← the 2023 V2G Remix workspaces, merged in
 │
 │   ── earlier work, promoted out of previous/ ──
-├── ev-charging-contracts-solidity/
 └── prof-belal-collaboration/
 ```
 
@@ -95,7 +95,7 @@ Nothing was deleted except items the rebuild genuinely supersedes; those remain 
 
 | Folder | What it is | How it may be used |
 |---|---|---|
-| [`ev-charging-contracts-solidity/`](ev-charging-contracts-solidity/) | The original Remix workspaces: V2G, Authorization, ChargingRecords and the registration / query / refresh / rescind contracts. | Citable as prior original work. These Solidity contracts exist nowhere else in the portfolio — `blockchain-shared-charging/` is a Python economics model, not these contracts. |
+| [`blockchain-shared-charging/prior-work-2023/`](blockchain-shared-charging/prior-work-2023/) | The original 2023 Remix workspaces: V2G, Authorization, ChargingRecords and the registration / query / refresh / rescind contracts. Merged into `blockchain-shared-charging/` because the two are one system at adjacent layers — the 2023 contracts record an energy reading, the 2026 contract settles payment on it. | Chronology only. Establishes that this line of work began in early 2023. No metric here; the `Test 1- Transaction/` subfolder is coursework and must not be cited. |
 | [`prof-belal-collaboration/`](prof-belal-collaboration/) | The collaboration's own folder. Holds a placeholder document and nothing else. | Not citable as an artifact. The agent it proposed is implemented and measured in `llm-audit-agent/`; a patent and a paper would live here and do not exist yet. |
 
 **Read the third column before citing anything here.** Forks of third-party work, duplicates, retired projects and asset-only folders are labelled as such and are not part of the petition's evidence.

@@ -35,6 +35,9 @@ docs/
   |-- DATA.md
   |-- EVIDENCE.md
   |-- METHOD.md
+prior-work-2023/
+  |-- README.md
+  |-- .workspaces/        the 2023 Remix backups
 requirements.txt
 results/
   |-- README.md
@@ -63,6 +66,26 @@ website/
   anywhere in this project traces back to this file.
 - `website/` &mdash; a self-contained static site, deployable to Vercel by copying the
   folder into its own repository. See `website/README.md`.
+
+## Lineage — where this design came from
+
+This folder absorbed `ev-charging-contracts-solidity/`, which was a separate
+top-level folder until the two were merged. They were the same system at
+adjacent layers, not two projects.
+
+The 2023 contracts in `prior-work-2023/` establish identity
+(`V2G.register(VIN, publicKey)`), access control (`Authorization.authorize` /
+`revokeAuthorization`) and the session record
+(`ChargingRecords.addChargingRecord(vehicle, startTime, endTime, energy)`). They
+record an energy reading and stop there.
+
+`contracts/SharedCharging.sol` takes the same reading and settles payment on it
+— `open` → `report` → `settle`, with escrow, a one-hour dispute window and an
+arbiter — and `src/economics.py` then asks whether that settlement can pay for
+its own gas. The answer, at every Layer 1 gas price tested, is no.
+
+See `prior-work-2023/README.md` for what in that folder may and may not be
+cited.
 
 ## The website
 
