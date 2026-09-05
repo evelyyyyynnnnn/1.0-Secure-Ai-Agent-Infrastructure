@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Research Proposal — Secure Infrastructure for Autonomous AI Agents</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:ital,wght@0,400;1,400&display=swap">
+<style>
+  :root{
+    --ground:#FAFAFB; --surface:#FFFFFF; --surface-2:#F1F3F5;
+    --line:#DCE0E5; --ink:#141A21; --ink-2:#3D4753; --muted:#6B7581;
+    --accent:#0F6B66; --accent-soft:#E2F0EE;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--ground); color:var(--ink);
+    font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+    font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:860px; margin:0 auto; padding:48px 28px 96px}
+
+  .kicker{
+    font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.16em;
+    text-transform:uppercase; color:var(--accent); font-weight:600; margin:0 0 10px;
+  }
+  h1.title{
+    font-size:clamp(28px,4.5vw,40px); line-height:1.12; margin:0 0 12px;
+    font-weight:700; letter-spacing:-.02em;
+  }
+  .standfirst{
+    font-family:"IBM Plex Serif",Georgia,serif; font-style:italic;
+    font-size:17px; line-height:1.55; color:var(--ink-2); margin:0 0 24px; max-width:64ch;
+  }
+  .mast{border-bottom:2px solid var(--ink); padding-bottom:20px; margin-bottom:32px}
+
+  p{margin:0 0 16px; max-width:70ch}
+  h2{
+    font-size:22px; font-weight:700; letter-spacing:-.01em;
+    margin:48px 0 14px; padding-bottom:8px; border-bottom:1px solid var(--line);
+  }
+  h3.dir-name{
+    font-size:19px; font-weight:700; margin:0 0 2px; display:flex; align-items:baseline; gap:10px;
+  }
+  h3.dir-name .code{
+    font-family:"IBM Plex Mono",monospace; font-size:13px; color:var(--accent); font-weight:600;
+  }
+  .tag{
+    font-family:"IBM Plex Serif",Georgia,serif; font-style:italic;
+    color:var(--muted); font-size:14.5px; margin:0 0 14px;
+  }
+  article.dir{margin-bottom:40px}
+
+  .lbl{
+    font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.08em;
+    text-transform:uppercase; color:var(--muted); font-weight:600; margin:20px 0 8px;
+  }
+  ul.plain{margin:0 0 12px; padding-left:20px}
+  ul.plain li{margin-bottom:8px; max-width:68ch}
+
+  .tw{overflow-x:auto; margin:8px 0 4px; border:1px solid var(--line); border-radius:4px; background:var(--surface)}
+  table{border-collapse:collapse; width:100%; min-width:520px; font-size:14.5px}
+  th{
+    text-align:left; font-family:"IBM Plex Mono",monospace; font-size:10.5px;
+    letter-spacing:.1em; text-transform:uppercase; color:var(--muted); font-weight:600;
+    padding:12px 16px; border-bottom:1px solid var(--line); background:var(--surface-2);
+  }
+  td{padding:12px 16px; border-bottom:1px solid var(--line); vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  td b{color:var(--ink)}
+
+  .note{
+    background:var(--accent-soft); border-radius:4px; padding:14px 18px;
+    margin:16px 0 4px; font-size:14.5px; color:var(--ink-2); max-width:68ch;
+  }
+  .note b{color:var(--ink)}
+
+  .overview-table td:first-child{font-family:"IBM Plex Mono",monospace; font-weight:600; color:var(--accent)}
+
+  .verdict{
+    background:var(--surface-2); border:1px solid var(--line); border-radius:4px;
+    padding:20px 22px; margin:24px 0;
+  }
+  .verdict p{margin:0; max-width:66ch}
+
+  .foot{
+    margin-top:56px; padding-top:20px; border-top:1px solid var(--line);
+    color:var(--muted); font-size:13px; max-width:68ch;
+  }
+
+  @media (max-width:600px){
+    .wrap{padding:32px 18px 64px}
+    h3.dir-name{flex-direction:column; gap:2px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="mast">
+    <p class="kicker">Research Proposal</p>
+    <h1 class="title">Secure Infrastructure for Autonomous AI Agents</h1>
+    <p class="standfirst">Five candidate research directions, ranked, with the proposed approach and deliverables for each.</p>
+  </header>
+
+  <p>This proposal sets out five possible research directions at the intersection of autonomous AI agents and secure infrastructure. They are presented in ranked order rather than as equivalent options, since the choice of starting point shapes what the resulting work can demonstrate. Directions 1 through 3 form a coherent, self-contained programme: screening what an agent may install, revoking that access quickly and correctly when screening fails, and producing a verifiable record of what the agent actually did. Directions 4 and 5 are closely related to other strands of prior work and are proposed as extensions of an active track rather than as standalone efforts.</p>
+  <p>For each direction below, the thesis, the proposed approach, and the concrete deliverables are described, along with a short note on the reasoning behind its place in the ranking.</p>
+
+  <h2>Overview of the Five Directions</h2>
+  <div class="tw">
+    <table class="overview-table">
+      <thead><tr><th>Dir.</th><th>Title</th><th>Role in the programme</th></tr></thead>
+      <tbody>
+        <tr><td>D1</td><td>Agent-skill / MCP supply-chain scanner and benchmark</td><td>Recommended starting point</td></tr>
+        <tr><td>D2</td><td>Autonomous agent credential revocation</td><td>Strong alternative; extends prior published work</td></tr>
+        <tr><td>D3</td><td>Tamper-evident audit trail for regulated agents</td><td>Natural follow-on once D1 or D2 is under way</td></tr>
+        <tr><td>D4</td><td>Explainable runtime intrusion detection for agents</td><td>Best run as an extension of D1</td></tr>
+        <tr><td>D5</td><td>Clinical agent safety benchmark</td><td>Belongs to a separate research track</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>The Five Directions</h2>
+
+  <article class="dir">
+    <div class="dir-hd">
+      <h3 class="dir-name"><span class="code">D1</span> Agent-Skill / MCP Supply-Chain Scanner and Benchmark</h3>
+      <p class="tag">Recommended starting point</p>
+    </div>
+    <p>Third-party agent skills and MCP servers are installed by autonomous agents largely without independent screening, and no public benchmark currently allows competing detectors to be compared on equal footing. This direction builds a scanner that screens such components before installation, together with a labelled corpus that establishes a shared evaluation standard for the field.</p>
+
+    <p class="lbl">Proposed approach</p>
+    <ul class="plain">
+      <li>Build a threat taxonomy and assemble a corpus of several hundred to roughly a thousand skills and MCP servers drawn from public registries.</li>
+      <li>Reproduce published evasion techniques — encoding, homoglyph substitution, paraphrase, and bundled code — against existing open-source scanners to establish a baseline.</li>
+      <li>Build a static analyzer covering manifest permission extraction, capability diffing across versions, and prompt-layer injection detection.</li>
+      <li>Build a sandboxed runner that captures syscalls, network activity, and tool egress at execution time, and diffs observed behaviour against declared capabilities.</li>
+      <li>Label the corpus, define a held-out evaluation split, and publish the benchmark together with an evaluation harness.</li>
+      <li>Release the scanner publicly, publish a technical report, and submit a response to the open NIST consultation on securing AI agent systems.</li>
+      <li>Pursue adoption deliberately: a CI action for easy integration, pull requests against registries, and adoption letters from integrators.</li>
+    </ul>
+
+    <p class="lbl">Deliverables</p>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Artifact</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><b>Scanner</b></td><td>Python package on PyPI, Apache-2.0 licence, GitHub repository with CI.</td></tr>
+          <tr><td><b>Benchmark corpus</b></td><td>Hugging Face Datasets release with a Zenodo DOI, CC-BY-4.0, versioned with a held-out split.</td></tr>
+          <tr><td><b>Patent filing</b></td><td>US provisional application covering the capability-diff and behavioural-divergence detection methods.</td></tr>
+          <tr><td><b>Technical report</b></td><td>Preprint documenting the methodology and baseline results.</td></tr>
+          <tr><td><b>Standards comment</b></td><td>Response to the public NIST consultation on securing AI agent systems.</td></tr>
+          <tr><td><b>Adoption driver</b></td><td>A GitHub Action allowing third-party integration with minimal setup.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note"><b>Why it is the recommended starting point:</b> it applies an existing, proven methodology — automated security analysis backed by a labelled benchmark — to a new and currently under-served area of agent infrastructure, and its corpus is drawn entirely from public registries, so it can begin without additional data or compute resources.</p>
+  </article>
+
+  <article class="dir">
+    <div class="dir-hd">
+      <h3 class="dir-name"><span class="code">D2</span> Autonomous Agent Credential Revocation</h3>
+      <p class="tag">Strong alternative — extends existing published work directly</p>
+    </div>
+    <p>This direction extends smart-contract-based key revocation, previously developed for IoT devices, to autonomous agents. An IoT device is passive once revoked; an agent may be mid-task and may already have issued its own delegations downstream. Revoking it correctly means revoking an entire delegation tree, with a guarantee that the revocation propagates in time to matter.</p>
+
+    <p class="lbl">Proposed approach</p>
+    <ul class="plain">
+      <li>Formalise a delegation-tree threat model, and specify cascading revocation semantics together with the propagation guarantee to be proven.</li>
+      <li>Implement a Solidity revocation registry contract, plus an agent-side enforcement library that honours it.</li>
+      <li>File a provisional patent on cascading revocation with a propagation guarantee, as a co-invention, with the split agreed in writing beforehand.</li>
+      <li>Build a reference implementation using task-scoped capability tokens (macaroon- or biscuit-style) behind a deny-by-default tool gate.</li>
+      <li>Measure revocation propagation latency and on-chain cost under load — the measurements themselves are the contribution, since an unbenchmarked protocol offers little evidence of its own effectiveness.</li>
+      <li>Release the work publicly together with a joint paper, at a venue of the collaborator's choosing.</li>
+    </ul>
+
+    <p class="lbl">Deliverables</p>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Artifact</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><b>Revocation library</b></td><td>Python package and Solidity contracts in one repository, MIT or Apache-2.0 licence.</td></tr>
+          <tr><td><b>Deployed contracts</b></td><td>Public testnet deployment with verified source on a block explorer, giving a permanent, timestamped, independently visible record.</td></tr>
+          <tr><td><b>Patent filing</b></td><td>US provisional application, co-inventorship agreed in writing before filing.</td></tr>
+          <tr><td><b>Measurement dataset</b></td><td>CSV data and analysis notebook, released with a Zenodo DOI.</td></tr>
+          <tr><td><b>Joint paper</b></td><td>Venue chosen at the collaborator's discretion.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note"><b>Why it fits well:</b> identity and revocation for autonomous systems sits squarely within secure digital infrastructure, and it builds directly on the collaborator's own prior published work — which makes it the direction most likely to be adopted quickly and to sustain a long collaboration.</p>
+  </article>
+
+  <article class="dir">
+    <div class="dir-hd">
+      <h3 class="dir-name"><span class="code">D3</span> Tamper-Evident Audit Trail for Regulated Agents</h3>
+      <p class="tag">Natural follow-on once D1 or D2 is under way</p>
+    </div>
+    <p>This direction produces an append-only, hash-chained record of what an agent actually did, with digests (never payloads) anchored on-chain, so that a party who does not trust the operator can still verify after an incident that the log was not rewritten.</p>
+
+    <p class="lbl">Proposed approach</p>
+    <ul class="plain">
+      <li>Specify the log format and threat model precisely, including exactly what an operator can still do — the point at which most comparable schemes quietly fail.</li>
+      <li>Build a hash-chained logging library with Merkle batching, so that anchoring cost stays flat as log volume grows.</li>
+      <li>Build an independent verifier as a standalone command-line tool and single static binary, so that a log can be checked without trusting the researchers' own infrastructure.</li>
+      <li>Build a cost model against realistic retention horizons — regulated financial advice and trading records, for example, are typically retained for roughly seven years — and show that the cost curve is linear and bounded.</li>
+      <li>Publish the format specification and submit a standards comment connecting it to a named regulatory accountability gap.</li>
+    </ul>
+
+    <p class="lbl">Deliverables</p>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Artifact</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><b>Logging library</b></td><td>Python package, released on PyPI, Apache-2.0 licence.</td></tr>
+          <tr><td><b>Verifier</b></td><td>Standalone command-line tool, single static binary, runnable without any dependency on the researchers' infrastructure.</td></tr>
+          <tr><td><b>Format specification</b></td><td>Versioned specification document, maintained in-repository with a PDF release.</td></tr>
+          <tr><td><b>Standards comment</b></td><td>Public consultation response tying the work to a named compliance obligation.</td></tr>
+          <tr><td><b>Patent filing (optional)</b></td><td>Only if the Merkle-batching-plus-retention-cost method proves genuinely novel after a prior-art search.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note"><b>Why it fits well:</b> of the three primary directions, this has the strongest regulatory framing — it connects directly to named, dated compliance obligations rather than to a general research trend.</p>
+  </article>
+
+  <article class="dir">
+    <div class="dir-hd">
+      <h3 class="dir-name"><span class="code">D4</span> Explainable Runtime Intrusion Detection for Agents</h3>
+      <p class="tag">Best proposed as an extension of D1 rather than a standalone track</p>
+    </div>
+    <p>This direction applies anomaly detection to agent tool-call traces, together with an explanation layer that tells a reviewer why a given call was flagged. It aligns closely with the collaborator's prior work on ensemble intrusion detection and explainable machine learning.</p>
+
+    <p class="lbl">Proposed approach</p>
+    <ul class="plain">
+      <li>Instrument tool-call traces and build normal-behaviour baselines for each agent role.</li>
+      <li>Build an ensemble detector with an explanation layer applied to flagged calls.</li>
+      <li>Evaluate against the corpus produced under Direction 1, which is why this direction is best run after Direction 1 rather than in its place.</li>
+    </ul>
+
+    <p class="lbl">Deliverables</p>
+    <ul class="plain">
+      <li><b>Detector</b> — Python package that plugs into the D3 trace format.</li>
+      <li><b>Joint paper</b> — the primary intended output of this direction.</li>
+    </ul>
+    <p class="note"><b>Note:</b> this is proposed as a fallback, best attached to Direction 1 once that corpus exists, rather than run as a standalone track.</p>
+  </article>
+
+  <article class="dir">
+    <div class="dir-hd">
+      <h3 class="dir-name"><span class="code">D5</span> Clinical Agent Safety Benchmark</h3>
+      <p class="tag">Belongs to a separate research track</p>
+    </div>
+    <p>This direction proposes a safety benchmark for agents acting on clinical data and workflows — genuine, substantive work that aligns with the collaborator's healthcare informatics background.</p>
+
+    <p class="lbl">Deliverables</p>
+    <ul class="plain">
+      <li><b>Benchmark</b> — Hugging Face and Zenodo DOI release, with a governance note on data handling.</li>
+      <li><b>Paper</b> — submission to a clinical informatics venue.</li>
+    </ul>
+    <p class="note"><b>Note:</b> this direction sits within a healthcare-safety research track rather than secure digital infrastructure. That is not a comment on the quality of the work — only on where it best belongs. It is proposed as a separate initiative rather than as the entry point for this particular collaboration.</p>
+  </article>
+
+  <h2>A Constraint That Applies Across All Directions</h2>
+  <p>Public disclosure ahead of a provisional patent filing forecloses US patent protection. Wherever a direction is expected to produce both a patent filing and an open release (software, dataset, or specification), the filing must precede the release. This should be treated as a fixed constraint on sequencing rather than something to compress.</p>
+
+  <h2>Proposed Starting Point</h2>
+  <div class="verdict">
+    <p>Direction 1 is proposed as the starting point. It answers a concrete, currently open problem in agent security, produces both a patent filing and an adoptable open-source artifact, and builds a corpus that Direction 4 would need in any case. Direction 2 is offered as a strong alternative, since it extends the collaborator's own published work directly. Direction 3 is best held as a joint follow-on once either Direction 1 or Direction 2 is under way, since it depends on the trace format either would establish.</p>
+  </div>
+  <p>The corpus for Direction 1 is drawn entirely from public registries, so it can begin immediately without requiring compute or data resources from the collaborator. The scanner architecture and corpus schema can be shared in advance, if useful for evaluating fit.</p>
+
+  <div class="foot">Research proposal — prepared for discussion with Prof. B. Alsinglawi, Zayed University.</div>
+
+</div>
+</body>
+</html>
