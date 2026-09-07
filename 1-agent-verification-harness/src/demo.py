@@ -123,7 +123,12 @@ def main_real() -> int:
     print(f"precision={g['precision']:.3f} recall={g['recall']:.3f} "
           f"f1={g['f1']:.3f}")
     for kind, v in g.get("per_kind", {}).items():
-        if v["total"]:
+        if not v["total"]:
+            continue
+        if kind == "ok":
+            print(f"  {kind:<12} grounded {v['total']}, "
+                  f"false flags {v['false_flags']}")
+        else:
             print(f"  {kind:<12} caught {v['caught']}/{v['total']}")
     best = max(r["sweep"], key=lambda x: x["f1"]) if r["sweep"] else None
     if best:

@@ -1,0 +1,259 @@
+{
+  "generated_at": "2026-09-07T00:10:55+00:00",
+  "is_synthetic": false,
+  "data_source": "real US government releases (BLS, Federal Reserve); see data/MANIFEST.json for URLs, hashes and retrieval times",
+  "claims_are_model_output": false,
+  "label_construction": "supported claims are quoted from the cited document; fabricated claims are the same sentences with one number altered; unsupported claims are sentences taken from a different real release and cited to this one. Every label is known by construction.",
+  "documents": [
+    {
+      "source_id": "CPI",
+      "chars": 24190,
+      "candidate_sentences": 64,
+      "sha256": "8c8532945dda0f4f",
+      "url": "https://www.bls.gov/news.release/cpi.nr0.htm",
+      "retrieved_utc": "2026-09-06T23:53:59+00:00"
+    },
+    {
+      "source_id": "EMPSIT",
+      "chars": 14714,
+      "candidate_sentences": 40,
+      "sha256": "20e122273575e268",
+      "url": "https://www.bls.gov/news.release/empsit.nr0.htm",
+      "retrieved_utc": "2026-09-06T23:53:59+00:00"
+    },
+    {
+      "source_id": "H15",
+      "chars": 14842,
+      "candidate_sentences": 16,
+      "sha256": "42ac9e6dc73db142",
+      "url": "https://www.federalreserve.gov/releases/h15/",
+      "retrieved_utc": "2026-09-06T23:53:59+00:00"
+    }
+  ],
+  "n_transcripts": 3,
+  "grounding": {
+    "threshold": 0.55,
+    "tp": 4,
+    "fp": 0,
+    "tn": 6,
+    "fn": 2,
+    "precision": 1.0,
+    "recall": 0.6667,
+    "f1": 0.8,
+    "per_kind": {
+      "fabricated": {
+        "caught": 1,
+        "total": 3
+      },
+      "unsupported": {
+        "caught": 3,
+        "total": 3
+      },
+      "miscited": {
+        "caught": 0,
+        "total": 0
+      },
+      "ok": {
+        "false_flags": 0,
+        "total": 6
+      }
+    },
+    "n_claims": 12,
+    "verdicts": [
+      {
+        "tid": "REAL-CPI",
+        "idx": 0,
+        "claim": "Over the last 12 months, the all items index increased 3.4 percent before seasonal adjustment [CPI].",
+        "label": "ok",
+        "flagged": false,
+        "reason": "",
+        "score": 1.0,
+        "citation_correct": true
+      },
+      {
+        "tid": "REAL-CPI",
+        "idx": 1,
+        "claim": "The index for shelter rose 0.1 percent in July, accounting for roughly two-thirds of the monthly all items increase [CPI].",
+        "label": "ok",
+        "flagged": false,
+        "reason": "",
+        "score": 1.0,
+        "citation_correct": true
+      },
+      {
+        "tid": "REAL-CPI",
+        "idx": 2,
+        "claim": "The index for food also increased 1.8 percent over the month, as the index for food away from home increased 0.3 percent [CPI].",
+        "label": "fabricated",
+        "flagged": true,
+        "reason": "number(s) in no source: 1.8",
+        "score": 0.8181818181818181,
+        "citation_correct": true
+      },
+      {
+        "tid": "REAL-CPI",
+        "idx": 3,
+        "claim": "Transmission of material in this news release is embargoed until USDL-26-1435 8:30 a.m [CPI].",
+        "label": "unsupported",
+        "flagged": true,
+        "reason": "cited ['CPI'] but support is in EMPSIT",
+        "score": 1.0,
+        "citation_correct": false
+      },
+      {
+        "tid": "REAL-EMPSIT",
+        "idx": 0,
+        "claim": "Transmission of material in this news release is embargoed until USDL-26-1435 8:30 a.m [EMPSIT].",
+        "label": "ok",
+        "flagged": false,
+        "reason": "",
+        "score": 1.0,
+        "citation_correct": true
+      },
+      {
+        "tid": "REAL-EMPSIT",
+        "idx": 1,
+        "claim": "Household Survey Data The unemployment rate was unchanged at 4.1 percent in August, and the number of unemployed people changed little at 7.0 million [EMPSIT].",
+        "label": "ok",
+        "flagged": false,
+        "reason": "",
+        "score": 1.0,
+        "citation_correct": true
+      },
+      {
+        "tid": "REAL-EMPSIT",
+        "idx": 2,
+        "claim": "(See table A-2.) Among the major worker groups, the unemployment rate for people who are Asian declined to 3.2 percent in August [EMPSIT].",
+        "label": "fabricated",
+        "flagged": false,
+        "reason": "",
+        "score": 0.8266666666666667,
+        "citation_correct": true
+      },
+      {
+        "tid": "REAL-EMPSIT",
+        "idx": 3,
+        "claim": "During the week of November 9, the \u201cBuild Your Package\u201d feature in the Data Download Program (DDP) will be removed in preparation for the eventual retirement of the DDP [EMPSIT].",
+        "label": "unsupported",
+        "flagged": true,
+        "reason": "cited ['EMPSIT'] but support is in H15",
+        "score": 0.9387867647058823,
+        "citation_correct": false
+      },
+      {
+        "tid": "REAL-H15",
+        "idx": 0,
+        "claim": "During the week of November 9, the \u201cBuild Your Package\u201d feature in the Data Download Program (DDP) will be removed in preparation for the eventual retirement of the DDP [H15].",
+        "label": "ok",
+        "flagged": false,
+        "reason": "",
+        "score": 0.9387867647058823,
+        "citation_correct": true
+      },
+      {
+        "tid": "REAL-H15",
+        "idx": 1,
+        "claim": "As of March 1, 2016, the daily effective federal funds rate (EFFR) is a volume-weighted median of transaction-level data collected from depository institutions in the Report of Selected Money Market Rates (FR 2420) [H15].",
+        "label": "ok",
+        "flagged": false,
+        "reason": "",
+        "score": 1.0,
+        "citation_correct": true
+      },
+      {
+        "tid": "REAL-H15",
+        "idx": 2,
+        "claim": "Prior to March 2, 2016, the EFFR was a volume-weighted mean of rates on brokered trades [H15].",
+        "label": "fabricated",
+        "flagged": false,
+        "reason": "",
+        "score": 0.7833333333333333,
+        "citation_correct": true
+      },
+      {
+        "tid": "REAL-H15",
+        "idx": 3,
+        "claim": "Over the last 12 months, the all items index increased 3.4 percent before seasonal adjustment [H15].",
+        "label": "unsupported",
+        "flagged": true,
+        "reason": "cited ['H15'] but support is in CPI",
+        "score": 1.0,
+        "citation_correct": false
+      }
+    ]
+  },
+  "sweep": [
+    {
+      "threshold": 0.3,
+      "precision": 1.0,
+      "recall": 0.6667,
+      "f1": 0.8
+    },
+    {
+      "threshold": 0.35,
+      "precision": 1.0,
+      "recall": 0.6667,
+      "f1": 0.8
+    },
+    {
+      "threshold": 0.4,
+      "precision": 1.0,
+      "recall": 0.6667,
+      "f1": 0.8
+    },
+    {
+      "threshold": 0.45,
+      "precision": 1.0,
+      "recall": 0.6667,
+      "f1": 0.8
+    },
+    {
+      "threshold": 0.5,
+      "precision": 1.0,
+      "recall": 0.6667,
+      "f1": 0.8
+    },
+    {
+      "threshold": 0.55,
+      "precision": 1.0,
+      "recall": 0.6667,
+      "f1": 0.8
+    },
+    {
+      "threshold": 0.6,
+      "precision": 1.0,
+      "recall": 0.6667,
+      "f1": 0.8
+    },
+    {
+      "threshold": 0.65,
+      "precision": 1.0,
+      "recall": 0.6667,
+      "f1": 0.8
+    },
+    {
+      "threshold": 0.7,
+      "precision": 1.0,
+      "recall": 0.6667,
+      "f1": 0.8
+    },
+    {
+      "threshold": 0.75,
+      "precision": 1.0,
+      "recall": 0.6667,
+      "f1": 0.8
+    },
+    {
+      "threshold": 0.8,
+      "precision": 1.0,
+      "recall": 0.8333,
+      "f1": 0.9091
+    },
+    {
+      "threshold": 0.85,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    }
+  ]
+}
