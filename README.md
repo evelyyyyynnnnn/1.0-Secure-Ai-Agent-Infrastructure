@@ -25,7 +25,6 @@ are financial stability, healthcare safety and secure digital infrastructure.
 | [`chaintrust-bench/`](chaintrust-bench/) | ChainTrust-Bench | Secure Digital Infrastructure | CORE — closes the largest credibility gap in the filing |
 | [`llm-audit-agent/`](llm-audit-agent/) | LLM Audit Agent | Secure Digital Infrastructure | CORE — highest-value item in the whole portfolio |
 | [`agent-verification-harness/`](agent-verification-harness/) | Agent Verification Harness | Cross-cutting — trustworthy AI | CORE — the literal thesis of Section 2 |
-| [`blockchain-shared-charging/`](blockchain-shared-charging/) | Blockchain Shared Charging | Secure Digital Infrastructure | Unknown — undocumented until rewritten |
 
 ## What each one is
 
@@ -53,14 +52,6 @@ Grounding and citation checks, tool-call audit logging, and hallucination detect
 
 *Target scale:* Public agent-trajectory datasets only
 
-### 4. Blockchain Shared Charging — [`blockchain-shared-charging/`](blockchain-shared-charging/)
-
-Rewrite and document the existing shared-charging settlement work, or move it out of the repository.
-
-*Why it earns its place:* An undocumented folder in the repo that carries your star count is a liability, not an asset.
-
-*Target scale:* To be stated — currently unrecorded
-
 ## Repository layout
 
 ```
@@ -68,14 +59,14 @@ Rewrite and document the existing shared-charging settlement work, or move it ou
 ├── chaintrust-bench/
 ├── llm-audit-agent/
 ├── agent-verification-harness/
-├── blockchain-shared-charging/
-│   └── prior-work-2023/   ← the 2023 V2G Remix workspaces, merged in
 │
 │   ── earlier work, promoted out of previous/ ──
 └── prof-belal-collaboration/
 ```
 
 Every rebuilt project carries the same skeleton: `README.md`, `src/`, `data/`, `results/`, `tests/`, `website/`.
+
+> Earlier and off-theme prior work (dashboards, consumer apps, templates, and other non-endeavor folders) has been moved to a separate `archive-prior-work` repository to keep this repository focused on the endeavor. It remains recoverable from this repository's git history.
 
 ## Ground rules
 
@@ -95,7 +86,6 @@ Nothing was deleted except items the rebuild genuinely supersedes; those remain 
 
 | Folder | What it is | How it may be used |
 |---|---|---|
-| [`blockchain-shared-charging/prior-work-2023/`](blockchain-shared-charging/prior-work-2023/) | The original 2023 Remix workspaces: V2G, Authorization, ChargingRecords and the registration / query / refresh / rescind contracts. Merged into `blockchain-shared-charging/` because the two are one system at adjacent layers — the 2023 contracts record an energy reading, the 2026 contract settles payment on it. | Chronology only. Establishes that this line of work began in early 2023. No metric here; the `Test 1- Transaction/` subfolder is coursework and must not be cited. |
 | [`prof-belal-collaboration/`](prof-belal-collaboration/) | The collaboration's own folder. Holds a placeholder document and nothing else. | Not citable as an artifact. The agent it proposed is implemented and measured in `llm-audit-agent/`; a patent and a paper would live here and do not exist yet. |
 
 **Read the third column before citing anything here.** Forks of third-party work, duplicates, retired projects and asset-only folders are labelled as such and are not part of the petition's evidence.
