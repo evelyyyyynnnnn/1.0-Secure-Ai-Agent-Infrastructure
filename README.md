@@ -22,13 +22,13 @@ are financial stability, healthcare safety and secure digital infrastructure.
 
 | Folder | Project | Pillar | Evidence value |
 |---|---|---|---|
-| [`chaintrust-bench/`](chaintrust-bench/) | ChainTrust-Bench | Secure Digital Infrastructure | CORE — closes the largest credibility gap in the filing |
-| [`llm-audit-agent/`](llm-audit-agent/) | LLM Audit Agent | Secure Digital Infrastructure | CORE — highest-value item in the whole portfolio |
+| [`2-chaintrust-bench/`](2-chaintrust-bench/) | ChainTrust-Bench | Secure Digital Infrastructure | CORE — closes the largest credibility gap in the filing |
+| [`3-llm-audit-agent/`](3-llm-audit-agent/) | LLM Audit Agent | Secure Digital Infrastructure | CORE — highest-value item in the whole portfolio |
 | [`agent-verification-harness/`](agent-verification-harness/) | Agent Verification Harness | Cross-cutting — trustworthy AI | CORE — the literal thesis of Section 2 |
 
 ## What each one is
 
-### 1. ChainTrust-Bench — [`chaintrust-bench/`](chaintrust-bench/)
+### 1. ChainTrust-Bench — [`2-chaintrust-bench/`](2-chaintrust-bench/)
 
 A smart-contract security benchmark at the 1.2M-transaction scale, released as a named, versioned dataset with a DOI and a public leaderboard.
 
@@ -36,13 +36,13 @@ A smart-contract security benchmark at the 1.2M-transaction scale, released as a
 
 *Target scale:* 1,200,000+ on-chain transactions
 
-### 2. LLM Audit Agent — [`llm-audit-agent/`](llm-audit-agent/)
+### 2. LLM Audit Agent — [`3-llm-audit-agent/`](3-llm-audit-agent/)
 
 Ship the Prof. Belal Alsinglawi proposal as code: an LLM-based smart-contract auditing agent, benchmarked against the rule-based Contract Audit tool in 3.0.
 
 *Why it earns its place:* Turns a proposal into an artifact and produces the measured workload reduction the petition currently asserts. Its stated deliverables — a US provisional patent filing, an installable open-source package, and an evaluable dataset — are deliberately third-party verifiable, which is precisely what USCIS weighs.
 
-*Target scale:* Benchmark suite from chaintrust-bench/
+*Target scale:* Benchmark suite from 2-chaintrust-bench/
 
 ### 3. Agent Verification Harness — [`agent-verification-harness/`](agent-verification-harness/)
 
@@ -56,12 +56,12 @@ Grounding and citation checks, tool-call audit logging, and hallucination detect
 
 ```
 1.0-Secure-Ai-Agent-Infrastructure/
-├── chaintrust-bench/
-├── llm-audit-agent/
+├── 2-chaintrust-bench/
+├── 3-llm-audit-agent/
 ├── agent-verification-harness/
 │
 │   ── earlier work, promoted out of previous/ ──
-└── prof-belal-collaboration/
+└── 4-prof-belal-collaboration/
 ```
 
 Every rebuilt project carries the same skeleton: `README.md`, `src/`, `data/`, `results/`, `tests/`, `website/`.
@@ -86,7 +86,7 @@ Nothing was deleted except items the rebuild genuinely supersedes; those remain 
 
 | Folder | What it is | How it may be used |
 |---|---|---|
-| [`prof-belal-collaboration/`](prof-belal-collaboration/) | The collaboration's own folder. Holds a placeholder document and nothing else. | Not citable as an artifact. The agent it proposed is implemented and measured in `llm-audit-agent/`; a patent and a paper would live here and do not exist yet. |
+| [`4-prof-belal-collaboration/`](4-prof-belal-collaboration/) | The collaboration's own folder. Holds a placeholder document and nothing else. | Not citable as an artifact. The agent it proposed is implemented and measured in `3-llm-audit-agent/`; a patent and a paper would live here and do not exist yet. |
 
 **Read the third column before citing anything here.** Forks of third-party work, duplicates, retired projects and asset-only folders are labelled as such and are not part of the petition's evidence.
 

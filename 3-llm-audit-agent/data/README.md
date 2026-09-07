@@ -1,10 +1,10 @@
 # Real data for this project
 
 This project has no fetcher of its own. It is scored against the corpus held by
-the sibling project `chaintrust-bench`, so the real-data step happens there:
+the sibling project `2-chaintrust-bench`, so the real-data step happens there:
 
 ```bash
-cd ../chaintrust-bench
+cd ../2-chaintrust-bench
 python -m data.fetch          # pulls the SmartBugs curated dataset
 cd -
 python -m src.demo --real     # scores the agent on contracts neither project wrote
