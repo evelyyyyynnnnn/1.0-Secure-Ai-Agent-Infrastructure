@@ -1,0 +1,4 @@
+# The screener, corpus, grader and site generator run on the Python standard
+# library alone -- no third-party packages, no GPU, no network. Only the tests
+# need a dependency.
+pytest>=7.0
