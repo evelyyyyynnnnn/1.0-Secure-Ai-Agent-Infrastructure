@@ -1,0 +1,60 @@
+{
+  "name": "skill-screening-benchmark",
+  "version": "0.1.0",
+  "is_synthetic": true,
+  "note": "AUTHORED BY HAND for the Direction-1 skeleton. Not scraped from any real skill or MCP registry. The proposal's real 500-1000-skill corpus is future work.",
+  "classes": [
+    "tool_poisoning",
+    "instruction_smuggling",
+    "homoglyph_obfuscation",
+    "encoded_payload",
+    "privilege_creep",
+    "undeclared_egress"
+  ],
+  "adversarial_technique_vocab": [
+    "homoglyph_substitution",
+    "base64_encoding",
+    "hex_encoding",
+    "paraphrase",
+    "zero_width_spacing"
+  ],
+  "fields": {
+    "skill_id": {"type": "string", "required": true, "note": "stable id"},
+    "name": {"type": "string", "required": true},
+    "source": {"type": "string", "required": true, "note": "always 'authored-synthetic' in this corpus"},
+    "version": {"type": "string", "required": true},
+    "prior_version": {
+      "type": "object", "required": false,
+      "note": "prior manifest snapshot for the privilege-creep diff cases; null otherwise",
+      "fields": {
+        "version": {"type": "string", "required": true},
+        "permissions": {"type": "array", "required": true},
+        "verbs": {"type": "array", "required": true}
+      }
+    },
+    "manifest": {
+      "type": "object", "required": true,
+      "fields": {
+        "permissions": {"type": "array", "required": true, "note": "capability strings, e.g. net:api.weather.com, fs:read:./cache, exec:shell"},
+        "verbs": {"type": "array", "required": true, "note": "declared tool verbs"}
+      }
+    },
+    "prompt_layer": {
+      "type": "object", "required": true,
+      "fields": {
+        "description": {"type": "string", "required": true, "note": "the text a model reads"},
+        "docstrings": {"type": "array", "required": true}
+      }
+    },
+    "observed_egress": {"type": "array", "required": true, "note": "hosts/files/tools touched in a sandbox trace, e.g. net:host, file:./path, tool:name"},
+    "label": {
+      "type": "object", "required": true,
+      "fields": {
+        "malicious": {"type": "bool", "required": true},
+        "classes": {"type": "array", "required": true, "note": "subset of classes[]"}
+      }
+    },
+    "adversarial_techniques": {"type": "array", "required": true, "note": "empty for non-adversarial records"},
+    "split": {"type": "string", "required": true, "note": "dev or test"}
+  }
+}
