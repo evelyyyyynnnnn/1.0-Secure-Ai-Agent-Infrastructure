@@ -32,6 +32,11 @@ ROOT = pathlib.Path(__file__).resolve().parent
 
 _DROP = {"script", "style", "head", "title", "meta", "link", "noscript"}
 _BREAK = {"p", "div", "br", "tr", "td", "th", "li", "h1", "h2", "h3", "h4"}
+# Void elements never have an end tag. Counting them in the skip stack (as
+# <meta>/<link> in a document <head> do, dozens of times) would leave _skip
+# permanently positive and silently swallow the entire body.
+_VOID = {"meta", "link", "br", "img", "input", "hr", "area", "base", "col",
+         "embed", "param", "source", "track", "wbr"}
 
 
 class _Text(HTMLParser):
@@ -40,13 +45,13 @@ class _Text(HTMLParser):
         self.parts, self._skip = [], 0
 
     def handle_starttag(self, tag, attrs):
-        if tag in _DROP:
+        if tag in _DROP and tag not in _VOID:
             self._skip += 1
         elif tag in _BREAK:
             self.parts.append("\n")
 
     def handle_endtag(self, tag):
-        if tag in _DROP:
+        if tag in _DROP and tag not in _VOID:
             self._skip = max(0, self._skip - 1)
         elif tag in _BREAK:
             self.parts.append("\n")
@@ -113,6 +118,20 @@ def perturb_number(sentence: str) -> str | None:
     return sentence[:m.start()] + text + sentence[m.end():]
 
 
+def cite(sentence: str, sid: str) -> str:
+    """Attach a [sid] marker so it survives sentence splitting.
+
+    split_claims cuts on sentence-ending punctuation, so a marker placed AFTER
+    the period is orphaned onto the next claim and the sentence it belongs to
+    reads as uncited. The authored transcripts put the marker just before the
+    terminal punctuation ("... percent [S1]."); this mirrors that convention.
+    """
+    s = sentence.rstrip()
+    if s and s[-1] in ".!?":
+        return f"{s[:-1].rstrip()} [{sid}]{s[-1]}"
+    return f"{s} [{sid}]."
+
+
 def build_transcripts(root=ROOT, per_doc: int = 3):
     # 3 is the true minimum, not a tuning choice: two sentences become
     # supported claims and the third is perturbed into a fabricated one. The
@@ -162,17 +181,17 @@ def build_transcripts(root=ROOT, per_doc: int = 3):
         for j, s in enumerate(picks[:2]):
             claims.append(Claim(s, [sid]))
             labels[len(claims) - 1] = "ok"
-            answer_bits.append(f"{s} [{sid}]")
+            answer_bits.append(cite(s, sid))
 
         fab = perturb_number(picks[2] if len(picks) > 2 else picks[-1])
         if fab:
             claims.append(Claim(fab, [sid]))
             labels[len(claims) - 1] = "fabricated"
-            answer_bits.append(f"{fab} [{sid}]")
+            answer_bits.append(cite(fab, sid))
 
         claims.append(Claim(borrowed, [sid]))     # cited to the WRONG document
         labels[len(claims) - 1] = "unsupported"
-        answer_bits.append(f"{borrowed} [{sid}]")
+        answer_bits.append(cite(borrowed, sid))
 
         transcripts.append(Transcript(
             tid=f"REAL-{sid}",
