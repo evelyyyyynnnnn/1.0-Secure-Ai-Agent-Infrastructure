@@ -55,7 +55,7 @@ def _corpus_file(tmp_path):
 
 def test_the_sibling_benchmark_is_reachable():
     assert benchmark.available(), \
-        "chaintrust-bench must sit beside this project for the comparison to run"
+        "2-chaintrust-bench must sit beside this project for the comparison to run"
 
 
 def test_real_corpus_is_absent_in_a_fresh_clone():

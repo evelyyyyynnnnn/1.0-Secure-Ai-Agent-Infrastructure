@@ -1,6 +1,6 @@
-# ChainTrust-Bench
+# LLM Audit Agent
 
-> A smart-contract security benchmark that scores detectors per vulnerability class, so a tool's weaknesses are visible instead of averaged away.
+> A four-stage smart-contract auditing agent with a full audit trail, scored against the rule-based baseline on a shared corpus.
 
 **Repository:** `1.0-Secure-Ai-Agent-Infrastructure` &middot; **Pillar:** Secure Digital Infrastructure
 
@@ -9,9 +9,9 @@
 This is working code with a runnable demo and 0 tests. It is **not** a
 finished result.
 
-Every number below was produced by running the benchmark against the seed corpus authored for this project. The corpus is small and hand-written on purpose. The mined, at-scale corpus does not exist yet, and no result here should be read as if it did.
+This run used the deterministic stub backend, not a language model. The stub is a small symbolic reasoner that exists so the pipeline is runnable and testable with no API key. Its scores measure the plumbing, not what an LLM would achieve — and the result below is reported unmodified, including where the agent loses to the baseline.
 
-Last run: `2026-08-31T17:57:25+00:00`
+Last run: `2026-08-31T18:00:53+00:00`
 
 ## Quick start
 
@@ -27,7 +27,6 @@ python -m src.demo             # runs everything, rewrites results/ and website/
 README.md
 data/
   |-- README.md
-  |-- corpus/
   |-- manifests/
   |-- sample/
 docs/
@@ -41,15 +40,15 @@ results/
 src/
   |-- .gitkeep
   |-- __init__.py
-  |-- corpus.py
+  |-- agent.py
+  |-- backends.py
+  |-- benchmark.py
   |-- demo.py
-  |-- detectors.py
-  |-- scoring.py
   |-- site.py
   |-- sitekit.py
 tests/
   |-- .gitkeep
-  |-- test_detectors.py
+  |-- test_agent.py
 website/
   |-- README.md
   |-- index.html
@@ -69,7 +68,7 @@ website/
 `website/` has no build step. To deploy it independently:
 
 ```bash
-cp -r website/ ../my-chaintrust-bench-site && cd ../my-chaintrust-bench-site
+cp -r website/ ../my-3-llm-audit-agent-site && cd ../my-3-llm-audit-agent-site
 git init && git add -A && git commit -m "site"
 vercel deploy --prod
 ```

@@ -1,6 +1,6 @@
 # ChainTrust-Bench — website
 
-Static site for `chaintrust-bench`. No build step: Vercel serves this folder as-is.
+Static site for `2-chaintrust-bench`. No build step: Vercel serves this folder as-is.
 
 ## Deploy on its own
 
