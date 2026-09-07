@@ -5,7 +5,7 @@
 
 | Field | Value |
 |---|---|
-| Target scale | Benchmark suite from chaintrust-bench/ |
+| Target scale | Benchmark suite from 2-chaintrust-bench/ |
 | Actual scale achieved | _not yet run_ |
 | Source | _to be stated_ |
 | Licence / terms of use | _to be stated_ |

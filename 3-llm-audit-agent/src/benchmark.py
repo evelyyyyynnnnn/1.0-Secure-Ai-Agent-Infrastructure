@@ -19,7 +19,7 @@ import pathlib
 import sys
 import types
 
-BENCH = pathlib.Path(__file__).resolve().parent.parent.parent / "chaintrust-bench"
+BENCH = pathlib.Path(__file__).resolve().parent.parent.parent / "2-chaintrust-bench"
 
 
 def _load_bench():

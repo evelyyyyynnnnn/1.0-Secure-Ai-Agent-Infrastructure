@@ -45,7 +45,7 @@ contract CrossFn {
         # into a committed result file that is meant to be evidence.
         "corpus": "authored benchmark corpus" if corpus_path is None
                   else f"SmartBugs curated, via "
-                       f"{pathlib.Path(corpus_path).name} in chaintrust-bench",
+                       f"{pathlib.Path(corpus_path).name} in 2-chaintrust-bench",
         "worked_example": trace,
         "benchmark_available": benchmark.available(),
     }
@@ -65,7 +65,7 @@ def main() -> int:
         if not benchmark.real_corpus_available():
             print("cannot run on real data: "
                   f"{benchmark.REAL_CORPUS} does not exist.\n"
-                  "  Run `python -m data.fetch` inside chaintrust-bench in a "
+                  "  Run `python -m data.fetch` inside 2-chaintrust-bench in a "
                   "networked environment first.", file=sys.stderr)
             return 2
         return _main(str(benchmark.REAL_CORPUS))
