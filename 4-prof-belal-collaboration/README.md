@@ -15,7 +15,22 @@
 
 A collaboration whose deliverables are a **provisional patent + open-source screening tool + a public benchmark and leaderboard website** (the paper is his to lead) — so the endeavor gains patent and adopted-artifact evidence, and he gains a publication in his own line of work.
 
-## Where the working prototype lives
+## A runnable Direction-1 skeleton to show on the call
+
+    direction-1-skill-screening/
+
+A working demo of the recommended direction: a screening tool for third-party
+agent skills / MCP servers (manifest capability-diff, prompt-layer injection /
+homoglyph / encoded-payload detection, declared-vs-observed egress), a small
+**authored** benchmark (15 labelled skills, `is_synthetic: true`), and a
+leaderboard site. On this authored corpus the tool reaches macro-F1 0.967 and
+catches 5/6 adversarial-evasion skills where a naive keyword baseline catches
+0/6 — and it honestly reports the one adversarial case it misses. The real
+500–1000-skill registry corpus, analyzer hardening, the provisional patent and
+the packaged release are the collaboration deliverables, not done here. Run:
+`cd direction-1-skill-screening && python -m src.demo` (stdlib + pytest only).
+
+## Where the sandbox-and-verify approach comes from
 
 Direction 1 retargets an auditing agent that already exists, is tested, and is measured in a sibling project:
 

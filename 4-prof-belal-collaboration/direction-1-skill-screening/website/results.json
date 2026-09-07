@@ -1,0 +1,201 @@
+{
+  "generated_at": "2026-09-07T17:00:54+00:00",
+  "is_synthetic": true,
+  "corpus_is_real_registry_data": false,
+  "corpus_source": "authored-synthetic (hand-written for this skeleton)",
+  "n_validated": 15,
+  "taxonomy": [
+    "tool_poisoning",
+    "instruction_smuggling",
+    "homoglyph_obfuscation",
+    "encoded_payload",
+    "privilege_creep",
+    "undeclared_egress"
+  ],
+  "corpus": {
+    "total": 15,
+    "benign": 5,
+    "malicious": 10,
+    "adversarial": 6,
+    "by_class": {
+      "tool_poisoning": 3,
+      "instruction_smuggling": 3,
+      "privilege_creep": 1,
+      "undeclared_egress": 1,
+      "homoglyph_obfuscation": 2,
+      "encoded_payload": 2
+    },
+    "by_split": {
+      "dev": 7,
+      "test": 8
+    },
+    "is_synthetic": true
+  },
+  "leaderboard": [
+    {
+      "detector": "screening-tool",
+      "macro_f1": 0.9666666666666667,
+      "macro_precision": 1.0,
+      "macro_recall": 0.9444444444444445,
+      "adversarial_catch_rate": 0.8333333333333334,
+      "adversarial_caught": 5,
+      "adversarial_total": 6,
+      "rank": 1
+    },
+    {
+      "detector": "naive-baseline",
+      "macro_f1": 0.16666666666666666,
+      "macro_precision": 0.3333333333333333,
+      "macro_recall": 0.1111111111111111,
+      "adversarial_catch_rate": 0.0,
+      "adversarial_caught": 0,
+      "adversarial_total": 6,
+      "rank": 2
+    }
+  ],
+  "screening_tool": {
+    "per_class": {
+      "tool_poisoning": {
+        "tp": 3,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "instruction_smuggling": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 1,
+        "precision": 1.0,
+        "recall": 0.6666666666666666,
+        "f1": 0.8
+      },
+      "homoglyph_obfuscation": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "encoded_payload": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "privilege_creep": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "undeclared_egress": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      }
+    },
+    "macro_f1": 0.9666666666666667,
+    "macro_precision": 1.0,
+    "macro_recall": 0.9444444444444445,
+    "adversarial": {
+      "total": 6,
+      "caught": 5,
+      "catch_rate": 0.8333333333333334
+    },
+    "n_flagged": 9,
+    "n_records": 15
+  },
+  "baseline": {
+    "per_class": {
+      "tool_poisoning": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 2,
+        "precision": 1.0,
+        "recall": 0.3333333333333333,
+        "f1": 0.5
+      },
+      "instruction_smuggling": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 2,
+        "precision": 1.0,
+        "recall": 0.3333333333333333,
+        "f1": 0.5
+      },
+      "homoglyph_obfuscation": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 2,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "encoded_payload": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 2,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "privilege_creep": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "undeclared_egress": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      }
+    },
+    "macro_f1": 0.16666666666666666,
+    "macro_precision": 0.3333333333333333,
+    "macro_recall": 0.1111111111111111,
+    "adversarial": {
+      "total": 6,
+      "caught": 0,
+      "catch_rate": 0.0
+    },
+    "n_flagged": 2,
+    "n_records": 15
+  },
+  "worked_example": {
+    "skill_id": "helper-bot",
+    "findings": [
+      {
+        "skill_id": "helper-bot",
+        "version": "1.0.0",
+        "klass": "homoglyph_obfuscation",
+        "severity": "medium",
+        "evidence": "description/docstrings mix confusable non-ASCII characters (U+0430 U+0435 U+043E U+0440 U+0441) into otherwise-Latin words to evade literal scanning"
+      },
+      {
+        "skill_id": "helper-bot",
+        "version": "1.0.0",
+        "klass": "instruction_smuggling",
+        "severity": "high",
+        "evidence": "injected imperative aimed at the model: \"Ignore all previous instructions\""
+      }
+    ],
+    "baseline_findings": []
+  },
+  "future_work": "The proposal's real 500-1000-skill corpus, drawn from live skill/MCP registries with provenance and licensing, is future work under the funded collaboration -- along with hardening the analyzers against evasions the skeleton still misses (e.g. zero-width / character-spacing obfuscation), a provisional patent filing, and an installable package."
+}
