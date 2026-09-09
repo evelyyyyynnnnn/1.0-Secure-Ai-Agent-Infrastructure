@@ -10,15 +10,31 @@ import pathlib
 import sys
 from datetime import datetime, timezone
 
+import os
+
 from .agent import AuditAgent
-from .backends import StubBackend
+from .backends import StubBackend, OpenAICompatibleBackend
 from . import benchmark
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 
 
+def _select_backend():
+    """StubBackend by default (deterministic, CI-reproducible). Set AUDIT_LLM=1 to
+    run against a real OpenAI-compatible endpoint — e.g. a local Ollama:
+        AUDIT_LLM=1 AUDIT_MODEL=qwen2.5-coder:7b \\
+        OPENAI_BASE_URL=http://localhost:11434/v1 OPENAI_API_KEY=ollama python -m src.demo --real
+    """
+    if os.environ.get("AUDIT_LLM"):
+        return OpenAICompatibleBackend(
+            model=os.environ.get("AUDIT_MODEL", "gpt-4o-mini"),
+            base_url=os.environ.get("OPENAI_BASE_URL"),
+            api_key_env="OPENAI_API_KEY")
+    return StubBackend()
+
+
 def run(corpus_path=None) -> dict:
-    backend = StubBackend()
+    backend = _select_backend()
     sample = """
 pragma solidity ^0.8.0;
 contract CrossFn {

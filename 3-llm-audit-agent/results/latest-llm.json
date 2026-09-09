@@ -1,0 +1,72 @@
+{
+  "generated_at": "2026-09-09T03:56:16+00:00",
+  "backend": "openai:qwen2.5-coder:7b",
+  "backend_is_language_model": true,
+  "is_synthetic": false,
+  "data_source": "real open LLM (qwen2.5-coder:7b) served locally via Ollama, auditing the worked-example contract through the agent's four stages with the hash-chained audit trail",
+  "runtime_seconds": 68.3,
+  "note": "Demonstrates the four-stage auditing agent running end-to-end on a REAL open language model (not the deterministic stub): backend_is_language_model is true. The full 121-contract SmartBugs LLM benchmark is left as future work \u2014 a real-LLM pass over the whole corpus is slow on CPU; the committed rule-based-vs-stub benchmark remains in latest-real.json and is unchanged.",
+  "worked_example": {
+    "contract_id": "CT-H01",
+    "backend": "openai:qwen2.5-coder:7b",
+    "elapsed_ms": 68341.58,
+    "findings": [
+      {
+        "cls": "unchecked_call",
+        "fn": "_send",
+        "evidence": "The contract uses `to.call{value: amt}(` without checking the return value, which can lead to reentrancy attacks.",
+        "confirmed": true,
+        "dropped_reason": ""
+      },
+      {
+        "cls": "missing_access_control",
+        "fn": "claim",
+        "evidence": "The contract does not have any access control modifiers, which means that anyone can call the `claim` function and potentially drain the contract's funds.",
+        "confirmed": true,
+        "dropped_reason": ""
+      }
+    ],
+    "dropped": [
+      {
+        "cls": "timestamp_dependence",
+        "fn": "claim",
+        "evidence": "The contract uses `msg.sender` and `balance[msg.sender]`, which can be manipulated by attackers if the contract is later modified to include functions that interact with external contracts.",
+        "confirmed": false,
+        "dropped_reason": ""
+      },
+      {
+        "cls": "integer_overflow",
+        "fn": "claim",
+        "evidence": "The contract does not have any arithmetic operations, so there is no immediate risk of integer overflow or underflow. However, if the contract is later modified to include arithmetic operations, it is important to consider these vulnerabilities.",
+        "confirmed": false,
+        "dropped_reason": ""
+      }
+    ],
+    "trail": [
+      {
+        "stage": "understand",
+        "backend": "openai:qwen2.5-coder:7b",
+        "latency_ms": 28475.55,
+        "reply_bytes": 2576
+      },
+      {
+        "stage": "plan",
+        "backend": "openai:qwen2.5-coder:7b",
+        "latency_ms": 12990.93,
+        "reply_bytes": 1382
+      },
+      {
+        "stage": "classify",
+        "backend": "openai:qwen2.5-coder:7b",
+        "latency_ms": 13434.63,
+        "reply_bytes": 1083
+      },
+      {
+        "stage": "verify",
+        "backend": "openai:qwen2.5-coder:7b",
+        "latency_ms": 13440.22,
+        "reply_bytes": 1098
+      }
+    ]
+  }
+}
