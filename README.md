@@ -1,5 +1,7 @@
 # 1.0 — Secure AI Agent Infrastructure
 
+[![tests](https://github.com/evelyyyyynnnnn/1.0-Secure-Ai-Agent-Infrastructure/actions/workflows/tests.yml/badge.svg)](https://github.com/evelyyyyynnnnn/1.0-Secure-Ai-Agent-Infrastructure/actions/workflows/tests.yml)
+
 Research prototypes and infrastructure tools for secure AI agent systems using LLMs, blockchain and distributed architectures.
 
 Part of a five-repository portfolio supporting the endeavor described in the
