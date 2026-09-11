@@ -21,6 +21,28 @@ from .scoring import evaluate, leaderboard
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 
 
+def describe_source(corpus_path: str | None) -> str:
+    """How the corpus is named in the result file.
+
+    The result is cited as evidence and its data_source is rendered onto the
+    published page, so it names the corpus relative to the project. The
+    absolute path of whichever machine produced the run is wrong on every
+    other machine and discloses the author's home directory to anyone who
+    opens the page.
+    """
+    if corpus_path is None:
+        return "seed corpus (authored for this benchmark)"
+    p = pathlib.Path(corpus_path)
+    try:
+        rel = p.resolve().relative_to(ROOT)
+    except ValueError:
+        return p.name
+    if rel == pathlib.Path("data/real-corpus.jsonl"):
+        return ("SmartBugs curated corpus (annotated by its own authors), "
+                "normalised into data/real-corpus.jsonl")
+    return str(rel)
+
+
 def run(corpus_path: str | None = None) -> dict:
     cases = load_corpus(corpus_path)
     stats = corpus_stats(cases)
@@ -45,8 +67,7 @@ def run(corpus_path: str | None = None) -> dict:
 
     results = {
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-        "data_source": "seed corpus (authored for this benchmark)"
-        if corpus_path is None else str(corpus_path),
+        "data_source": describe_source(corpus_path),
         "is_synthetic": corpus_path is None,
         "corpus": stats,
         "tiers": tiers,
