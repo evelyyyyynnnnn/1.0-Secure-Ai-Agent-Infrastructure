@@ -122,3 +122,37 @@ def test_benchmark_has_measurable_headroom():
     overall = evaluate(PatternDetector(), load_corpus())
     assert overall.macro_f1 < 1.0, "no headroom left; the corpus needs harder cases"
     assert overall.macro_f1 > 0.5, "baseline should still be a credible floor"
+
+
+# --- what the result file is allowed to say about where the data came from ---
+#
+# data_source is rendered onto the published page. It once recorded the
+# absolute path of the laptop that produced the run, which is wrong on every
+# other machine and discloses the author's home directory to any reader.
+
+def test_describe_source_never_records_an_absolute_path(tmp_path):
+    from src.demo import describe_source
+
+    outside = tmp_path / "somebodys-corpus.jsonl"
+    outside.write_text("", encoding="utf8")
+    recorded = describe_source(str(outside))
+
+    assert not recorded.startswith("/")
+    assert str(tmp_path) not in recorded
+    assert recorded == "somebodys-corpus.jsonl"
+
+
+def test_describe_source_names_the_real_corpus_by_what_it_is():
+    from src.demo import ROOT, describe_source
+
+    recorded = describe_source(str(ROOT / "data" / "real-corpus.jsonl"))
+
+    assert "SmartBugs" in recorded
+    assert "data/real-corpus.jsonl" in recorded
+    assert str(ROOT) not in recorded
+
+
+def test_describe_source_marks_the_authored_corpus_as_authored():
+    from src.demo import describe_source
+
+    assert describe_source(None) == "seed corpus (authored for this benchmark)"
