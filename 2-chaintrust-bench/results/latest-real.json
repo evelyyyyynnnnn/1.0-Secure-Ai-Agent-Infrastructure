@@ -1,6 +1,6 @@
 {
   "generated_at": "2026-09-06T23:54:22+00:00",
-  "data_source": "/Users/evelyndu/Desktop/Github-Website/1.0-Secure-Ai-Agent-Infrastructure/chaintrust-bench/data/real-corpus.jsonl",
+  "data_source": "SmartBugs curated corpus (annotated by its own authors), normalised into data/real-corpus.jsonl",
   "is_synthetic": false,
   "corpus": {
     "n_cases": 121,
