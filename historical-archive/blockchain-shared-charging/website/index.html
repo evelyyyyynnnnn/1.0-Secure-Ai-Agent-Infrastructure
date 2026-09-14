@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Blockchain Shared Charging</title>
+<meta name="description" content="Escrowed settlement for shared EV charging sessions, and the gas analysis that decides where it can actually run.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#FCFCFD; --surface:#FFFFFF; --surface-2:#F4F5F8;
+  --ink:#16191F; --ink-2:#40474F; --muted:#6C7480;
+  --line:#E2E5EA; --line-2:#EFF1F4;
+  --accent:#1D5B70; --accent-2:#E6F0F3;
+  --ok:#2C6B4F; --ok-bg:#E5F1EA;
+  --warn:#8A6212; --warn-bg:#F7EFDC;
+  --demo:#6E4B8F; --demo-bg:#F0EAF6;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme=light]){
+    --bg:#0F1216; --surface:#161A20; --surface-2:#1C212A;
+    --ink:#E9ECF0; --ink-2:#BEC5CE; --muted:#8A939F;
+    --line:#282F38; --line-2:#20262E;
+    --accent:#72B3CB; --accent-2:#18272E;
+    --ok:#7BC09F; --ok-bg:#15251E;
+    --warn:#D8AD5E; --warn-bg:#292216;
+    --demo:#B79AD6; --demo-bg:#241C2E;
+  }
+}
+:root[data-theme=dark]{
+  --bg:#0F1216; --surface:#161A20; --surface-2:#1C212A;
+  --ink:#E9ECF0; --ink-2:#BEC5CE; --muted:#8A939F;
+  --line:#282F38; --line-2:#20262E;
+  --accent:#72B3CB; --accent-2:#18272E;
+  --ok:#7BC09F; --ok-bg:#15251E;
+  --warn:#D8AD5E; --warn-bg:#292216;
+  --demo:#B79AD6; --demo-bg:#241C2E;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,
+    "PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  font-size:15.5px;line-height:1.62;-webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:900px;margin:0 auto;padding:0 24px 88px}
+h1,h2,h3{font-family:Spectral,Georgia,"Songti SC",serif;margin:0;text-wrap:balance}
+h1{font-size:clamp(28px,4.2vw,42px);font-weight:700;letter-spacing:-.015em;line-height:1.14}
+h2{font-size:clamp(20px,2.5vw,25px);font-weight:600;letter-spacing:-.01em}
+h3{font-size:17px;font-weight:600}
+p{margin:0}
+a{color:var(--accent)}
+code,.mono{font-family:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;font-size:.88em}
+.stack{display:flex;flex-direction:column;gap:14px}
+.stack-lg{display:flex;flex-direction:column;gap:22px}
+section{margin-top:52px}
+
+header.mast{border-bottom:1px solid var(--line);padding:44px 0 26px;margin-bottom:8px;
+  display:flex;flex-direction:column;gap:15px}
+.eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--muted)}
+.lede{color:var(--ink-2);font-size:16.5px;max-width:66ch}
+.tags{display:flex;flex-wrap:wrap;gap:8px}
+.tag{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.06em;
+  text-transform:uppercase;padding:3px 9px;border-radius:4px;background:var(--surface-2);
+  color:var(--muted);font-weight:500;white-space:nowrap}
+.tag.ok{background:var(--ok-bg);color:var(--ok)}
+.tag.demo{background:var(--demo-bg);color:var(--demo)}
+.tag.warn{background:var(--warn-bg);color:var(--warn)}
+
+.banner{display:flex;gap:13px;align-items:flex-start;background:var(--demo-bg);
+  border-radius:9px;padding:15px 18px;margin-top:26px}
+.banner .bi{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--demo);flex:none;padding-top:3px;font-weight:600}
+.banner p{font-size:14.2px;color:var(--ink-2)}
+
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(158px,1fr));gap:1px;
+  background:var(--line);border:1px solid var(--line);border-radius:9px;overflow:hidden}
+.metric{background:var(--surface);padding:15px 16px;display:flex;flex-direction:column;gap:5px}
+.metric .mk{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--muted);line-height:1.35}
+.metric .mv{font-family:Spectral,Georgia,serif;font-size:26px;font-weight:600;
+  font-variant-numeric:tabular-nums;line-height:1.1;color:var(--accent)}
+.metric .mn{font-size:12.4px;color:var(--muted);line-height:1.4}
+
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:9px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:13.8px;min-width:520px}
+th{text-align:left;font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--muted);font-weight:500;padding:11px 14px;
+  border-bottom:1px solid var(--line);background:var(--surface-2)}
+td{padding:10px 14px;border-bottom:1px solid var(--line-2);vertical-align:top;line-height:1.5}
+td.n{font-variant-numeric:tabular-nums;text-align:right}
+tr:last-child td{border-bottom:0}
+
+pre{margin:0;background:var(--surface-2);border:1px solid var(--line);border-radius:9px;
+  padding:15px 17px;overflow-x:auto;font-family:"IBM Plex Mono",monospace;
+  font-size:12.8px;line-height:1.62;color:var(--ink-2)}
+ul.tight{margin:0;padding-left:19px;display:flex;flex-direction:column;gap:7px}
+ul.tight li::marker{color:var(--muted)}
+.note{background:var(--surface-2);border:1px solid var(--line);border-radius:9px;
+  padding:16px 18px;display:flex;flex-direction:column;gap:10px}
+.foot{margin-top:60px;padding-top:22px;border-top:1px solid var(--line);
+  color:var(--muted);font-size:13px;display:flex;flex-direction:column;gap:9px}
+figure{margin:0}
+svg.chart{display:block;width:100%;height:auto}
+@media (max-width:600px){.wrap{padding:0 17px 68px}.banner{flex-direction:column;gap:7px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="mast">
+  <div class="eyebrow">1.0-Secure-Ai-Agent-Infrastructure &middot; Secure Digital Infrastructure</div>
+  <h1>Blockchain Shared Charging</h1>
+  <p class="lede">Escrowed settlement for shared EV charging sessions, and the gas analysis that decides where it can actually run.</p>
+  <div class="tags"><span class="tag ">Solidity</span><span class="tag ">escrow + dispute window</span><span class="tag ">gas model</span><span class="tag warn">estimates, not node measurements</span></div>
+</header>
+<div class="banner">
+  <span class="bi">Data</span>
+  <p>The lifecycle results come from an off-chain model that mirrors the contract&#x27;s state machine. Gas figures are opcode-level estimates from the storage layout, not measurements from a node — a real deployment would replace them with forge gas-report output. Prices are stated assumptions, not live quotes.</p>
+</div>
+
+<section>
+  <h2>The design constraint</h2>
+  <div class="stack">
+    <p>A charge point is not trusted. It reports the meter reading, so the contract has
+    to make an inflated reading either impossible or contestable. Three mechanisms do
+    that: the driver's deposit <strong>bounds</strong> the maximum loss, a one-hour
+    dispute window makes an over-report <strong>contestable</strong>, and an arbiter can
+    correct a contested reading before settlement.</p>
+    <p>Settlement writes state before it transfers value. Both parties may be contracts,
+    so that ordering is what stops a re-entrant refund from reaching another session's
+    escrow.</p>
+  </div>
+</section>
+
+<section>
+  <h2>This run</h2>
+  <div class="stack-lg">
+    <div class="metrics"><div class="metric"><span class="mk">Gas per session</span><span class="mv">177,374</span><span class="mn">open + report + settle</span></div><div class="metric"><span class="mk">With a dispute</span><span class="mv">206,599</span><span class="mn">adds one transaction</span></div><div class="metric"><span class="mk">Batched, n=50</span><span class="mv">93,119</span><span class="mn">48% saved</span></div><div class="metric"><span class="mk">Guards upheld</span><span class="mv">5/5</span><span class="mn">invalid operations rejected</span></div></div>
+    <p class="mono" style="color:var(--muted);font-size:12.5px">
+      generated 2026-08-31T21:32:38+00:00 &middot;
+      assumptions: ETH $3,000 &middot; 22.0 kWh session
+      @ $0.45/kWh &middot; dispute window 3600s
+    </p>
+  </div>
+</section>
+
+<section>
+  <h2>Lifecycle</h2>
+  <div class="stack-lg">
+    <div class="tw"><table><thead><tr><th>Scenario</th><th>Reported</th><th>Settled at</th><th>Paid to point</th><th>Refunded</th></tr></thead><tbody><tr><td>Happy path</td><td class="n">22,000 Wh</td><td class="n">22,000 Wh</td><td class="n">6,600,000,000 wei</td><td class="n">5,400,000,000 wei</td></tr><tr><td>Over-report, disputed</td><td class="n">39,000 Wh</td><td class="n">12,000 Wh</td><td class="n">3,600,000,000 wei</td><td class="n">8,400,000,000 wei</td></tr></tbody></table></div>
+    <p>In the disputed session the point reported 39,000 Wh against a
+    40,000 Wh deposit. The driver contested inside the window, the arbiter corrected the
+    reading to 12,000 Wh, and settlement paid on the corrected figure.</p>
+    <div class="tw"><table><thead><tr><th>Attempted operation</th><th>Rejected</th><th>Error</th></tr></thead><tbody><tr><td>settle before the dispute window closes</td><td>yes</td><td>BadState</td></tr><tr><td>a stranger reports a meter reading</td><td>yes</td><td>BadState</td></tr><tr><td>dispute after the window has closed</td><td>yes</td><td>WindowClosed</td></tr><tr><td>open against an unregistered point</td><td>yes</td><td>PointNotRegistered</td></tr><tr><td>deposit below the maximum draw</td><td>yes</td><td>DepositTooSmall</td></tr></tbody></table></div>
+  </div>
+</section>
+
+<section>
+  <h2>The finding: this does not work on L1</h2>
+  <div class="stack-lg">
+    <div class="tw"><table><thead><tr><th>Gas price</th><th>Settlement cost</th><th>Session value</th><th>Overhead</th><th>Under 5%?</th></tr></thead><tbody><tr><td>1 gwei</td><td class="n">$0.5321</td><td class="n">$9.90</td><td class="n">5.37%</td><td>no</td></tr><tr><td>5 gwei</td><td class="n">$2.6606</td><td class="n">$9.90</td><td class="n">26.87%</td><td>no</td></tr><tr><td>10 gwei</td><td class="n">$5.3212</td><td class="n">$9.90</td><td class="n">53.75%</td><td>no</td></tr><tr><td>20 gwei</td><td class="n">$10.6424</td><td class="n">$9.90</td><td class="n">107.50%</td><td>no</td></tr><tr><td>50 gwei</td><td class="n">$26.6061</td><td class="n">$9.90</td><td class="n">268.75%</td><td>no</td></tr></tbody></table></div>
+    <div class="note">
+      <h3>Read the last column</h3>
+      <p>A 22 kWh session is worth about
+      $9.90. At 20 gwei, settling it on
+      Ethereum mainnet costs
+      <strong>$10.64</strong>
+      &mdash; more than the electricity. Even at 1 gwei the overhead is
+      5.4%, above any threshold a charging
+      operator would accept.</p>
+      <p>Per-session settlement on L1 is not viable at any realistic gas price. That is
+      the useful result of this analysis, and it is a negative one.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Batching helps, but not enough on its own</h2>
+  <div class="stack-lg">
+    <figure><svg class="chart" viewBox="0 0 680 219" role="img" aria-label="Bar chart of results"><text x="180" y="26.68" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".72">n=1</text><rect x="190" y="9" width="422.0" height="26" rx="3" fill="var(--accent)" opacity=".85"/><text x="621.0" y="26.68" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".62">113,699</text><text x="180" y="61.68" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".72">n=5</text><rect x="190" y="44" width="359.6" height="26" rx="3" fill="var(--accent)" opacity=".85"/><text x="558.6" y="61.68" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".62">96,899</text><text x="180" y="96.68" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".72">n=10</text><rect x="190" y="79" width="351.9" height="26" rx="3" fill="var(--accent)" opacity=".85"/><text x="550.9" y="96.68" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".62">94,799</text><text x="180" y="131.68" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".72">n=25</text><rect x="190" y="114" width="347.2" height="26" rx="3" fill="var(--accent)" opacity=".85"/><text x="546.2" y="131.68" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".62">93,539</text><text x="180" y="166.68" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".72">n=50</text><rect x="190" y="149" width="345.6" height="26" rx="3" fill="var(--accent)" opacity=".85"/><text x="544.6" y="166.68" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".62">93,119</text><text x="180" y="201.68" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".72">n=100</text><rect x="190" y="184" width="344.8" height="26" rx="3" fill="var(--accent)" opacity=".85"/><text x="543.8" y="201.68" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".62">92,909</text></svg></figure>
+    <p>Batching amortises the 21,000-gas transaction base and the cold storage reads
+    across a batch. It cannot amortise the storage writes or the two value transfers per
+    session, which is why the saving flattens near
+    48% rather than scaling with batch size.
+    Halving a cost that is 100% of session value still leaves it unviable.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Where it does work</h2>
+  <div class="stack-lg">
+    <div class="tw"><table><thead><tr><th>Execution layer</th><th>Native</th><th>Per session</th><th>Batched (n=50)</th><th>Overhead batched</th><th>Viable</th></tr></thead><tbody><tr><td>Ethereum L1</td><td>ETH</td><td class="n">$10.6424</td><td class="n">$5.5871</td><td class="n">56.44%</td><td>no</td></tr><tr><td>Ethereum L1 (quiet)</td><td>ETH</td><td class="n">$1.5964</td><td class="n">$0.8381</td><td class="n">8.47%</td><td>no</td></tr><tr><td>Arbitrum One</td><td>ETH</td><td class="n">$0.0106</td><td class="n">$0.0056</td><td class="n">0.06%</td><td>yes</td></tr><tr><td>Base</td><td>ETH</td><td class="n">$0.0053</td><td class="n">$0.0028</td><td class="n">0.03%</td><td>yes</td></tr><tr><td>Polygon PoS</td><td>MATIC</td><td class="n">$0.0029</td><td class="n">$0.0015</td><td class="n">0.02%</td><td>yes</td></tr></tbody></table></div>
+    <div class="note">
+      <h3>The conclusion</h3>
+      <p>Batched settlement on an L2 costs well under a cent per session &mdash; roughly
+      0.03% of session value on Base. The design is sound; the execution layer was the
+      problem. Any deployment of this contract belongs on an L2, and the L1 figures are
+      kept on this page because the negative result is what justifies that choice.</p>
+      <p>Polygon is priced in MATIC rather than ETH, which is why its nominally high gwei
+      figure still lands cheap. Mixing the two units in one column without saying so
+      would be exactly the kind of comparison that looks rigorous and is not.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Reproduce it</h2>
+  <div class="stack">
+    <pre>cd blockchain-shared-charging
+pip install -r requirements.txt
+python -m pytest tests/ -q     # 14 tests, including the viability finding
+python -m src.demo</pre>
+    <p>The contract is <code>contracts/SharedCharging.sol</code>. The Python model in
+    <code>src/settlement.py</code> mirrors its state machine so the economics can be
+    analysed without a node.</p>
+  </div>
+</section>
+
+<section>
+  <h2>What this does not establish</h2>
+  <div class="stack">
+    <ul class="tight">
+      <li>Gas figures are opcode-level estimates derived from the storage layout. They
+      have not been measured against a node, and a compiled contract will differ.</li>
+      <li>The Solidity has not been audited, deployed, or fuzzed. The Python model
+      passing does not mean the contract is correct.</li>
+      <li>Prices are stated assumptions. The viability conclusion is robust to large
+      moves in them; the individual dollar figures are not.</li>
+      <li>The arbiter is a trusted party. Making dispute resolution trustless is a
+      different and much harder design than the one here.</li>
+    </ul>
+  </div>
+</section>
+
+<div class="foot">
+  <p>1.0-Secure-Ai-Agent-Infrastructure &middot; blockchain-shared-charging &middot; part of a five-repository portfolio on optimization-driven,
+     system-level decision frameworks.</p>
+  <p>Every figure on this page was produced by running <code>python -m src.demo</code> in this
+     project and reading <code>results.json</code>. Nothing here is hand-entered. The run used clearly-labelled synthetic data; swap in the real source and the same pipeline reports real numbers.</p>
+</div>
+</div>
+</body>
+</html>

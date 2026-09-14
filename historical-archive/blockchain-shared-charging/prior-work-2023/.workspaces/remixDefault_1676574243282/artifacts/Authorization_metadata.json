@@ -1,0 +1,119 @@
+{
+	"compiler": {
+		"version": "0.8.17+commit.8df45f5f"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "vehicleAddress",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "thirdParty",
+						"type": "address"
+					}
+				],
+				"name": "RevokeAuthorization",
+				"type": "event"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_vehicleAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_thirdParty",
+						"type": "address"
+					}
+				],
+				"name": "authorize",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_vehicleAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_thirdParty",
+						"type": "address"
+					}
+				],
+				"name": "isAuthorized",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_thirdParty",
+						"type": "address"
+					}
+				],
+				"name": "revokeAuthorization",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contrct_rescind.sol": "Authorization"
+		},
+		"evmVersion": "london",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contrct_rescind.sol": {
+			"keccak256": "0x25d71922a3fa98697d035cf787796b0fcf626b01d81f89fcb08fb7ae2f46834f",
+			"urls": [
+				"bzz-raw://75522b23a4cb6a849440db3a74a5d9a7e2180e87a9734cd5618a475b918b8e2b",
+				"dweb:/ipfs/QmeYAFZ4DNzPHZyRaQxxshJmGd3sN5ZNwCDd4quXwPtSCT"
+			]
+		}
+	},
+	"version": 1
+}
