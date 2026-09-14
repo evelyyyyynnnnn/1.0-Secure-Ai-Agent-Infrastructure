@@ -1,0 +1,3 @@
+# Standard library only. Solidity in contracts/ is not compiled here; the
+# Python model in src/settlement.py mirrors its state machine for analysis.
+pytest>=7.0

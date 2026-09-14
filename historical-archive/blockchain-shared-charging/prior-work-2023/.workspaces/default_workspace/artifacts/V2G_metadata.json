@@ -1,0 +1,87 @@
+{
+	"compiler": {
+		"version": "0.8.17+commit.8df45f5f"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "_VIN",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "_publicKey",
+						"type": "string"
+					}
+				],
+				"name": "register",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					}
+				],
+				"name": "vehicles",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "VIN",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "publicKey",
+						"type": "string"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contract_Registration.sol": "V2G"
+		},
+		"evmVersion": "london",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contract_Registration.sol": {
+			"keccak256": "0x9be3f78ee56d1d82ef5c35699eeb00b2fa8d11dda97858f0c130038ba0054929",
+			"urls": [
+				"bzz-raw://84faec53f752f68760818dcecb4b908e9d26500a04a1e82d9642c5b4638a79e8",
+				"dweb:/ipfs/QmUHBsLf5YGNPCjkGyKVs7agqavmuEPGR45qXjA368tXhc"
+			]
+		}
+	},
+	"version": 1
+}
