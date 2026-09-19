@@ -6,7 +6,7 @@
 
 | File | Purpose |
 |---|---|
-| `Email.md` | The first-contact email to send, with subject line and attachment list. |
+
 | `Proposal.docx` | The full research collaboration proposal — five ranked directions, timelines, deliverables, IP terms. Send this (editable) or `Proposal.html`. |
 | `Proposal.html` | Same proposal as a self-contained web page, for a link or preview. |
 | `Appendix-Auditing-Agent.docx` | Technical appendix: the four-stage auditing-agent pipeline and the exploit-corpus schema referenced in Direction 1. |
