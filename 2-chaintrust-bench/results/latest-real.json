@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-09-06T23:54:22+00:00",
+  "generated_at": "2026-11-03T17:17:01+00:00",
   "data_source": "SmartBugs curated corpus (annotated by its own authors), normalised into data/real-corpus.jsonl",
   "is_synthetic": false,
   "corpus": {
-    "n_cases": 121,
+    "n_cases": 141,
     "n_vulnerable": 121,
-    "n_safe": 0,
+    "n_safe": 20,
     "n_findings": 121,
     "per_class": {
       "reentrancy": 31,
@@ -17,10 +17,17 @@
       "integer_overflow": 15
     },
     "per_tier": {
+      "openzeppelin": 20,
       "smartbugs": 121
     }
   },
   "tiers": {
+    "openzeppelin": {
+      "n_cases": 20,
+      "macro_f1": 0.0,
+      "macro_recall": 0.0,
+      "macro_precision": 0.0
+    },
     "smartbugs": {
       "n_cases": 121,
       "macro_f1": 0.2805,
@@ -41,11 +48,11 @@
     {
       "rank": 1,
       "detector": "pattern-baseline",
-      "macro_precision": 0.3608,
+      "macro_precision": 0.3529,
       "macro_recall": 0.3683,
-      "macro_f1": 0.2805,
-      "false_positive_rate_on_safe": 0.0,
-      "n_cases": 121,
+      "macro_f1": 0.2729,
+      "false_positive_rate_on_safe": 0.45,
+      "n_cases": 141,
       "per_class": {
         "reentrancy": {
           "cls": "reentrancy",
@@ -77,20 +84,20 @@
         "timestamp_dependence": {
           "cls": "timestamp_dependence",
           "tp": 1,
-          "fp": 8,
+          "fp": 9,
           "fn": 4,
-          "precision": 0.1111,
+          "precision": 0.1,
           "recall": 0.2,
-          "f1": 0.1429
+          "f1": 0.1333
         },
         "missing_access_control": {
           "cls": "missing_access_control",
           "tp": 4,
-          "fp": 21,
+          "fp": 25,
           "fn": 8,
-          "precision": 0.16,
+          "precision": 0.1379,
           "recall": 0.3333,
-          "f1": 0.2162
+          "f1": 0.1951
         },
         "unprotected_selfdestruct": {
           "cls": "unprotected_selfdestruct",
@@ -104,27 +111,27 @@
         "integer_overflow": {
           "cls": "integer_overflow",
           "tp": 5,
-          "fp": 29,
+          "fp": 35,
           "fn": 10,
-          "precision": 0.1471,
+          "precision": 0.125,
           "recall": 0.3333,
-          "f1": 0.2041
+          "f1": 0.1818
         }
       }
     },
     {
       "rank": 2,
       "detector": "keyword-floor",
-      "macro_precision": 0.3001,
+      "macro_precision": 0.2795,
       "macro_recall": 0.4795,
-      "macro_f1": 0.2736,
-      "false_positive_rate_on_safe": 0.0,
-      "n_cases": 121,
+      "macro_f1": 0.2664,
+      "false_positive_rate_on_safe": 0.45,
+      "n_cases": 141,
       "per_class": {
         "reentrancy": {
           "cls": "reentrancy",
           "tp": 0,
-          "fp": 0,
+          "fp": 2,
           "fn": 31,
           "precision": 0.0,
           "recall": 0.0,
@@ -133,11 +140,11 @@
         "unchecked_call": {
           "cls": "unchecked_call",
           "tp": 9,
-          "fp": 3,
+          "fp": 5,
           "fn": 43,
-          "precision": 0.75,
+          "precision": 0.6429,
           "recall": 0.1731,
-          "f1": 0.2812
+          "f1": 0.2727
         },
         "tx_origin_auth": {
           "cls": "tx_origin_auth",
@@ -151,20 +158,20 @@
         "timestamp_dependence": {
           "cls": "timestamp_dependence",
           "tp": 5,
-          "fp": 28,
+          "fp": 30,
           "fn": 0,
-          "precision": 0.1515,
+          "precision": 0.1429,
           "recall": 1.0,
-          "f1": 0.2632
+          "f1": 0.25
         },
         "missing_access_control": {
           "cls": "missing_access_control",
           "tp": 5,
-          "fp": 26,
+          "fp": 28,
           "fn": 7,
-          "precision": 0.1613,
+          "precision": 0.1515,
           "recall": 0.4167,
-          "f1": 0.2326
+          "f1": 0.2222
         },
         "unprotected_selfdestruct": {
           "cls": "unprotected_selfdestruct",
@@ -178,11 +185,11 @@
         "integer_overflow": {
           "cls": "integer_overflow",
           "tp": 4,
-          "fp": 29,
+          "fp": 35,
           "fn": 11,
-          "precision": 0.1212,
+          "precision": 0.1026,
           "recall": 0.2667,
-          "f1": 0.1667
+          "f1": 0.1481
         }
       }
     },
@@ -193,7 +200,7 @@
       "macro_recall": 0.0,
       "macro_f1": 0.0,
       "false_positive_rate_on_safe": 0.0,
-      "n_cases": 121,
+      "n_cases": 141,
       "per_class": {
         "reentrancy": {
           "cls": "reentrancy",
