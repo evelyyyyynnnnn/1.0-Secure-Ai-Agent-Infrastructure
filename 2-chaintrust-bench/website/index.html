@@ -116,11 +116,11 @@ svg.chart{display:block;width:100%;height:auto}
   <div class="eyebrow">1.0-Secure-Ai-Agent-Infrastructure &middot; Secure Digital Infrastructure</div>
   <h1>ChainTrust-Bench</h1>
   <p class="lede">A smart-contract security benchmark that scores detectors per vulnerability class, so a tool&#x27;s weaknesses are visible instead of averaged away.</p>
-  <div class="tags"><span class="tag ">Solidity</span><span class="tag ">7 vulnerability classes</span><span class="tag ">macro-averaged scoring</span><span class="tag demo">seed corpus</span></div>
+  <div class="tags"><span class="tag ">Solidity</span><span class="tag ">7 vulnerability classes</span><span class="tag ">macro-averaged scoring</span><span class="tag ">SmartBugs curated</span><span class="tag ">OpenZeppelin negative controls</span></div>
 </header>
 <div class="banner">
   <span class="bi">Data</span>
-  <p>Every number below was produced by running the benchmark against the seed corpus authored for this project. The corpus is small and hand-written on purpose. The mined, at-scale corpus does not exist yet, and no result here should be read as if it did.</p>
+  <p>Every number below was produced by running the benchmark against a real, third-party-annotated corpus: 121 vulnerable contracts from the SmartBugs curated dataset, annotated by its own authors, plus 20 audited files from OpenZeppelin Contracts v5.0.2 entered with no labels. The negative controls are what make a false-positive rate measurable; without them the column is an empty denominator, not a clean bill of health.</p>
 </div>
 
 <section>
@@ -141,7 +141,7 @@ svg.chart{display:block;width:100%;height:auto}
   <div class="stack-lg">
     <div class="metrics"><div class="metric"><span class="mk">Cases</span><span class="mv">141</span><span class="mn">121 vulnerable / 20 safe</span></div><div class="metric"><span class="mk">Ground-truth findings</span><span class="mv">121</span><span class="mn">labelled, with line numbers</span></div><div class="metric"><span class="mk">Classes scored</span><span class="mv">7</span><span class="mn">SWC-aligned where one applies</span></div><div class="metric"><span class="mk">Best macro-F1</span><span class="mv">0.273</span><span class="mn">pattern-baseline</span></div></div>
     <p class="mono" style="color:var(--muted);font-size:12.5px">
-      generated 2026-11-03T17:17:01+00:00 &middot; source: SmartBugs curated corpus (annotated by its own authors), normalised into data/real-corpus.jsonl
+      generated 2026-11-03T17:46:29+00:00 &middot; source: SmartBugs curated corpus (annotated by its own authors), normalised into data/real-corpus.jsonl
     </p>
   </div>
 </section>
