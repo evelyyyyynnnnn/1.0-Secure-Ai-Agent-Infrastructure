@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-31T21:32:37+00:00",
+  "generated_at": "2026-11-03T18:12:00+00:00",
   "is_synthetic": true,
   "data_source": "6 authored transcripts, 12 labelled claims",
   "grounding": {
@@ -237,7 +237,7 @@
         "search": {
           "calls": 2,
           "failures": 0,
-          "ms": 0.0
+          "ms": 0.01
         },
         "fetch": {
           "calls": 2,

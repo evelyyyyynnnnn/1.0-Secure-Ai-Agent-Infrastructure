@@ -137,6 +137,12 @@ def main_real() -> int:
     print("\nclaims are constructed from real documents, not model output: "
           + r["label_construction"])
     print("wrote results/latest-real.json")
+    try:
+        from .site import build_site
+        build_site(r)
+        print("website/ rebuilt from this run")
+    except Exception as exc:                      # noqa: BLE001
+        print(f"(site not rebuilt: {exc})", file=sys.stderr)
     return 0
 
 

@@ -116,129 +116,78 @@ svg.chart{display:block;width:100%;height:auto}
   <div class="eyebrow">1.0-Secure-Ai-Agent-Infrastructure &middot; Cross-cutting — trustworthy AI</div>
   <h1>Agent Verification Harness</h1>
   <p class="lede">Grounding and citation checks, hallucination detection, and tamper-evident tool-call logging for tool-using agents.</p>
-  <div class="tags"><span class="tag ">grounding</span><span class="tag ">citation checking</span><span class="tag ">hash-chained audit log</span><span class="tag demo">authored transcripts</span></div>
+  <div class="tags"><span class="tag ">grounding</span><span class="tag ">citation checking</span><span class="tag real">real BLS / Federal Reserve</span><span class="tag ">labels known by construction</span></div>
 </header>
 <div class="banner">
   <span class="bi">Data</span>
-  <p>Scored against six authored transcripts with twelve labelled claims. The transcripts test the harness, not any real agent, and they are small enough that the precision and recall below should be read as a smoke test rather than a benchmark result.</p>
+  <p>Scored against three real US government statistical releases, retrieved with their URL, SHA-256 and retrieval time recorded in data/MANIFEST.json. Every claim&#x27;s truth is known by construction: supported claims are quoted verbatim, fabricated ones are the same sentence with a single number altered, and unsupported ones are real sentences lifted from a different release and cited to this one.</p>
 </div>
-
-<section>
-  <h2>What it checks</h2>
-  <div class="stack">
-    <p>Three things, each independently reportable. <strong>Grounding</strong>: is there a
-    span in the sources the agent actually retrieved that supports this claim?
-    <strong>Citation correctness</strong>: does the marker it attached point at the source
-    that contains that span? <strong>Fabrication</strong>: does the claim contain a number
-    that appears in no source at all?</p>
-    <p>Keeping them separate matters. A claim can be perfectly grounded and wrongly
-    cited, which is a different failure from an invented figure and calls for a
-    different fix.</p>
-    <p>Everything here is lexical and inspectable. That is a deliberate constraint: a
-    verification layer that is itself a black box moves the trust problem rather than
-    solving it. The cost is that paraphrase is under-credited, which is why the
-    threshold curve below is published rather than a single tuned number.</p>
-  </div>
-</section>
 
 <section>
   <h2>This run</h2>
   <div class="stack-lg">
-    <div class="metrics"><div class="metric"><span class="mk">Claims checked</span><span class="mv">12</span><span class="mn">across 6 transcripts</span></div><div class="metric"><span class="mk">Precision</span><span class="mv">0.83</span><span class="mn">of flags that were real</span></div><div class="metric"><span class="mk">Recall</span><span class="mv">1.00</span><span class="mn">of bad claims caught</span></div><div class="metric"><span class="mk">Fabricated caught</span><span class="mv">2/2</span><span class="mn">invented numbers</span></div></div>
-    <div class="tw"><table><thead><tr><th>Claim type</th><th>Total</th><th>Caught / false flags</th><th>What it tests</th></tr></thead><tbody><tr><td>fabricated</td><td class="n">2</td><td class="n">2</td><td>A number appearing in no source — the highest-signal marker</td></tr><tr><td>unsupported</td><td class="n">1</td><td class="n">1</td><td>Plausible prose with no supporting span and no number to catch it</td></tr><tr><td>miscited</td><td class="n">2</td><td class="n">2</td><td>True claim attributed to the wrong source — its own failure mode</td></tr><tr><td>grounded</td><td class="n">7</td><td class="n">1</td><td>Correct claims — any flag here is a false positive</td></tr></tbody></table></div>
+    <div class="metrics"><div class="metric"><span class="mk">Precision</span><span class="mv">1.000</span><span class="mn">of the claims it flagged</span></div><div class="metric"><span class="mk">Recall</span><span class="mv">0.667</span><span class="mn">of the bad claims present</span></div><div class="metric"><span class="mk">F1</span><span class="mv">0.800</span><span class="mn">at threshold 0.55</span></div><div class="metric"><span class="mk">False flags</span><span class="mv">0</span><span class="mn">of 6 good claims</span></div></div>
     <p class="mono" style="color:var(--muted);font-size:12.5px">
-      generated 2026-08-31T21:32:37+00:00 &middot; 6 authored transcripts, 12 labelled claims
+      generated 2026-09-07T00:10:55+00:00 &middot;
+      3 transcripts &middot; 12 labelled claims &middot;
+      threshold 0.55
     </p>
   </div>
 </section>
 
 <section>
-  <h2>Threshold sensitivity</h2>
+  <h2>The documents the claims were checked against</h2>
   <div class="stack-lg">
-    <figure><svg class="chart" viewBox="0 0 680 210" role="img" aria-label="Line chart"><line x1="46" y1="12.0" x2="666" y2="12.0" stroke="currentColor" opacity=".12" stroke-width="1"/><text x="38" y="16.0" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="currentColor" opacity=".5">1.00</text><line x1="46" y1="54.0" x2="666" y2="54.0" stroke="currentColor" opacity=".12" stroke-width="1"/><text x="38" y="58.0" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="currentColor" opacity=".5">0.85</text><line x1="46" y1="96.0" x2="666" y2="96.0" stroke="currentColor" opacity=".12" stroke-width="1"/><text x="38" y="100.0" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="currentColor" opacity=".5">0.71</text><line x1="46" y1="138.0" x2="666" y2="138.0" stroke="currentColor" opacity=".12" stroke-width="1"/><text x="38" y="142.0" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="currentColor" opacity=".5">0.56</text><line x1="46" y1="180.0" x2="666" y2="180.0" stroke="currentColor" opacity=".12" stroke-width="1"/><text x="38" y="184.0" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="currentColor" opacity=".5">0.42</text><path d="M46.0,12.0 L102.4,12.0 L158.7,60.0 L215.1,60.0 L271.5,60.0 L327.8,60.0 L384.2,120.0 L440.5,140.0 L496.9,156.0 L553.3,169.1 L609.6,169.1 L666.0,180.0" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><text x="666" y="25" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--accent)">precision</text><path d="M46.0,12.0 L102.4,12.0 L158.7,12.0 L215.1,12.0 L271.5,12.0 L327.8,12.0 L384.2,12.0 L440.5,12.0 L496.9,12.0 L553.3,12.0 L609.6,12.0 L666.0,12.0" fill="none" stroke="var(--warn)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><text x="666" y="40" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--warn)">recall</text><path d="M46.0,12.0 L102.4,12.0 L158.7,38.2 L215.1,38.2 L271.5,38.2 L327.8,38.2 L384.2,78.5 L440.5,94.3 L496.9,108.0 L553.3,120.0 L609.6,120.0 L666.0,130.6" fill="none" stroke="var(--ok)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><text x="666" y="55" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--ok)">F1</text><text x="356.0" y="204" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="currentColor" opacity=".5">grounding threshold</text><text x="12" y="96.0" text-anchor="middle" transform="rotate(-90 12 96.0)" font-family="IBM Plex Mono, monospace" font-size="10" fill="currentColor" opacity=".5">score</text></svg></figure>
-    <div class="note">
-      <h3>Why the whole curve is here</h3>
-      <p>A single operating point is a choice, and publishing only the flattering one is
-      how a harness gets tuned to its own test set. The curve shows what the threshold
-      buys and what it costs across the range. Fabricated-number detection is threshold
-      independent &mdash; a number that appears in no source is caught regardless &mdash;
-      which is why recall never falls to zero at the strict end.</p>
-    </div>
+    <div class="tw"><table><thead><tr><th>Source</th><th>Characters</th><th>Numeric sentences</th><th>SHA-256 (first 16)</th></tr></thead><tbody><tr><td>CPI</td><td class="n">24,190</td><td class="n">64</td><td>8c8532945dda0f4f</td></tr><tr><td>EMPSIT</td><td class="n">14,714</td><td class="n">40</td><td>20e122273575e268</td></tr><tr><td>H15</td><td class="n">14,842</td><td class="n">16</td><td>42ac9e6dc73db142</td></tr></tbody></table></div>
+    <p>Full URLs, hashes and retrieval times are in <code>data/MANIFEST.json</code>, so a
+    reviewer can re-fetch the same bytes and re-run the scorer against them.</p>
   </div>
 </section>
 
 <section>
-  <h2>The false positive that is still here</h2>
-  <div class="stack">
-    <div class="note">
-      <h3>Why it has not been tuned away</h3>
-      <p>One correctly grounded claim is still flagged: <em>"The FOMC held rates at 4.25
-      to 4.5 percent"</em>, against a source that says <em>"The Federal Open Market
-      Committee held the target range for the federal funds rate at 4.25 to 4.5
-      percent."</em> Same fact, almost no shared vocabulary. Lexical grounding cannot
-      see through the abbreviation, and lowering the threshold far enough to admit it
-      would start admitting genuinely unsupported claims too.</p>
-      <p>This is the honest cost of an inspectable checker, and it is on the page rather
-      than removed from the test set. An alias table or an embedding-based scorer would
-      close it &mdash; and would move some of the reasoning back inside a box you cannot
-      read. That trade is a decision, not an oversight.</p>
-    </div>
-  </div>
-</section>
-
-<section>
-  <h2>Every claim, every verdict</h2>
-  <div class="stack">
-    <div class="tw"><table><thead><tr><th>Transcript</th><th>Claim</th><th>Ground truth</th><th>Verdict</th><th>Score</th><th>Reason</th></tr></thead><tbody><tr><td>T-01</td><td>The FOMC held the target range at 4.25 to 4.5 percent [S1].</td><td>ok</td><td>passed</td><td class="n">0.56</td><td></td></tr><tr><td>T-01</td><td>The Committee said inflation remains somewhat elevated [S1].</td><td>ok</td><td>passed</td><td class="n">0.62</td><td></td></tr><tr><td>T-02</td><td>The FOMC held rates at 4.25 to 4.5 percent [S1].</td><td>ok</td><td>flagged</td><td class="n">0.40</td><td>no supporting span (best 0.40 &lt; 0.55)</td></tr><tr><td>T-02</td><td>Inflation is running at 2.1 percent year over year [S1].</td><td>fabricated</td><td>flagged</td><td class="n">0.12</td><td>number(s) in no source: 2.1</td></tr><tr><td>T-03</td><td>CPI rose 0.3 percent in January on a seasonally adjusted basis [S2].</td><td>ok</td><td>passed</td><td class="n">0.70</td><td></td></tr><tr><td>T-03</td><td>The 12-month change was 3.0 percent before seasonal adjustment [S2].</td><td>ok</td><td>passed</td><td class="n">0.59</td><td></td></tr><tr><td>T-03</td><td>The increase was driven primarily by shelter costs [S2].</td><td>unsupported</td><td>flagged</td><td class="n">0.00</td><td>no supporting span (best 0.00 &lt; 0.55)</td></tr><tr><td>T-04</td><td>A single supplier accounted for 42 percent of component purchases in fiscal 20…</td><td>ok</td><td>passed</td><td class="n">0.81</td><td></td></tr><tr><td>T-04</td><td>That is up from 31 percent in fiscal 2023 [S3].</td><td>ok</td><td>passed</td><td class="n">0.71</td><td></td></tr><tr><td>T-05</td><td>A single supplier accounted for 42 percent of component purchases [S2].</td><td>miscited</td><td>flagged</td><td class="n">1.00</td><td>cited [&#x27;S2&#x27;] but support is in S3</td></tr><tr><td>T-05</td><td>Inflation was 3.0 percent over twelve months [S3].</td><td>miscited</td><td>flagged</td><td class="n">0.23</td><td>no supporting span (best 0.23 &lt; 0.55)</td></tr><tr><td>T-06</td><td>The Committee cut rates by 25 basis points to 4.0 percent [S1].</td><td>fabricated</td><td>flagged</td><td class="n">0.09</td><td>number(s) in no source: 25, 4.0</td></tr></tbody></table></div>
-  </div>
-</section>
-
-<section>
-  <h2>Tamper-evident tool log</h2>
+  <h2>Confusion matrix at the committed threshold</h2>
   <div class="stack-lg">
-    <div class="tw"><table><thead><tr><th>Property</th><th>Value</th></tr></thead><tbody><tr><td>Tool calls recorded</td><td class="n">4</td></tr><tr><td>Failures captured</td><td class="n">1</td></tr><tr><td>Chain intact before tampering</td><td class="n">True</td></tr><tr><td>Tampering detected</td><td class="n">True</td></tr><tr><td>Detected at record index</td><td class="n">1</td></tr><tr><td>Chain intact after restore</td><td class="n">True</td></tr></tbody></table></div>
+    <div class="tw"><table><thead><tr><th></th><th>Flagged by the checker</th><th>Not flagged</th></tr></thead><tbody><tr><td>Actually bad (fabricated or unsupported)</td><td>true positives 4</td><td>false negatives 2</td></tr><tr><td>Actually fine</td><td>false positives 0</td><td>true negatives 6</td></tr></tbody></table></div>
+  </div>
+</section>
+
+<section>
+  <h2>Which kind of error it catches</h2>
+  <div class="stack-lg">
+    <figure><svg class="chart" viewBox="0 0 680 79" role="img" aria-label="Bar chart of results"><text x="180" y="26.68" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".72">Unsupported — cited the wrong document</text><rect x="190" y="9" width="422.0" height="26" rx="3" fill="var(--accent)" opacity=".85"/><text x="621.0" y="26.68" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".62">1.00</text><text x="180" y="61.68" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".72">Fabricated — one number altered</text><rect x="190" y="44" width="140.7" height="26" rx="3" fill="var(--accent)" opacity=".85"/><text x="339.7" y="61.68" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".62">0.33</text></svg></figure>
+    <div class="tw"><table><thead><tr><th>Kind of bad claim</th><th>Caught</th><th>Present</th><th>Share caught</th></tr></thead><tbody><tr><td>Fabricated — one number altered</td><td class="n">1</td><td class="n">3</td><td class="n">0.33</td></tr><tr><td>Unsupported — cited the wrong document</td><td class="n">3</td><td class="n">3</td><td class="n">1.00</td></tr></tbody></table></div>
+    <p>The split is the finding. A claim citing the wrong source is caught every time,
+    because the supporting text is visibly sitting in a different document. A claim where
+    one digit was changed is much harder: the altered sentence still matches its source
+    almost everywhere else.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Threshold sweep</h2>
+  <div class="stack-lg">
+    <figure><svg class="chart" viewBox="0 0 680 429" role="img" aria-label="Bar chart of results"><text x="180" y="26.68" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".72">threshold 0.30</text><rect x="190" y="9" width="337.6" height="26" rx="3" fill="var(--accent)" opacity=".85"/><text x="536.6" y="26.68" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".62">0.800</text><text x="180" y="61.68" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".72">threshold 0.35</text><rect x="190" y="44" width="337.6" height="26" rx="3" fill="var(--accent)" opacity=".85"/><text x="536.6" y="61.68" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".62">0.800</text><text x="180" y="96.68" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".72">threshold 0.40</text><rect x="190" y="79" width="337.6" height="26" rx="3" fill="var(--accent)" opacity=".85"/><text x="536.6" y="96.68" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".62">0.800</text><text x="180" y="131.68" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".72">threshold 0.45</text><rect x="190" y="114" width="337.6" height="26" rx="3" fill="var(--accent)" opacity=".85"/><text x="536.6" y="131.68" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".62">0.800</text><text x="180" y="166.68" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".72">threshold 0.50</text><rect x="190" y="149" width="337.6" height="26" rx="3" fill="var(--accent)" opacity=".85"/><text x="536.6" y="166.68" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".62">0.800</text><text x="180" y="201.68" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".72">threshold 0.55</text><rect x="190" y="184" width="337.6" height="26" rx="3" fill="var(--accent)" opacity=".85"/><text x="536.6" y="201.68" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".62">0.800</text><text x="180" y="236.68" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".72">threshold 0.60</text><rect x="190" y="219" width="337.6" height="26" rx="3" fill="var(--accent)" opacity=".85"/><text x="536.6" y="236.68" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".62">0.800</text><text x="180" y="271.68" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".72">threshold 0.65</text><rect x="190" y="254" width="337.6" height="26" rx="3" fill="var(--accent)" opacity=".85"/><text x="536.6" y="271.68" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".62">0.800</text><text x="180" y="306.68" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".72">threshold 0.70</text><rect x="190" y="289" width="337.6" height="26" rx="3" fill="var(--accent)" opacity=".85"/><text x="536.6" y="306.68" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".62">0.800</text><text x="180" y="341.68" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".72">threshold 0.75</text><rect x="190" y="324" width="337.6" height="26" rx="3" fill="var(--accent)" opacity=".85"/><text x="536.6" y="341.68" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".62">0.800</text><text x="180" y="376.68" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".72">threshold 0.80</text><rect x="190" y="359" width="383.6" height="26" rx="3" fill="var(--accent)" opacity=".85"/><text x="582.6" y="376.68" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".62">0.909</text><text x="180" y="411.68" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".72">threshold 0.85</text><rect x="190" y="394" width="422.0" height="26" rx="3" fill="var(--accent)" opacity=".85"/><text x="621.0" y="411.68" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity=".62">1.000</text></svg></figure>
+    <div class="tw"><table><thead><tr><th>Threshold</th><th>Precision</th><th>Recall</th><th>F1</th></tr></thead><tbody><tr><td>0.30</td><td class="n">1.000</td><td class="n">0.667</td><td class="n">0.800</td></tr><tr><td>0.35</td><td class="n">1.000</td><td class="n">0.667</td><td class="n">0.800</td></tr><tr><td>0.40</td><td class="n">1.000</td><td class="n">0.667</td><td class="n">0.800</td></tr><tr><td>0.45</td><td class="n">1.000</td><td class="n">0.667</td><td class="n">0.800</td></tr><tr><td>0.50</td><td class="n">1.000</td><td class="n">0.667</td><td class="n">0.800</td></tr><tr><td>0.55  ← committed</td><td class="n">1.000</td><td class="n">0.667</td><td class="n">0.800</td></tr><tr><td>0.60</td><td class="n">1.000</td><td class="n">0.667</td><td class="n">0.800</td></tr><tr><td>0.65</td><td class="n">1.000</td><td class="n">0.667</td><td class="n">0.800</td></tr><tr><td>0.70</td><td class="n">1.000</td><td class="n">0.667</td><td class="n">0.800</td></tr><tr><td>0.75</td><td class="n">1.000</td><td class="n">0.667</td><td class="n">0.800</td></tr><tr><td>0.80</td><td class="n">1.000</td><td class="n">0.833</td><td class="n">0.909</td></tr><tr><td>0.85</td><td class="n">1.000</td><td class="n">1.000</td><td class="n">1.000</td></tr></tbody></table></div>
     <div class="note">
-      <h3>What the hash chain does and does not prove</h3>
-      <p>Each record is hashed together with the previous record's hash, so editing any
-      entry after the fact breaks every hash downstream of it. The run above edits one
-      argument in record 1 and the chain reports the break at exactly that index.</p>
-      <p>This proves the log has not been altered since it was written. It does not prove
-      who wrote it &mdash; there is no key management here and no signing. Calling it
-      tamper-evident rather than tamper-proof is the accurate description.</p>
+      <h3>Why the best threshold in the sweep is not the reported one</h3>
+      <p>At 0.85 this run scores F1 1.000, better than the
+      0.800 reported above. That figure is not the headline and should not be
+      quoted as one: the sweep was computed on the same 12 claims the
+      threshold would be chosen from, so picking it after seeing the table is fitting the
+      operating point to the test set.</p>
+      <p>The committed threshold of 0.55 was fixed in advance, and
+      0.800 is what it delivers. The whole sweep is printed because a reader is
+      entitled to it.</p>
     </div>
   </div>
 </section>
 
 <section>
-  <h2>Reproduce it</h2>
+  <h2>Reproduce</h2>
   <div class="stack">
-    <pre>cd agent-verification-harness
-pip install -r requirements.txt
-python -m pytest tests/ -q
-python -m src.demo</pre>
-  </div>
-</section>
-
-<section>
-  <h2>What this does not establish</h2>
-  <div class="stack">
-    <ul class="tight">
-      <li>Twelve claims across six authored transcripts. That is a smoke test. No
-      precision or recall figure here generalises to real agent output.</li>
-      <li>The harness has never been run against a production agent, and the
-      transcripts were written by the same person who wrote the checks.</li>
-      <li>Claim splitting is sentence-level, which is coarse; a claim spanning two
-      sentences is scored as two.</li>
-      <li>Grounding is lexical, so a correct paraphrase with no shared vocabulary
-      scores as unsupported. One such case is live in this run and is described
-      above rather than removed.</li>
-      <li>Two bugs found by this run are worth recording: citation markers were
-      being scored as claim content (<code>[S1]</code> contains the digit 1, which
-      the fabrication check read as an invented number), and the number pattern
-      captured a sentence-final period so <code>2023.</code> never matched
-      <code>2023</code>. Both are now regression-tested. A harness that had only
-      ever been run on its own happy path would have shipped with both.</li>
-    </ul>
+    <pre>python -m src.demo --real   # refetches the releases and verifies their hashes
+# -&gt; results/latest-real.json
+pytest -q</pre>
   </div>
 </section>
 
@@ -246,7 +195,7 @@ python -m src.demo</pre>
   <p>1.0-Secure-Ai-Agent-Infrastructure &middot; agent-verification-harness &middot; part of a five-repository portfolio on optimization-driven,
      system-level decision frameworks.</p>
   <p>Every figure on this page was produced by running <code>python -m src.demo</code> in this
-     project and reading <code>results.json</code>. Nothing here is hand-entered. The run used clearly-labelled synthetic data; swap in the real source and the same pipeline reports real numbers.</p>
+     project and reading <code>results.json</code>. Nothing here is hand-entered. This page is built from results/latest-real.json. The claims are constructed from real documents rather than sampled from model output, which is what makes every label certain.</p>
 </div>
 </div>
 </body>
