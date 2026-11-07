@@ -9,7 +9,10 @@ Ship the Prof. Belal Alsinglawi proposal as code: an LLM-based smart-contract au
 
 ## Why the approach is non-obvious
 
-Turns a proposal into an artifact and produces the measured workload reduction the petition currently asserts. Its stated deliverables — a US provisional patent filing, an installable open-source package, and an evaluable dataset — are deliberately third-party verifiable, which is precisely what USCIS weighs.
+An agent that re-checks its own output usually reports the same findings with
+more confidence. The question worth measuring is whether a second pass actually
+drops what it cannot substantiate, so the metric here is the change in review
+volume and false alarms between passes, not a self-reported confidence score.
 
 ## Method
 
