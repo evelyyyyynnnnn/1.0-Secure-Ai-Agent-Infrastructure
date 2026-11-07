@@ -16,7 +16,7 @@ decision auditing (`4.0`) and shared tooling (`5.0`).
 | Projects with measured results | **3** |
 | Tests across the three suites | **88** |
 | Running on real third-party data | **3 of 3** |
-| Most recent run | 2026-11-03 |
+| Most recent reportable run | 2026-09-07 |
 
 ## Projects
 
@@ -39,7 +39,8 @@ real sentences lifted from a different release and cited to this one.
 **Precision 1.000, recall 0.667, F1 0.800** at the committed threshold of 0.55,
 with zero good claims falsely flagged. The split is the finding: a claim citing
 the wrong source is caught every time (3 of 3), a claim where one digit was
-changed is caught once in three.
+changed is caught once in three. The threshold is not what decides it: all
+three altered-digit claims scored 0.78-0.83, above every threshold swept.
 
 ### 2. ChainTrust-Bench — [`2-chaintrust-bench/`](2-chaintrust-bench/)
 
@@ -114,3 +115,15 @@ python -m pytest -q
 python -m data.fetch        # where the project has a fetch step
 python -m src.demo --real   # writes results/latest-real.json
 ```
+
+## Licence
+
+[Apache License 2.0](LICENSE). The code, benchmarks and documentation in this
+repository may be reused, modified and redistributed under its terms, including
+by projects that need a patent grant to incorporate them.
+
+Third-party corpora kept under `*/data/` carry their own terms and are labelled
+where they appear: the SmartBugs curated dataset and OpenZeppelin Contracts in
+`2-chaintrust-bench/`, and US Government releases in
+`1-agent-verification-harness/`, which are not subject to copyright
+(17 U.S.C. § 105).

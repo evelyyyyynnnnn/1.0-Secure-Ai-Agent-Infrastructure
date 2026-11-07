@@ -89,7 +89,6 @@ data/
   |-- solcorpus.py         # SmartBugs -> benchmark class mapping
 docs/
   |-- DATA.md
-  |-- EVIDENCE.md
   |-- METHOD.md
 requirements.txt
 results/

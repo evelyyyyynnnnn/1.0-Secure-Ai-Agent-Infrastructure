@@ -33,7 +33,6 @@ data/
   |-- sample/
 docs/
   |-- DATA.md
-  |-- EVIDENCE.md
   |-- METHOD.md
 prior-work-2023/
   |-- README.md
