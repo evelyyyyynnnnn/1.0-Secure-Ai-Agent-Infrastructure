@@ -77,7 +77,6 @@ data/
 docs/
   |-- DATA.md             # schema + provenance (authored; real corpus is future work)
   |-- METHOD.md           # the three analyzers + why sandbox-and-verify transfers
-  |-- EVIDENCE.md         # what the skeleton shows vs what the collaboration adds
 results/
   |-- README.md
   |-- latest.json         # the last run's numbers — the only source for cited figures

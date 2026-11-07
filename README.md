@@ -2,96 +2,128 @@
 
 [![tests](https://github.com/evelyyyyynnnnn/1.0-Secure-Ai-Agent-Infrastructure/actions/workflows/tests.yml/badge.svg)](https://github.com/evelyyyyynnnnn/1.0-Secure-Ai-Agent-Infrastructure/actions/workflows/tests.yml)
 
-Research prototypes and infrastructure tools for secure AI agent systems using LLMs, blockchain and distributed architectures.
+Reproducible research prototypes for one question: **can an autonomous agent be
+trusted with a security decision, and would you know if it could not?**
 
-Part of a five-repository portfolio supporting the endeavor described in the
-EB2-NIW petition: **optimization-driven, system-level decision frameworks** —
-integrating operations research, mathematical optimization and applied AI — for
-domains where a wrong decision carries systemic consequences. The three pillars
-are financial stability, healthcare safety and secure digital infrastructure.
+Three projects, each taking one part of that question, each measured on data
+published by a third party, and each reporting what did not work next to what
+did. Part of a five-repository portfolio on verifiable AI for high-stakes
+decisions, alongside healthcare safety (`2.0`), financial stability (`3.0`),
+decision auditing (`4.0`) and shared tooling (`5.0`).
 
 | | |
 |---|---|
-| Petition-grade projects today | 1 petition-grade project (the Belal agent, still a proposal) |
-| Verdict | **Needs 3 more** |
-
-> "Petition-grade" means: original work, a stated method, real data at a stated
-> scale, a measured result, and a README a reviewer can follow. Counts exclude
-> duplicates, forks of third-party work, retired projects, and asset-only
-> folders.
+| Projects with measured results | **3** |
+| Tests across the three suites | **88** |
+| Running on real third-party data | **3 of 3** |
+| Most recent reportable run | 2026-09-07 |
 
 ## Projects
 
-| Folder | Project | Pillar | Evidence value |
+| Folder | Project | What it measures | Tests |
 |---|---|---|---|
-| [`2-chaintrust-bench/`](2-chaintrust-bench/) | ChainTrust-Bench | Secure Digital Infrastructure | CORE — closes the largest credibility gap in the filing |
-| [`3-llm-audit-agent/`](3-llm-audit-agent/) | LLM Audit Agent | Secure Digital Infrastructure | CORE — highest-value item in the whole portfolio |
-| [`agent-verification-harness/`](agent-verification-harness/) | Agent Verification Harness | Cross-cutting — trustworthy AI | CORE — the literal thesis of Section 2 |
+| [`1-agent-verification-harness/`](1-agent-verification-harness/) | Agent Verification Harness | Whether a grounding check catches an agent's bad claims without flagging its good ones | 32 |
+| [`2-chaintrust-bench/`](2-chaintrust-bench/) | ChainTrust-Bench | How well smart-contract detectors score *per vulnerability class*, and how often they misfire on audited code | 38 |
+| [`3-llm-audit-agent/`](3-llm-audit-agent/) | LLM Audit Agent | Whether an auditing agent that re-checks itself actually drops what it cannot verify | 18 |
 
-## What each one is
+## What each one found
 
-### 1. ChainTrust-Bench — [`2-chaintrust-bench/`](2-chaintrust-bench/)
+### 1. Agent Verification Harness — [`1-agent-verification-harness/`](1-agent-verification-harness/)
 
-A smart-contract security benchmark at the 1.2M-transaction scale, released as a named, versioned dataset with a DOI and a public leaderboard.
+Three real US government statistical releases (BLS CPI, BLS Employment
+Situation, Federal Reserve H.15) are turned into twelve claims whose truth is
+known *by construction*: supported claims are quoted verbatim, fabricated ones
+are the same sentence with a single number altered, and unsupported ones are
+real sentences lifted from a different release and cited to this one.
 
-*Why it earns its place:* The petition already names this tool as adopted by two fintech startups. Right now the name points at nothing. This single repo closes the largest credibility gap in the filing.
+**Precision 1.000, recall 0.667, F1 0.800** at the committed threshold of 0.55,
+with zero good claims falsely flagged. The split is the finding: a claim citing
+the wrong source is caught every time (3 of 3), a claim where one digit was
+changed is caught once in three. The threshold is not what decides it: all
+three altered-digit claims scored 0.78-0.83, above every threshold swept.
 
-*Target scale:* 1,200,000+ on-chain transactions
+### 2. ChainTrust-Bench — [`2-chaintrust-bench/`](2-chaintrust-bench/)
 
-### 2. LLM Audit Agent — [`3-llm-audit-agent/`](3-llm-audit-agent/)
+A benchmark that scores detectors per vulnerability class and then
+macro-averages, so a detector that only finds the common bug cannot hide behind
+a high overall accuracy. 121 vulnerable contracts from the SmartBugs curated
+corpus across seven classes, plus 20 negative controls from OpenZeppelin
+Contracts `v5.0.2`.
 
-Ship the Prof. Belal Alsinglawi proposal as code: an LLM-based smart-contract auditing agent, benchmarked against the rule-based Contract Audit tool in 3.0.
+**Both heuristic detectors raise false alarms on 9 of 20 pieces of audited
+OpenZeppelin library code** — a false-positive rate of 0.450. The rule baseline
+reports `integer_overflow` on `Math.sol` under Solidity ^0.8, where the compiler
+reverts on overflow by default, and `missing_access_control` on contracts that
+inherit the reference `Ownable` implementation. Per class, the baseline finds
+unchecked calls reasonably well (F1 0.60) and reentrancy not at all (0 of 31).
+That headroom is the reason the benchmark exists.
 
-*Why it earns its place:* Turns a proposal into an artifact and produces the measured workload reduction the petition currently asserts. Its stated deliverables — a US provisional patent filing, an installable open-source package, and an evaluable dataset — are deliberately third-party verifiable, which is precisely what USCIS weighs.
+### 3. LLM Audit Agent — [`3-llm-audit-agent/`](3-llm-audit-agent/)
 
-*Target scale:* Benchmark suite from 2-chaintrust-bench/
+A four-stage auditing agent — understand, plan, classify, verify — where every
+stage's reply is written into a hash-chained trail with its backend, latency and
+reply size. The verify stage re-reads each finding against the source and
+discards what it cannot confirm.
 
-### 3. Agent Verification Harness — [`agent-verification-harness/`](agent-verification-harness/)
-
-Grounding and citation checks, tool-call audit logging, and hallucination detection for tool-using agents.
-
-*Why it earns its place:* This is the literal thesis of Section 2 of the petition (verification, robustness, interpretability). No repo currently implements it.
-
-*Target scale:* Public agent-trajectory datasets only
+On a real open language model (`qwen2.5-coder:7b`, served locally) the full four
+stages ran end to end over one contract in **68.3 s**, confirming two real
+issues and **dropping two findings it could not substantiate** — both of which
+reasoned about what the contract might do if someone later changed it. On the
+121-contract corpus with a deterministic backend the agent trails the rule
+baseline on macro-F1 (0.256 against 0.281) while cutting review items from 105
+to 59 and false alarms from 68 to 28, at a cost of six more missed contracts.
+Both views are reported and neither was tuned.
 
 ## Repository layout
 
 ```
 1.0-Secure-Ai-Agent-Infrastructure/
+├── 1-agent-verification-harness/
 ├── 2-chaintrust-bench/
 ├── 3-llm-audit-agent/
-├── agent-verification-harness/
-│
-│   ── earlier work, promoted out of previous/ ──
-└── 4-prof-belal-collaboration/
+├── 4-future/                     # collaboration proposal + a runnable skeleton
+├── historical-archive/           # earlier work, kept readable, not cited
+└── scripts/
 ```
 
-Every rebuilt project carries the same skeleton: `README.md`, `src/`, `data/`, `results/`, `tests/`, `website/`.
+Every project carries the same skeleton: `README.md`, `src/`, `data/`,
+`results/`, `tests/`, `website/`. Raw data is never committed — each project's
+`data/MANIFEST.json` records the URL, SHA-256 and retrieval time of every input,
+so a reviewer can re-fetch the same bytes.
 
-> Earlier and off-theme prior work (dashboards, consumer apps, templates, and other non-endeavor folders) has been moved to a separate `archive-prior-work` repository to keep this repository focused on the endeavor. It remains recoverable from this repository's git history.
+[`4-future/`](4-future/) holds a research collaboration proposal and a runnable
+Direction-1 skeleton (agent-skill and MCP supply-chain screening). It is
+outreach-stage material, not an implemented result, and its own README says so.
 
 ## Ground rules
 
-1. **No number without a run log.** Anything cited in the petition must appear
-   in that project's `results/README.md` with a run date behind it.
-2. **No simulated data under a real claim.** Sample data lives in
-   `data/sample/`, labelled, and is never the source of a cited figure.
+1. **No number without a run log.** Any figure quoted anywhere traces to that
+   project's `results/` file, with the run date inside it.
+2. **No simulated data under a real claim.** Authored and sample data is
+   labelled `is_synthetic: true` and is never the source of a reported figure.
 3. **Adoption must be documentable** — named institutions, dated
-   correspondence, registry statistics. Never an inflated count.
+   correspondence, registry statistics — or it is not claimed. None of these
+   projects currently has adoption, a DOI, a release or an external user, and
+   none claims to.
 4. **Third-party and forked code stays labelled** and is never counted.
 
-## Earlier work
+## Reproduce
 
-There is no `previous/` folder any more. Everything that was in it has been promoted to the top level, so every piece of work in this repository is a first-class folder that can be opened, read and continued.
+```bash
+cd <project> && pip install -r requirements.txt
+python -m pytest -q
+python -m data.fetch        # where the project has a fetch step
+python -m src.demo --real   # writes results/latest-real.json
+```
 
-Nothing was deleted except items the rebuild genuinely supersedes; those remain in git history.
+## Licence
 
-| Folder | What it is | How it may be used |
-|---|---|---|
-| [`4-prof-belal-collaboration/`](4-prof-belal-collaboration/) | The collaboration's own folder. Holds a placeholder document and nothing else. | Not citable as an artifact. The agent it proposed is implemented and measured in `3-llm-audit-agent/`; a patent and a paper would live here and do not exist yet. |
+[Apache License 2.0](LICENSE). The code, benchmarks and documentation in this
+repository may be reused, modified and redistributed under its terms, including
+by projects that need a patent grant to incorporate them.
 
-**Read the third column before citing anything here.** Forks of third-party work, duplicates, retired projects and asset-only folders are labelled as such and are not part of the petition's evidence.
-
-
----
-Scaffold generated from `NIW_Project_Portfolio_and_Gap_Plan.xlsx` (sheets: Repo Build-Out Plan, Core Ideas at a Glance, NIW Claim vs Repo Evidence, Notion 创业 Alignment). Structure only — no results are claimed here yet.
+Third-party corpora kept under `*/data/` carry their own terms and are labelled
+where they appear: the SmartBugs curated dataset and OpenZeppelin Contracts in
+`2-chaintrust-bench/`, and US Government releases in
+`1-agent-verification-harness/`, which are not subject to copyright
+(17 U.S.C. § 105).
