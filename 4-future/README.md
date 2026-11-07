@@ -57,6 +57,6 @@ valuable next step, not a restatement.
 - No number in the proposal claims a result the prototype has not measured. Anything
   suggesting, e.g., a fixed percentage reduction in audit time is not supported and is
   not cited.
-- For this collaboration to count as the [redacted]'s own evidence, any written agreement
+- For this collaboration to be attributable to this author, any written agreement
   must name her as an inventor on the provisional filing and as lead/co-author on the tool
   and benchmark (Proposal §9).

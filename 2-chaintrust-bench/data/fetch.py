@@ -15,6 +15,7 @@ import json
 import pathlib
 import sys
 
+from . import benigncorpus
 from .datakit import Fetcher, FetchError, NetworkBlocked
 from .solcorpus import REFS, contract_source, index_source, parse_index, to_cases
 
@@ -45,6 +46,10 @@ def main(argv=None) -> int:
     ap.add_argument("--list", action="store_true")
     ap.add_argument("--limit", type=int, default=0,
                     help="stop after N contracts (for a quick trial run)")
+    ap.add_argument("--no-benign", action="store_true",
+                    help="skip the OpenZeppelin negative controls. Without them "
+                         "the corpus has no true negatives and no detector's "
+                         "false-positive rate can be measured.")
     args = ap.parse_args(argv)
     f = Fetcher(ROOT)
 
@@ -95,9 +100,38 @@ def main(argv=None) -> int:
         return (f.raw / "smartbugs" / path).read_text(encoding="utf8", errors="replace")
 
     cases, stats = to_cases(records, read)
+
+    # Negative controls. Without true negatives the leaderboard's
+    # false-positive column has an empty denominator and reads 0.0 for every
+    # detector -- which looks like "nobody misfires" and means "nobody was asked".
+    bstats = {"requested": 0, "kept": 0, "skipped_unreadable": 0}
+    if not args.no_benign:
+        bsources = benigncorpus.sources()
+        print(f"\ndownloading {len(bsources)} OpenZeppelin "
+              f"{benigncorpus.REF} negative controls ...")
+        for s in bsources:
+            try:
+                f.get(s, refresh=args.refresh)
+            except NetworkBlocked:
+                raise
+            except FetchError as exc:
+                print(f"  skipped {s.name}: {exc}", file=sys.stderr)
+
+        def read_benign(path):
+            return (f.raw / "openzeppelin" / path).read_text(
+                encoding="utf8", errors="replace")
+
+        bcases, bstats = benigncorpus.to_cases(read_benign)
+        cases = cases + bcases
+
     with CORPUS.open("w", encoding="utf8") as fh:
         for c in cases:
             fh.write(json.dumps(c) + "\n")
+
+    if bstats["kept"]:
+        print(f"  kept {bstats['kept']} of {bstats['requested']} negative controls"
+              + (f", {bstats['skipped_unreadable']} unreadable"
+                 if bstats["skipped_unreadable"] else ""))
 
     print(f"\nkept {stats['kept']} of {stats['records']} contracts")
     print(f"  excluded, vulnerability class not in this benchmark: "

@@ -17,11 +17,14 @@ META = {
                "vulnerability class, so a tool's weaknesses are visible instead of "
                "averaged away.",
     "tags": [("Solidity", ""), ("7 vulnerability classes", ""),
-             ("macro-averaged scoring", ""), ("seed corpus", "demo")],
-    "banner": "Every number below was produced by running the benchmark against the "
-              "seed corpus authored for this project. The corpus is small and "
-              "hand-written on purpose. The mined, at-scale corpus does not exist yet, "
-              "and no result here should be read as if it did.",
+             ("macro-averaged scoring", ""), ("SmartBugs curated", ""),
+             ("OpenZeppelin negative controls", "")],
+    "banner": "Every number below was produced by running the benchmark against a real, "
+              "third-party-annotated corpus: 121 vulnerable contracts from the SmartBugs "
+              "curated dataset, annotated by its own authors, plus 20 audited files from "
+              "OpenZeppelin Contracts v5.0.2 entered with no labels. The negative controls "
+              "are what make a false-positive rate measurable; without them the column is "
+              "an empty denominator, not a clean bill of health.",
 }
 
 
