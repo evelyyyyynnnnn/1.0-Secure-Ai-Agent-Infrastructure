@@ -9,7 +9,11 @@ A smart-contract security benchmark at the 1.2M-transaction scale, released as a
 
 ## Why the approach is non-obvious
 
-The [redacted] already names this tool as adopted by two fintech startups. Right now the name points at nothing. This single repo closes the largest credibility gap in the filing.
+Detector comparisons are usually reported as one pooled accuracy figure, which
+lets a tool that finds only the most common bug class look broadly competent.
+Scoring per vulnerability class and macro-averaging removes that cover, and
+adding audited contracts as negative controls makes the false-positive rate
+visible — a number most detector write-ups omit entirely.
 
 ## Method
 

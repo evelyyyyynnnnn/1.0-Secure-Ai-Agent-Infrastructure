@@ -45,8 +45,8 @@ Roughly 103 lines of Solidity in total, at tutorial scale.
 
 **`Test 1- Transaction/`** is a LaTeX coursework assignment — its title is
 第一次作业 and it carries a student number — tracing a single BSV transaction on a
-block explorer. It is not evidence of professional expertise and should not be
-attached to, or referenced by, any [redacted] exhibit.
+block explorer. It is coursework, not evidence of
+professional expertise, and nothing here should be cited as a result.
 
 **No metric.** Nothing in this folder was measured. Every number the project
 reports comes from the parent folder's `results/latest.json`.
@@ -54,6 +54,5 @@ reports comes from the parent folder's `results/latest.json`.
 ## How this folder may be used
 
 As chronology only: it establishes that this line of work began in early 2023
-and that the settlement design extends the [redacted]'s own earlier data model
-rather than starting from someone else's. One sentence in a footnote or an
-exhibit description is the right weight.
+and that the settlement design extends the author's own earlier data model
+rather than starting from someone else's. A footnote is the right weight.

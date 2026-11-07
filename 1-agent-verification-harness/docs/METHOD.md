@@ -9,7 +9,11 @@ Grounding and citation checks, tool-call audit logging, and hallucination detect
 
 ## Why the approach is non-obvious
 
-This is the literal thesis of Section 2 of the [redacted] (verification, robustness, interpretability). No repo currently implements it.
+A verification layer is only useful if it is itself inspectable. The obvious
+approach is to score groundedness with a second language model, which moves the
+trust problem rather than solving it: the checker becomes one more component
+whose failures you cannot see. This takes the opposite route and keeps every
+step lexical and auditable, accepting weaker paraphrase handling as the price.
 
 ## Method
 
