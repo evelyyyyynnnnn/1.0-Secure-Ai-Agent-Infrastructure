@@ -1,0 +1,31 @@
+{
+  "@context": "https://w3id.org/codemeta/3.0",
+  "@type": "SoftwareSourceCode",
+  "name": "Secure AI Agent Infrastructure",
+  "description": "Reproducible research prototypes addressing one question: can an autonomous agent be trusted with a security decision, and would you know if it could not? Contains an agent verification harness that scores whether each claim in an LLM's output is supported by the documents it retrieved, a per-class smart-contract vulnerability benchmark with audited negative controls, and an LLM audit agent. Results files record measured runs against SHA-256-pinned sources; metrics that the evidence does not support are withheld with a machine-readable reason rather than reported.",
+  "author": [
+    {
+      "@type": "Person",
+      "givenName": "Wenke",
+      "familyName": "Du"
+    }
+  ],
+  "version": "1.0.0",
+  "dateModified": "2026-11-09",
+  "datePublished": "2026-11-09",
+  "license": "https://spdx.org/licenses/Apache-2.0",
+  "codeRepository": "https://github.com/evelyyyyynnnnn/1.0-Secure-Ai-Agent-Infrastructure",
+  "programmingLanguage": "Python",
+  "keywords": [
+    "AI safety",
+    "large language models",
+    "LLM agents",
+    "grounding verification",
+    "hallucination detection",
+    "smart contract security",
+    "benchmarking",
+    "reproducibility"
+  ],
+  "developmentStatus": "active",
+  "applicationCategory": "Research software"
+}
