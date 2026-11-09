@@ -1,6 +1,7 @@
 # 1.0 — Secure AI Agent Infrastructure
 
 [![tests](https://github.com/evelyyyyynnnnn/1.0-Secure-Ai-Agent-Infrastructure/actions/workflows/tests.yml/badge.svg)](https://github.com/evelyyyyynnnnn/1.0-Secure-Ai-Agent-Infrastructure/actions/workflows/tests.yml)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24094759.svg)](https://doi.org/10.5281/zenodo.24094759)
 
 Reproducible research prototypes for one question: **can an autonomous agent be
 trusted with a security decision, and would you know if it could not?**
