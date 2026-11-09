@@ -4,7 +4,8 @@
   "description": "Reproducible research prototypes addressing one question: can an autonomous agent be trusted with a security decision, and would you know if it could not? Contains an agent verification harness that scores whether each claim in an LLM's output is supported by the documents it retrieved, a per-class smart-contract vulnerability benchmark with audited negative controls, and an LLM audit agent. Results files record measured runs against SHA-256-pinned sources; metrics that the evidence does not support are withheld with a machine-readable reason rather than reported.",
   "creators": [
     {
-      "name": "Du, Wenke"
+      "name": "Du, Wenke",
+      "orcid": "0009-0007-5579-234X"
     }
   ],
   "license": "apache-2.0",
