@@ -33,9 +33,17 @@ REPOS=(
 WORK="${WORK:-$HOME/repro-$(date +%Y%m%d-%H%M%S)}"
 REPORT="$WORK/REPRODUCIBILITY_REPORT.md"
 
-# SEC EDGAR asks callers to identify themselves in the User-Agent. This is the
-# legitimate, documented use of a contact email; override it with your own.
-export DATAKIT_UA="${DATAKIT_UA:-Wenke Du 120987698dwk@gmail.com}"
+# SEC EDGAR asks callers to identify themselves in the User-Agent, and throttles
+# or blocks requests that do not. Set DATAKIT_UA to your own name and contact
+# address before running. This script ships no default on purpose, so that no
+# one's address is committed to the repository.
+if [ -z "${DATAKIT_UA:-}" ]; then
+  echo "DATAKIT_UA is not set." >&2
+  echo "SEC EDGAR requires a contact in the User-Agent; set it to your own:" >&2
+  echo '  export DATAKIT_UA="Your Name your-address"' >&2
+  exit 1
+fi
+export DATAKIT_UA
 export SEC_EDGAR_UA="${SEC_EDGAR_UA:-$DATAKIT_UA}"
 export PYTHONUNBUFFERED=1
 
