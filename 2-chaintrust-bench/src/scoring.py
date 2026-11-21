@@ -7,7 +7,7 @@ score well by being good at whichever class happens to be most common.
 
 from __future__ import annotations
 
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass, asdict, field
 
 from .corpus import CLASSES, Case
 
@@ -51,6 +51,12 @@ class Report:
     macro_f1: float
     false_positive_rate_on_safe: float
     n_cases: int
+    # Which safe cases drew an alert, and which classes fired on each. The
+    # headline rate is per file and deliberately unweighted, but the rate alone
+    # cannot say whether the false alarms sit on controls chosen to look risky
+    # or spread across the set, nor whether one rule accounts for most of them.
+    # Recording the cases lets a reader check both without rerunning anything.
+    false_positives_on_safe: dict = field(default_factory=dict)
 
     def as_dict(self) -> dict:
         return {
@@ -61,6 +67,10 @@ class Report:
             "false_positive_rate_on_safe": round(self.false_positive_rate_on_safe, 4),
             "n_cases": self.n_cases,
             "per_class": {k: v.as_dict() for k, v in self.per_class.items()},
+            "false_positives_on_safe": {
+                cid: sorted(classes)
+                for cid, classes in sorted(self.false_positives_on_safe.items())
+            },
         }
 
 
@@ -68,12 +78,14 @@ def evaluate(detector, cases: list[Case]) -> Report:
     counts = {c: ClassScore(c, 0, 0, 0) for c in CLASSES}
     safe_cases = [c for c in cases if c.is_safe()]
     safe_flagged = 0
+    fp_on_safe: dict[str, set] = {}
 
     for case in cases:
         predicted = set(detector(case.source))
         truth = set(case.labels)
         if case.is_safe() and predicted:
             safe_flagged += 1
+            fp_on_safe[case.cid] = set(predicted)
         for cls in CLASSES:
             in_pred, in_truth = cls in predicted, cls in truth
             if in_pred and in_truth:
@@ -94,6 +106,7 @@ def evaluate(detector, cases: list[Case]) -> Report:
         macro_f1=sum(counts[c].f1 for c in present) / n,
         false_positive_rate_on_safe=(safe_flagged / len(safe_cases)) if safe_cases else 0.0,
         n_cases=len(cases),
+        false_positives_on_safe=fp_on_safe,
     )
 
 

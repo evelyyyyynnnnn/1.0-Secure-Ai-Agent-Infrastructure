@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-03T17:46:29+00:00",
+  "generated_at": "2026-11-21T01:22:04+00:00",
   "data_source": "SmartBugs curated corpus (annotated by its own authors), normalised into data/real-corpus.jsonl",
   "is_synthetic": false,
   "corpus": {
@@ -117,6 +117,37 @@
           "recall": 0.3333,
           "f1": 0.1818
         }
+      },
+      "false_positives_on_safe": {
+        "OZ-Address": [
+          "missing_access_control"
+        ],
+        "OZ-ECDSA": [
+          "integer_overflow"
+        ],
+        "OZ-ERC20": [
+          "integer_overflow",
+          "missing_access_control"
+        ],
+        "OZ-ERC721": [
+          "integer_overflow",
+          "missing_access_control"
+        ],
+        "OZ-Math": [
+          "integer_overflow"
+        ],
+        "OZ-Nonces": [
+          "integer_overflow"
+        ],
+        "OZ-SafeERC20": [
+          "integer_overflow"
+        ],
+        "OZ-TimelockController": [
+          "timestamp_dependence"
+        ],
+        "OZ-VestingWallet": [
+          "missing_access_control"
+        ]
       }
     },
     {
@@ -191,6 +222,40 @@
           "recall": 0.2667,
           "f1": 0.1481
         }
+      },
+      "false_positives_on_safe": {
+        "OZ-Address": [
+          "reentrancy",
+          "unchecked_call"
+        ],
+        "OZ-ECDSA": [
+          "integer_overflow"
+        ],
+        "OZ-ERC20": [
+          "missing_access_control"
+        ],
+        "OZ-ERC4626": [
+          "integer_overflow"
+        ],
+        "OZ-ERC721": [
+          "missing_access_control"
+        ],
+        "OZ-Math": [
+          "integer_overflow"
+        ],
+        "OZ-SafeERC20": [
+          "integer_overflow"
+        ],
+        "OZ-TimelockController": [
+          "integer_overflow",
+          "reentrancy",
+          "timestamp_dependence",
+          "unchecked_call"
+        ],
+        "OZ-VestingWallet": [
+          "integer_overflow",
+          "timestamp_dependence"
+        ]
       }
     },
     {
@@ -265,7 +330,8 @@
           "recall": 0.0,
           "f1": 0.0
         }
-      }
+      },
+      "false_positives_on_safe": {}
     }
   ]
 }
