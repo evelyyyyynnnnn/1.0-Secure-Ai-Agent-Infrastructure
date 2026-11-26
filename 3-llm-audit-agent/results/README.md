@@ -27,7 +27,7 @@ credible to a reviewer than one that does not._
 
 `latest-llm.json` records the four-stage auditing agent running end-to-end on a
 **real open language model** (`qwen2.5-coder:7b`, served locally via Ollama),
-auditing the worked-example contract with the hash-chained audit trail
+auditing the worked-example contract with its stage-by-stage audit trail
 (`backend_is_language_model: true`). On this contract the agent confirmed two
 real issues (an unchecked external call and missing access control) and its
 self-correction stage dropped a spurious finding. Reproduce with:

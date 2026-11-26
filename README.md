@@ -62,7 +62,7 @@ That headroom is the reason the benchmark exists.
 ### 3. LLM Audit Agent — [`3-llm-audit-agent/`](3-llm-audit-agent/)
 
 A four-stage auditing agent — understand, plan, classify, verify — where every
-stage's reply is written into a hash-chained trail with its backend, latency and
+stage's reply is recorded in an audit trail with its backend, latency and
 reply size. The verify stage re-reads each finding against the source and
 discards what it cannot confirm.
 

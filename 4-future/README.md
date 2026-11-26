@@ -36,7 +36,7 @@ Direction 1 retargets an auditing agent that already exists, is tested, and is m
 
     ../3-llm-audit-agent/
 
-It is a four-stage agent (comprehend, plan, classify, self-correct) with a hash-chained
+It is a four-stage agent (comprehend, plan, classify, self-correct) with a stage-by-stage
 audit trail, scored against the rule-based baseline on 121 real annotated contracts from
 the SmartBugs curated corpus.
 

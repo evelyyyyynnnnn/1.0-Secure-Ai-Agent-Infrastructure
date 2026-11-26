@@ -3,7 +3,7 @@
   "backend": "openai:qwen2.5-coder:7b",
   "backend_is_language_model": true,
   "is_synthetic": false,
-  "data_source": "real open LLM (qwen2.5-coder:7b) served locally via Ollama, auditing the worked-example contract through the agent's four stages with the hash-chained audit trail",
+  "data_source": "real open LLM (qwen2.5-coder:7b) served locally via Ollama, auditing the worked-example contract through the agent's four stages with its stage-by-stage audit trail",
   "runtime_seconds": 68.3,
   "note": "Demonstrates the four-stage auditing agent running end-to-end on a REAL open language model (not the deterministic stub): backend_is_language_model is true. The full 121-contract SmartBugs LLM benchmark is left as future work \u2014 a real-LLM pass over the whole corpus is slow on CPU; the committed rule-based-vs-stub benchmark remains in latest-real.json and is unchanged.",
   "worked_example": {
