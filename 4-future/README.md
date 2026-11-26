@@ -36,8 +36,8 @@ Direction 1 retargets an auditing agent that already exists, is tested, and is m
 
     ../3-llm-audit-agent/
 
-It is a four-stage agent (comprehend, plan, classify, self-correct) with a stage-by-stage
-audit trail, scored against the rule-based baseline on 121 real annotated contracts from
+It is a four-stage agent (comprehend, plan, classify, self-correct) with a hash-chained
+audit trail (added 2026-11-26, `src/trail.py`), scored against the rule-based baseline on 121 real annotated contracts from
 the SmartBugs curated corpus.
 
 **The measured result is negative and is reported as such:**
