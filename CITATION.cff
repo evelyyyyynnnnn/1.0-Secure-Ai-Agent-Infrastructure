@@ -7,13 +7,14 @@ abstract: 'Reproducible research prototypes addressing one question: can an auto
   that scores whether each claim in an LLM''s output is supported by the documents it retrieved, a per-class
   smart-contract vulnerability benchmark with audited negative controls, and an LLM audit agent. Results
   files record measured runs against SHA-256-pinned sources; metrics that the evidence does not support
-  are withheld with a machine-readable reason rather than reported.'
+  are withheld with a machine-readable reason rather than reported. Version 1.1.0 adds a hash-chained
+  stage trail to the audit agent and an indirect prompt-injection experiment with a measured mitigation.'
 authors:
 - given-names: Wenke
   family-names: Du
   orcid: https://orcid.org/0009-0007-5579-234X
-version: 1.0.0
-date-released: '2026-11-09'
+version: 1.1.0
+date-released: '2026-11-26'
 license: Apache-2.0
 repository-code: https://github.com/evelyyyyynnnnn/1.0-Secure-Ai-Agent-Infrastructure
 url: https://github.com/evelyyyyynnnnn/1.0-Secure-Ai-Agent-Infrastructure
@@ -26,6 +27,8 @@ keywords:
 - smart contract security
 - benchmarking
 - reproducibility
+- prompt injection
+- tamper-evident logging
 identifiers:
 - type: doi
   value: 10.5281/zenodo.24094759
