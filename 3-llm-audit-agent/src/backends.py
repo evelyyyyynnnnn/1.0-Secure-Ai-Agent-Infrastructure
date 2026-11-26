@@ -223,7 +223,8 @@ class OpenAICompatibleBackend:
             f"{self.base_url}/chat/completions", data=body,
             headers={"Content-Type": "application/json",
                      "Authorization": f"Bearer {self.api_key}"})
-        with urllib.request.urlopen(req, timeout=60) as resp:
+        timeout = float(os.environ.get("AUDIT_TIMEOUT", "60"))
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
             payload = json.loads(resp.read())
         return payload["choices"][0]["message"]["content"]
 

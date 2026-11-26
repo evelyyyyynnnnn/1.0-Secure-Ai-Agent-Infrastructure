@@ -29,7 +29,7 @@ out={
  "backend": backend.name,
  "backend_is_language_model": True,
  "is_synthetic": False,
- "data_source": "real open LLM (qwen2.5-coder:7b) served locally via Ollama, auditing the worked-example contract through the agent's four stages with the hash-chained audit trail",
+ "data_source": "real open LLM (qwen2.5-coder:7b) served locally via Ollama, auditing the worked-example contract through the agent's four stages with its stage-by-stage audit trail",
  "runtime_seconds": dt,
  "note": ("Demonstrates the four-stage auditing agent running end-to-end on a REAL open language model "
           "(not the deterministic stub): backend_is_language_model is true. The full 121-contract SmartBugs "

@@ -22,6 +22,7 @@ import time
 from dataclasses import dataclass, field, asdict
 
 from .backends import Backend, StubBackend, Message
+from . import trail as _trail
 
 STAGES = ("understand", "plan", "classify", "verify")
 
@@ -41,6 +42,8 @@ class AuditResult:
     findings: list = field(default_factory=list)
     dropped: list = field(default_factory=list)
     trail: list = field(default_factory=list)
+    chain: list = field(default_factory=list)
+    malformed: int = 0
     elapsed_ms: float = 0.0
     backend: str = ""
 
@@ -60,7 +63,14 @@ class AuditResult:
                  "reply_bytes": len(m.reply)}
                 for m in self.trail
             ],
+            "malformed_items": self.malformed,
+            "trail_chain": self.chain,
+            "chain_intact": self.verify_chain()[0],
         }
+
+    def verify_chain(self) -> tuple[bool, int]:
+        """(intact, first_broken_index) over the hash-chained stage trail."""
+        return _trail.verify_against(self.chain, [m.reply for m in self.trail])
 
 
 class AuditAgent:
@@ -86,6 +96,10 @@ class AuditAgent:
                 stage, prompt, source=source, context=json.dumps(ctx)
             )
             latency = (time.perf_counter() - s0) * 1000
+            prev = result.chain[-1]["hash"] if result.chain else _trail.GENESIS
+            result.chain.append(_trail.make_record(
+                len(result.chain), stage, self.backend.name, prompt, reply,
+                latency, prev))
             result.trail.append(Message(
                 stage=stage,
                 prompt=prompt if self.keep_prompts else f"<{len(prompt)} bytes>",
@@ -95,6 +109,14 @@ class AuditAgent:
             ctx.update(parsed)
 
         findings = ctx.get("kept", ctx.get("findings", []))
+        # A model may return malformed items (bare strings, nulls). Keep only
+        # well-formed findings and count the rest, rather than crash the audit.
+        findings = findings if isinstance(findings, list) else []
+        result.malformed = sum(1 for f in findings if not isinstance(f, dict))
+        findings = [f for f in findings if isinstance(f, dict)]
+        dropped_raw = ctx.get("dropped", [])
+        dropped_raw = dropped_raw if isinstance(dropped_raw, list) else []
+        result.malformed += sum(1 for f in dropped_raw if not isinstance(f, dict))
         result.findings = [
             Finding(cls=f.get("cls", ""), fn=f.get("fn", ""),
                     evidence=f.get("evidence", ""))
@@ -104,7 +126,7 @@ class AuditAgent:
             Finding(cls=f.get("cls", ""), fn=f.get("fn", ""),
                     evidence=f.get("evidence", ""), confirmed=False,
                     dropped_reason=f.get("reason", ""))
-            for f in ctx.get("dropped", [])
+            for f in dropped_raw if isinstance(f, dict)
         ]
         result.elapsed_ms = (time.perf_counter() - t0) * 1000
         return result
@@ -113,7 +135,10 @@ class AuditAgent:
         if stage == "understand":
             return f"Contract source:\n\n{source}\n\nDescribe its structure as JSON."
         if stage == "plan":
-            fns = [f["name"] for f in ctx.get("functions", [])]
+            raw = ctx.get("functions", [])
+            raw = raw if isinstance(raw, list) else []
+            # A model may list functions as names or as objects; accept both.
+            fns = [f.get("name", "") if isinstance(f, dict) else str(f) for f in raw]
             return (f"Functions: {fns}\nDeclared modifiers: "
                     f"{ctx.get('declared_modifiers', [])}\n"
                     "Which exploit paths are worth checking?")

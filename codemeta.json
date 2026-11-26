@@ -11,8 +11,8 @@
       "@id": "https://orcid.org/0009-0007-5579-234X"
     }
   ],
-  "version": "1.0.0",
-  "dateModified": "2026-11-09",
+  "version": "1.1.0",
+  "dateModified": "2026-11-26",
   "datePublished": "2026-11-09",
   "license": "https://spdx.org/licenses/Apache-2.0",
   "codeRepository": "https://github.com/evelyyyyynnnnn/1.0-Secure-Ai-Agent-Infrastructure",
@@ -25,7 +25,9 @@
     "hallucination detection",
     "smart contract security",
     "benchmarking",
-    "reproducibility"
+    "reproducibility",
+    "prompt injection",
+    "tamper-evident logging"
   ],
   "developmentStatus": "active",
   "applicationCategory": "Research software",

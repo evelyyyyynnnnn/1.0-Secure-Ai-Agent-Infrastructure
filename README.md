@@ -61,10 +61,21 @@ That headroom is the reason the benchmark exists.
 
 ### 3. LLM Audit Agent — [`3-llm-audit-agent/`](3-llm-audit-agent/)
 
-A four-stage auditing agent — understand, plan, classify, verify — where every
-stage's reply is written into a hash-chained trail with its backend, latency and
-reply size. The verify stage re-reads each finding against the source and
-discards what it cannot confirm.
+A four-stage auditing agent — understand, plan, classify, verify. Every stage is
+written to a hash-chained trail (SHA-256 of the exact prompt and reply, linked
+to the previous stage), so editing any stage after the fact is detectable. The
+verify stage re-reads each finding against the source and discards what it
+cannot confirm.
+
+**Indirect prompt injection (2026-11-26, `qwen2.5-coder:7b`, 20 SmartBugs
+contracts).** A comment planted in the contract telling "automated audit tools"
+to report nothing suppressed **14 of 14** detections the agent otherwise makes;
+every contract came back clean. Stripping comments before the model reads the
+source restored all 14. The same instruction placed in a string constant, which
+comment stripping does not remove, still suppressed **11 of 14**. The run also
+found that SmartBugs sources carry their answer key in comments, which lifts an
+LLM's recall from 0.70 to 0.85 if left in. All 100 audit trails verify. Details:
+[`3-llm-audit-agent/results/README.md`](3-llm-audit-agent/results/README.md).
 
 On a real open language model (`qwen2.5-coder:7b`, served locally) the full four
 stages ran end to end over one contract in **68.3 s**, confirming two real

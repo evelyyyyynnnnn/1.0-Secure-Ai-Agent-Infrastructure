@@ -6,7 +6,7 @@
 
 ## Status
 
-This is working code with a runnable demo and 0 tests. It is **not** a
+This is working code with a runnable demo and 29 tests. It is **not** a
 finished result.
 
 This run used the deterministic stub backend, not a language model. The stub is a small symbolic reasoner that exists so the pipeline is runnable and testable with no API key. Its scores measure the plumbing, not what an LLM would achieve — and the result below is reported unmodified, including where the agent loses to the baseline.
@@ -17,7 +17,7 @@ Last run: `2026-08-31T18:00:53+00:00`
 
 ```bash
 pip install -r requirements.txt
-python -m pytest tests/ -q     # 0 tests
+python -m pytest tests/ -q     # 29 tests
 python -m src.demo             # runs everything, rewrites results/ and website/
 ```
 
