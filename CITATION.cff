@@ -8,12 +8,14 @@ abstract: 'Reproducible research prototypes addressing one question: can an auto
   smart-contract vulnerability benchmark with audited negative controls, and an LLM audit agent. Results
   files record measured runs against SHA-256-pinned sources; metrics that the evidence does not support
   are withheld with a machine-readable reason rather than reported. Version 1.1.0 adds a hash-chained
-  stage trail to the audit agent and an indirect prompt-injection experiment with a measured mitigation.'
+  stage trail to the audit agent and an indirect prompt-injection experiment with a measured mitigation.
+  Version 1.1.1 makes the benchmark adapter strip source comments before an LLM is scored, so SmartBugs
+  ground-truth labels cannot reach the model.'
 authors:
 - given-names: Wenke
   family-names: Du
   orcid: https://orcid.org/0009-0007-5579-234X
-version: 1.1.0
+version: 1.1.1
 date-released: '2026-11-26'
 license: Apache-2.0
 repository-code: https://github.com/evelyyyyynnnnn/1.0-Secure-Ai-Agent-Infrastructure
