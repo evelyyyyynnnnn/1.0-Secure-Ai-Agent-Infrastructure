@@ -25,7 +25,7 @@ SmartBugs ships each contract with its answer key in comments, for example:
     callee.call();
 ```
 
-All 121 vulnerable contracts in the corpus carry these markers. A rule-based or symbolic detector ignores them. A language model reads them, so an LLM scored on the raw sources may be partly reading the answer. In the injection experiment (condition `annotated` vs `clean`, 20 contracts), leaving the comments in raised detections from 14 to 17. That difference is not statistically significant at this size (exact McNemar p = 0.38), but the direction is the one contamination would predict, and removing the comments costs nothing. **Strip comments before scoring any language-model detector on this corpus.** `src/sanitize.py` does this.
+All 121 vulnerable contracts in the corpus carry these markers. A rule-based or symbolic detector ignores them. A language model reads them, so an LLM scored on the raw sources may be partly reading the answer. In the injection experiment (condition `annotated` vs `clean`, 20 contracts), leaving the comments in raised detections from 14 to 17, a difference that is not statistically significant at this size (exact McNemar p = 0.38). It did, however, remove false positives entirely: 0 of 20 audits had one, against 8 of 20 with the comments stripped (p = 0.008), and precision rose from 0.48 to 1.00. The model largely reports the class the comment names. Removing the comments costs nothing. **Strip comments before scoring any language-model detector on this corpus.** `src/sanitize.py` does this.
 
 ## Rules for this folder
 
