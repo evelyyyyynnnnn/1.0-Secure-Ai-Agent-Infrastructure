@@ -73,8 +73,9 @@ to report nothing suppressed **14 of 14** detections the agent otherwise makes;
 every contract came back clean. Stripping comments before the model reads the
 source restored all 14. The same instruction placed in a string constant, which
 comment stripping does not remove, still suppressed **11 of 14**. The run also
-found that SmartBugs sources carry their answer key in comments, which lifts an
-LLM's recall from 0.70 to 0.85 if left in. All 100 audit trails verify. Details:
+noted that SmartBugs sources carry their answer key in comments; leaving them in
+raised detections from 14 to 17 of 20, a difference not statistically significant
+at this sample size (exact McNemar p = 0.38). All 100 audit trails verify. Details:
 [`3-llm-audit-agent/results/README.md`](3-llm-audit-agent/results/README.md).
 
 On a real open language model (`qwen2.5-coder:7b`, served locally) the full four
