@@ -33,7 +33,7 @@ The OpenZeppelin files are audited, released and widely deployed. The label asse
 
 ## Label leakage for LLM detectors
 
-SmartBugs sources carry their ground-truth labels in comments, for example `// <yes> <report> UNCHECKED_LL_CALLS` and `@vulnerable_at_lines`. The rule-based detectors in `src/detectors.py` strip comments before scanning, so they are unaffected. A language model reads comments. In the 3-llm-audit-agent injection experiment, leaving them in removed all false positives (0 vs 8 of 20 audits; exact McNemar p = 0.008). **Strip comments before scoring any LLM-based detector on this corpus.**
+SmartBugs sources carry their ground-truth labels in comments, for example `// <yes> <report> UNCHECKED_LL_CALLS` and `@vulnerable_at_lines`. The rule-based detectors in `src/detectors.py` strip comments before scanning, so they are unaffected. A language model reads comments. In the 3-llm-audit-agent injection experiment, leaving them in removed all false positives (0 vs 8 of 20 audits; exact McNemar p = 0.008). **Strip comments before scoring any LLM-based detector on this corpus.** The 3-llm-audit-agent `DetectorAdapter` does this by default (`strip_comments_first=True`), and a test checks that the labels never reach the model. Any other LLM detector you plug in must do the same.
 
 ## Rules for this folder
 
