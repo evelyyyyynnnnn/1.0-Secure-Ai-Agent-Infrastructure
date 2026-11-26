@@ -90,6 +90,44 @@ def test_detector_adapter_matches_the_benchmark_contract():
     assert all(isinstance(x, str) for x in out)
 
 
+class _RecordingBackend:
+    """Records every prompt and source it is shown; reports nothing."""
+    name = "recorder"
+    is_language_model = False
+
+    def __init__(self):
+        self.seen = []
+
+    def complete(self, stage, prompt, **kw):
+        self.seen.append(prompt + "\n" + kw.get("source", ""))
+        return "{}"
+
+
+LABELLED = """pragma solidity 0.4.25;
+contract ReturnValue {
+  function callnotchecked(address callee) public {
+    // <yes> <report> UNCHECKED_LL_CALLS
+    callee.call();
+  }
+}
+"""
+
+
+def test_detector_adapter_strips_label_comments_by_default():
+    """SmartBugs ground-truth labels live in comments; the model must never see them."""
+    rec = _RecordingBackend()
+    DetectorAdapter(AuditAgent(backend=rec))(LABELLED)
+    assert rec.seen, "backend was never called"
+    assert not any("UNCHECKED_LL_CALLS" in s or "<report>" in s for s in rec.seen)
+    assert any("callee.call()" in s for s in rec.seen)
+
+
+def test_detector_adapter_can_keep_comments_to_measure_leakage():
+    rec = _RecordingBackend()
+    DetectorAdapter(AuditAgent(backend=rec), strip_comments_first=False)(LABELLED)
+    assert any("UNCHECKED_LL_CALLS" in s for s in rec.seen)
+
+
 def test_safe_json_recovers_from_prose_wrapping():
     assert _safe_json('here you go: {"a": 1} hope that helps') == {"a": 1}
     assert _safe_json("not json at all") == {}

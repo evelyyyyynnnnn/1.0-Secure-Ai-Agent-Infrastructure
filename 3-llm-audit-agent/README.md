@@ -17,7 +17,7 @@ Last run: `2026-08-31T18:00:53+00:00`
 
 ```bash
 pip install -r requirements.txt
-python -m pytest tests/ -q     # 29 tests
+python -m pytest tests/ -q     # 31 tests
 python -m src.demo             # runs everything, rewrites results/ and website/
 ```
 

@@ -23,6 +23,7 @@ from dataclasses import dataclass, field, asdict
 
 from .backends import Backend, StubBackend, Message
 from . import trail as _trail
+from .sanitize import strip_comments
 
 STAGES = ("understand", "plan", "classify", "verify")
 
@@ -156,13 +157,25 @@ class DetectorAdapter:
 
     This is what lets the agent be scored by ChainTrust-Bench with no special
     casing: the benchmark asks for `(source) -> set[str]` and gets exactly that.
+
+    Comments are stripped before the agent sees the source, by default.
+    SmartBugs sources carry their ground-truth labels in comments
+    (``// <yes> <report> ...``), and a language model reads comments, so
+    scoring on raw source leaks the answer into the prompt (see
+    2-chaintrust-bench/docs/DATA.md). The rule-based detectors strip comments
+    themselves; this puts the agent on the same footing. Pass
+    ``strip_comments_first=False`` only to measure the leakage on purpose.
     """
 
-    def __init__(self, agent: AuditAgent | None = None, name: str | None = None):
+    def __init__(self, agent: AuditAgent | None = None, name: str | None = None,
+                 strip_comments_first: bool = True):
         self.agent = agent or AuditAgent()
+        self.strip_comments_first = strip_comments_first
         self.name = name or f"llm-audit-agent[{self.agent.backend.name}]"
 
     def __call__(self, source: str) -> set:
+        if self.strip_comments_first:
+            source = strip_comments(source)
         return self.agent.audit(source).classes()
 
 
